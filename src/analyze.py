@@ -1,0 +1,94 @@
+"""Analyze collected postings: skill keywords + fit score, export CSV for Power BI."""
+import csv
+import re
+import sqlite3
+
+DB_PATH = "../data/jobs.db"
+OUT_PATH = "../data/jobs_export.csv"
+
+SKILLS = ["sql", "python", "r ", "tableau", "power bi", "powerbi", "excel",
+          "vba", "sap", "snowflake", "databricks", "aws", "azure", "gcp",
+          "spark", "etl", "dashboard", "a/b", "statistics", "regression"]
+
+SENIOR_TERMS = ["senior", "sr.", "principal", "staff", "lead", "director",
+                "vp ", "vice president", "manager", "head of"]
+JUNIOR_TERMS = ["junior", "jr.", "entry", "entry-level", "associate", " i ",
+                "analyst i", "i -"]
+
+DFW = ["dallas", "plano", "mckinney", "frisco", "irving", "fort worth",
+       "arlington", "richardson", "addison", "allen"]
+EAST = ["new york", "nyc", "manhattan", "brooklyn", "new jersey", "nj",
+        "boston", "philadelphia", "washington", "d.c.", "atlanta", "charlotte"]
+
+
+def contains_skill(text, skill):
+    """Word-boundary match so 'r' doesn't match 'for ' etc."""
+    return re.search(r"\b" + re.escape(skill.strip()) + r"\b", text) is not None
+
+
+def fit_score(title, description, location):
+    t = f" {(title or '')} ".lower()
+    d = (description or "").lower()
+    loc = (location or "").lower()
+    score, reasons = 0, []
+
+    if any(s in t for s in SENIOR_TERMS):
+        return -100, ["senior-level (excluded)"]
+    for j in JUNIOR_TERMS:
+        if j.strip() and j in t:
+            score += 20
+            reasons.append("entry-level title")
+            break
+    for s in SKILLS:
+        if contains_skill(d, s) or contains_skill(t, s):
+            score += 2
+    if "remote" in loc:
+        score += 10
+        reasons.append("remote")
+    if any(c in loc for c in DFW):
+        score += 10
+        reasons.append("DFW")
+    if any(c in loc for c in EAST):
+        score += 10
+        reasons.append("East Coast")
+    return score, reasons
+
+
+def extract_skills(title, description):
+    text = f"{title or ''} {description or ''}".lower()
+    found = [s.strip() for s in SKILLS if contains_skill(text, s)]
+    return "|".join(found)
+
+
+def main():
+    conn = sqlite3.connect(DB_PATH)
+    rows = conn.execute(
+        "SELECT source, title, company, location, job_type, salary, url, posted_at, description FROM jobs"
+    ).fetchall()
+    conn.close()
+
+    out = []
+    for source, title, company, location, job_type, salary, url, posted_at, desc in rows:
+        score, reasons = fit_score(title, desc, location)
+        out.append({
+            "source": source, "title": title, "company": company,
+            "location": location, "job_type": job_type, "salary": salary,
+            "url": url, "posted_at": posted_at,
+            "skills": extract_skills(title, desc),
+            "fit_score": score, "fit_reasons": "|".join(reasons),
+        })
+    out.sort(key=lambda r: r["fit_score"], reverse=True)
+
+    with open(OUT_PATH, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=list(out[0].keys()))
+        w.writeheader()
+        w.writerows(out)
+    top = [r for r in out if r["fit_score"] > 0][:5]
+    print(f"exported {len(out)} rows → {OUT_PATH}")
+    print("top matches:")
+    for r in top:
+        print(f"  [{r['fit_score']}] {r['title']} @ {r['company']} ({r['location']})")
+
+
+if __name__ == "__main__":
+    main()

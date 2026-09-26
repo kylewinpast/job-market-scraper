@@ -1,0 +1,2 @@
+requests>=2.31
+pbix-mcp @ git+https://github.com/d0nk3yhm/pbix-mcp.git

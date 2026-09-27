@@ -25,7 +25,7 @@ CARD_BG = "#FFFFFF"
 
 def check(result, step):
     text = str(result)
-    if "error" in text.lower().split(":")[0] or text.strip().lower().startswith("error"):
+    if '"success":false' in text.replace(" ", "") or text.strip().lower().startswith("error"):
         print(f"FAILED [{step}]: {text[:500]}")
         sys.exit(1)
     print(f"ok [{step}]")
@@ -242,10 +242,11 @@ def main():
 
     # Validate measures with the built-in DAX engine
     res = pbi.pbix_evaluate_dax(
-        alias, '["Jobs"."Posting count"], ["Jobs"."Avg fit score"], ["Jobs"."Top matches"]')
+        alias, 'Posting count,Avg fit score,Top matches')
     print("dax check:", str(res)[:300])
 
     check(pbi.pbix_doctor(alias), "doctor")
+    check(pbi.pbix_save(alias, overwrite=True), "save")
     check(pbi.pbix_close(alias), "close")
     size = os.path.getsize(OUT_PATH)
     print(f"saved {OUT_PATH} ({size/1024:.0f} KB)")

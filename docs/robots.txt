@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kylewinpast.github.io/job-market-scraper/sitemap.xml

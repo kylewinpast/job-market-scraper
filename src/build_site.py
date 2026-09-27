@@ -16,6 +16,13 @@ OUT_PATH = os.path.join(PROJECT, "docs", "index.html")
 OUTPUT_DIR = os.path.join(PROJECT, "output")
 DATA_DIR = os.path.join(PROJECT, "data")
 DIGEST_DIR = os.path.join(PROJECT, "docs", "digest")
+COMPANIES_DIR = os.path.join(PROJECT, "docs", "companies")
+SITE_URL = "https://kylewinpast.github.io/job-market-scraper"
+
+# Canonical display names: strip junk, shorten legal suffixes.
+DISPLAY_NAMES = {
+    "Chime Financial, Inc": "Chime",
+}
 
 # Email signup form endpoint. Default "#" does nothing — replace with a real
 # form backend endpoint (Resend, Buttondown, Formspree, ...) to collect
@@ -30,7 +37,39 @@ RUST = "#D95D39"
 
 def load_rows():
     with open(CSV_PATH, encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+        rows = list(csv.DictReader(f))
+    for r in rows:
+        r["company"] = canonical_company(r.get("company"))
+    return rows
+
+
+def canonical_company(name):
+    """Normalize a raw company string to its canonical display name."""
+    name = (name or "").strip()
+    return DISPLAY_NAMES.get(name, name)
+
+
+def slugify(name):
+    """URL slug: lowercase, spaces -> hyphens, keep a-z0-9- only."""
+    import re
+    slug = name.lower().replace(" ", "-")
+    slug = re.sub(r"[^a-z0-9-]", "", slug)
+    slug = re.sub(r"-+", "-", slug).strip("-")
+    return slug or "company"
+
+
+def company_slugs(companies):
+    """Map each company name to a unique URL slug (collision-safe)."""
+    slugs, used = {}, set()
+    for c in sorted(companies):
+        base = slugify(c)
+        slug, i = base, 2
+        while slug in used:
+            slug = f"{base}-{i}"
+            i += 1
+        used.add(slug)
+        slugs[c] = slug
+    return slugs
 
 
 def score_color(score):
@@ -39,6 +78,238 @@ def score_color(score):
     if score >= 50:
         return AMBER
     return TEAL
+
+
+def company_commentary(company, total, ghosts, avg_days, top):
+    """2-3 sentences of plain-English commentary generated from the numbers."""
+    pct = round(100 * ghosts / total) if total else 0
+    s1 = (f"We tracked {total:,} {company} job postings. {ghosts:,} of them "
+          f"({pct}%) show ghost signals \u2014 listings that stay up for months "
+          f"or get reposted under new listing IDs.")
+    if avg_days >= 60:
+        s2 = (f"Their postings stay listed for {avg_days:,.0f} days on average, "
+              f"well above a healthy hiring cycle.")
+    elif avg_days >= 30:
+        s2 = (f"Their postings stay listed for {avg_days:,.0f} days on average.")
+    else:
+        s2 = (f"Their postings turn over relatively quickly "
+              f"({avg_days:,.0f} days on average).")
+    if top:
+        s3 = (f"The most suspicious listing is \u201c{top['title']}\u201d "
+              f"({top['location_clean']}), listed {top['days_listed']:,} days "
+              f"with a ghost score of {top['ghost_score']}.")
+    else:
+        s3 = "No individual posting currently trips our ghost-score threshold."
+    return " ".join([s1, s2, s3])
+
+
+def build_company_page(company, rows, today, slugs):
+    """Render one per-company SEO page; returns the HTML string."""
+    total = len(rows)
+    scored = [int(r.get("ghost_score") or 0) for r in rows]
+    ghosts = sum(1 for s in scored if s >= 50)
+    avg_days = sum(int(r.get("days_listed") or 0) for r in rows) / total if total else 0
+    avg_score = sum(scored) / total if total else 0
+
+    suspects = [r for r in rows if int(r.get("ghost_score") or 0) > 0]
+    suspects.sort(key=lambda r: -int(r["ghost_score"]))
+    suspects = suspects[:50]
+    top = None
+    if suspects:
+        t = suspects[0]
+        top = {"title": t.get("title") or "",
+               "location_clean": t.get("location_clean") or t.get("location") or "",
+               "days_listed": int(t.get("days_listed") or 0),
+               "ghost_score": int(t.get("ghost_score") or 0)}
+
+    trs = []
+    for r in suspects:
+        score = int(r.get("ghost_score") or 0)
+        url = r.get("url") or ""
+        apply = (f'<a class="apply" href="{html.escape(url)}" target="_blank" '
+                 f'rel="noopener">Apply &rarr;</a>' if url else "")
+        trs.append(
+            "<tr>"
+            f"<td>{html.escape(r.get('title') or '')}</td>"
+            f"<td>{html.escape(r.get('location_clean') or r.get('location') or '')}</td>"
+            f'<td class="num">{int(r.get("days_listed") or 0):,}</td>'
+            f'<td class="num">{int(r.get("repost_count") or 0)}</td>'
+            f'<td class="num"><span class="bar" style="width:{min(score, 100)}px;'
+            f'background:{score_color(score)}"></span>'
+            f'<span class="score-num">{score}</span></td>'
+            f"<td>{apply}</td>"
+            "</tr>")
+    table = ("\n".join(trs) if trs
+             else '<tr><td colspan="6" class="none">No postings with ghost '
+                  "signals right now.</td></tr>")
+
+    kpis = [
+        ("Postings tracked", f"{total:,}", TEAL),
+        ("Suspected ghost jobs", f"{ghosts:,}", RUST),
+        ("Average days listed", f"{avg_days:,.0f}", NAVY),
+        ("Average ghost score", f"{avg_score:,.0f}", AMBER),
+    ]
+    kpi_html = "\n".join(
+        f'''<div class="kpi"><div class="kpi-value" style="color:{color}">{html.escape(val)}</div>
+        <div class="kpi-label">{html.escape(label)}</div></div>'''
+        for label, val, color in kpis)
+
+    esc_c = html.escape(company)
+    meta = (f"We tracked {total:,} {company} job postings: {ghosts:,} look like "
+            f"ghost jobs (listed {avg_days:,.0f} days on average). "
+            f"See the full watchlist.")
+    pct = round(100 * ghosts / total) if total else 0
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghost Jobs at {esc_c} &mdash; Ghost Job Tracker</title>
+<meta name="description" content="{html.escape(meta)}">
+<style>
+  body {{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+         background:#F2F4F7; color:#1F2A37; line-height:1.5; }}
+  .wrap {{ max-width:1080px; margin:0 auto; padding:0 16px 48px; }}
+  header {{ background:{NAVY}; color:#fff; padding:32px 16px 24px; }}
+  header .wrap {{ padding-bottom:0; }}
+  header h1 {{ margin:0 0 6px; font-size:1.8rem; }}
+  header h1 .q {{ color:{AMBER}; }}
+  header p {{ margin:0; color:#D7E3EC; }}
+  .crumb {{ margin:0 0 10px; font-size:.9rem; }}
+  .crumb a {{ color:{AMBER}; text-decoration:none; }}
+  .crumb a:hover {{ text-decoration:underline; }}
+  .kpis {{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }}
+  .kpi {{ background:#fff; border-radius:10px; padding:16px; text-align:center;
+         box-shadow:0 2px 8px rgba(20,61,94,.12); }}
+  .kpi-value {{ font-size:1.9rem; font-weight:700; }}
+  .kpi-label {{ color:#5A6C7D; font-size:.85rem; margin-top:4px; }}
+  section.card {{ background:#fff; border-radius:10px; padding:20px;
+                 box-shadow:0 2px 8px rgba(20,61,94,.12); margin-bottom:24px; }}
+  section.card h2 {{ margin:0 0 8px; color:{NAVY}; font-size:1.25rem; }}
+  section.card p {{ margin:0 0 8px; }}
+  .table-wrap {{ overflow-x:auto; }}
+  table {{ width:100%; border-collapse:collapse; font-size:.88rem; min-width:760px; }}
+  th {{ text-align:left; padding:10px 8px; color:{NAVY}; border-bottom:2px solid {NAVY};
+       white-space:nowrap; }}
+  td {{ padding:9px 8px; border-bottom:1px solid #E6EBF0; vertical-align:middle; }}
+  tr:hover td {{ background:#F7FAFB; }}
+  td.num, th.num {{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }}
+  td.none {{ color:#5A6C7D; font-style:italic; text-align:center; }}
+  .bar {{ display:inline-block; height:10px; border-radius:5px; vertical-align:middle; margin-right:8px; }}
+  .score-num {{ font-weight:700; font-variant-numeric:tabular-nums; }}
+  .apply {{ color:{TEAL}; font-weight:600; text-decoration:none; white-space:nowrap; }}
+  .apply:hover {{ text-decoration:underline; }}
+  .disclaimer {{ margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }}
+  footer {{ color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }}
+  footer a {{ color:{TEAL}; }}
+  @media (max-width:640px) {{ .kpis {{ grid-template-columns:repeat(2,1fr); }} }}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <p class="crumb"><a href="../../">&larr; All companies</a></p>
+  <h1>Ghost jobs at {esc_c}<span class="q">?</span></h1>
+  <p>{ghosts:,} of {total:,} tracked postings ({pct}%) show ghost signals.
+     Last updated: {today}.</p>
+</div></header>
+<div class="wrap">
+  <div class="kpis">
+    {kpi_html}
+  </div>
+  <section class="card">
+    <h2>What the data says</h2>
+    <p>{html.escape(company_commentary(company, total, ghosts, avg_days, top))}</p>
+    <p class="disclaimer">Heuristics based on public posting data, not an accusation
+    against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+  <section class="card">
+    <h2>Top suspects at {esc_c}</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Job title</th><th>Location</th><th class="num">Days listed</th>
+      <th class="num">Reposts</th><th class="num">Ghost score</th><th>Apply</th></tr></thead>
+      <tbody>
+        {table}
+      </tbody>
+    </table></div>
+  </section>
+  <section class="card">
+    <h2>How the ghost score works</h2>
+    <p>Every day we snapshot {esc_c}&rsquo;s job board and record which postings are
+    still listed. A posting earns ghost points for staying up 30/60/90+ days (+20/+35/+50)
+    and for being reposted under a new listing ID (+25 for 2&times;, +40 for 3&times;+),
+    capped at 100. Read the <a href="../../#how-it-works"
+    style="color:{TEAL};font-weight:600;">full methodology</a>.</p>
+  </section>
+  <footer>
+    <a href="../../">Ghost Job Tracker</a> &middot;
+    <a href="https://github.com/kylewinpast/job-market-scraper">GitHub</a>
+  </footer>
+</div>
+</body>
+</html>
+"""
+
+
+def build_company_pages(rows):
+    """Write docs/companies/{slug}/index.html for every company in the CSV.
+
+    Returns a list of dicts: company, slug, total, ghosts (score >= 50).
+    """
+    today = date.today().isoformat()
+    by_company = {}
+    for r in rows:
+        c = r.get("company") or "Unknown"
+        by_company.setdefault(c, []).append(r)
+    slugs = company_slugs(by_company)
+    pages = []
+    for company in sorted(by_company):
+        slug = slugs[company]
+        outdir = os.path.join(COMPANIES_DIR, slug)
+        os.makedirs(outdir, exist_ok=True)
+        page = build_company_page(company, by_company[company], today, slugs)
+        with open(os.path.join(outdir, "index.html"), "w",
+                  encoding="utf-8") as f:
+            f.write(page)
+        ghosts = sum(1 for r in by_company[company]
+                     if int(r.get("ghost_score") or 0) >= 50)
+        pages.append({"company": company, "slug": slug,
+                      "total": len(by_company[company]), "ghosts": ghosts})
+    print(f"company pages: {len(pages)} -> {COMPANIES_DIR}/")
+    return pages
+
+
+def build_sitemap(pages):
+    """Write docs/sitemap.xml covering main, digest, and company pages."""
+    today = date.today().isoformat()
+    import glob
+    urls = ["", "digest/"]
+    for src in sorted(glob.glob(os.path.join(
+            os.path.dirname(COMPANIES_DIR), "digest", "[0-9]*.html"))):
+        day = os.path.basename(src)[:-len(".html")]
+        urls.append(f"digest/{day}.html")
+    for p in pages:
+        urls.append(f"companies/{p['slug']}/")
+    items = "\n".join(
+        f"  <url><loc>{SITE_URL}/{u}</loc><lastmod>{today}</lastmod></url>"
+        for u in urls)
+    xml = (f'<?xml version="1.0" encoding="UTF-8"?>\n'
+           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+           f"{items}\n</urlset>\n")
+    path = os.path.join(os.path.dirname(COMPANIES_DIR), "sitemap.xml")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(xml)
+    print(f"sitemap: {len(urls)} urls -> {path}")
+    return len(urls)
+
+
+def build_robots():
+    """Write docs/robots.txt allowing all + pointing at the sitemap."""
+    path = os.path.join(os.path.dirname(COMPANIES_DIR), "robots.txt")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(f"User-agent: *\nAllow: /\n\n"
+                f"Sitemap: {SITE_URL}/sitemap.xml\n")
+    print(f"robots.txt -> {path}")
 
 
 def build(rows):
@@ -72,6 +343,23 @@ def build(rows):
     ranked = sorted(by_company.items(), key=lambda kv: -kv[1])[:10]
     chart_labels = json.dumps([c for c, _ in ranked])
     chart_values = json.dumps([n for _, n in ranked])
+
+    # Per-company totals for the "browse by company" grid (ghosts desc).
+    totals = {}
+    for r in rows:
+        c = r.get("company") or "Unknown"
+        totals[c] = totals.get(c, 0) + 1
+    slugs = company_slugs(totals)
+    grid_rows = sorted(
+        ({"company": c, "slug": slugs[c], "total": n,
+          "ghosts": by_company.get(c, 0)} for c, n in totals.items()),
+        key=lambda g: (-g["ghosts"], -g["total"]))
+    grid_html = "\n".join(
+        f'<div class="cocard"><a href="companies/{g["slug"]}/">'
+        f'{html.escape(g["company"])}</a>'
+        f'<div class="cstats">{g["total"]:,} postings &middot; '
+        f'{g["ghosts"]:,} suspected ghosts</div></div>'
+        for g in grid_rows)
 
     today = date.today().isoformat()
     kpis = [
@@ -149,6 +437,11 @@ def build(rows):
   .method td, .method th {{ padding:8px; }}
   .disclaimer {{ margin-top:12px; font-size:.82rem; color:var(--muted); font-style:italic; }}
   #companyChart {{ max-height:320px; }}
+  .cogrid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; }}
+  .cocard {{ background:var(--bg); border-radius:8px; padding:12px 14px; }}
+  .cocard a {{ color:var(--navy); font-weight:700; text-decoration:none; }}
+  .cocard a:hover {{ color:var(--teal); text-decoration:underline; }}
+  .cocard .cstats {{ color:var(--muted); font-size:.82rem; margin-top:2px; }}
   footer {{ color:var(--muted); font-size:.85rem; text-align:center; padding:8px 16px 32px; }}
   footer a {{ color:var(--teal); }}
   @media (max-width:640px) {{
@@ -189,6 +482,14 @@ def build(rows):
   </section>
 
   <section class="card">
+    <h2>Browse by company</h2>
+    <p class="sub">Ghost-job stats for every company we track &mdash; most suspected ghosts first.</p>
+    <div class="cogrid">
+      {grid_html}
+    </div>
+  </section>
+
+  <section class="card">
     <h2>Ghost watchlist</h2>
     <p class="sub">Every posting showing ghost signals, ranked by ghost score. Click a column to sort.</p>
     <div class="controls">
@@ -211,7 +512,7 @@ def build(rows):
     </div>
   </section>
 
-  <section class="card">
+  <section class="card" id="how-it-works">
     <h2>How it works</h2>
     <p class="sub">Every day we snapshot the job boards of {n_companies} US tech companies and record which
     postings are still listed. A posting earns ghost points when it stays up for a long time
@@ -425,6 +726,9 @@ def main():
         f.write(page)
     print(f"wrote {OUT_PATH} ({len(page):,} bytes, {len(rows)} postings)")
     build_digest_archive()
+    pages = build_company_pages(rows)
+    build_sitemap(pages)
+    build_robots()
 
 
 if __name__ == "__main__":

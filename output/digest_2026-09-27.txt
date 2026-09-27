@@ -1,0 +1,126 @@
+Ghost Job Tracker — Real Jobs Digest (2026-09-27)
+104 genuinely-new jobs today. Zero ghosts.
+
+== Airbnb ==
+  - Senior Machine Learning Engineer, Trust (San Francisco, CA)
+    Apply: https://careers.airbnb.com/positions/8232153?gh_jid=8232153
+  - Senior Analyst, Frontline Performance (Remote - US)
+    Apply: https://careers.airbnb.com/positions/8224146?gh_jid=8224146
+  - Senior Staff Data Engineer, Foundational Data (Remote - US)
+    Apply: https://careers.airbnb.com/positions/8224032?gh_jid=8224032
+
+== Anthropic ==
+  - Marketing Analytics Lead, Enterprise Marketing (San Francisco, CA)
+    Apply: https://job-boards.greenhouse.io/anthropic/jobs/5434145008
+  - Capacity Deployment Lead - Data Center Operations (Remote - US)
+    Apply: https://job-boards.greenhouse.io/anthropic/jobs/5432020008
+  - Security Risk & Compliance, Data Centers & Compute (San Francisco, CA)
+    Apply: https://job-boards.greenhouse.io/anthropic/jobs/5430205008
+  - Engineering Manager, Data Infrastructure (San Francisco, CA)
+    Apply: https://job-boards.greenhouse.io/anthropic/jobs/5426135008
+
+== Benchling ==
+  - Strategic Financial Analyst, GTM (San Francisco, CA)
+    Apply: https://jobs.ashbyhq.com/benchling/49454722-ea62-41da-80f8-864ff06e9265
+
+== Block ==
+  - Data Scientist, Payments (Remote - US)
+    Apply: http://block.xyz/careers/jobs/5214784008?gh_jid=5214784008
+  - Senior Analytics Engineer, AI & DX Analytics (New York, NY)
+    Apply: http://block.xyz/careers/jobs/5434325008?gh_jid=5434325008
+  - Staff Machine Learning Engineer (Modeling), Support (Seattle, WA)
+    Apply: http://block.xyz/careers/jobs/5431987008?gh_jid=5431987008
+
+== Chime Financial, Inc ==
+  - Security Risk Governance Analyst (San Francisco, CA)
+    Apply: https://boards.greenhouse.io/chime/jobs/8806197002?gh_jid=8806197002
+
+== Coinbase ==
+  - Tax Information Reporting Intern (New York, NY)
+    Apply: https://www.coinbase.com/careers/positions/8221241?gh_jid=8221241
+  - Internal Audit Analytics Intern (New York, NY)
+    Apply: https://www.coinbase.com/careers/positions/8221238?gh_jid=8221238
+
+== Datadog ==
+  - Senior Business Systems Analyst (New York, NY)
+    Apply: https://careers.datadoghq.com/detail/8231811/?gh_jid=8231811
+  - FP&A Analyst (New York, NY)
+    Apply: https://careers.datadoghq.com/detail/8204554/?gh_jid=8204554
+
+== Drata ==
+  - Staff Data Engineer (San Francisco, CA)
+    Apply: https://jobs.ashbyhq.com/drata/dca52941-f9c0-440b-8b49-c039f700e3f3
+
+== Figma ==
+  - Data Engineer Intern (2027) (San Francisco, CA)
+    Apply: https://boards.greenhouse.io/figma/jobs/6178851004?gh_jid=6178851004
+  - HRIS Analyst (San Francisco, CA)
+    Apply: https://boards.greenhouse.io/figma/jobs/6201385004?gh_jid=6201385004
+
+== Fivetran ==
+  - Senior Marketing Analyst (Remote - US)
+    Apply: https://www.fivetran.com/careers/job?gh_jid=8005007003
+
+== MongoDB ==
+  - Senior Analyst, Sales Strategy and Planning (Austin, TX)
+    Apply: https://www.mongodb.com/careers/job/?gh_jid=8231579
+
+== Okta ==
+  - Staff Product Analyst, Finance Technologies (Bellevue, WA)
+    Apply: https://www.okta.com/company/careers/opportunity/8213700?gh_jid=8213700
+
+== OpenAI ==
+  - Machine Learning Engineer, Core Experimentation (Seattle, WA)
+    Apply: https://jobs.ashbyhq.com/openai/9d4d2727-27f3-4a63-857c-a96466130645
+  - Regulatory Operations Analyst, User Safety & Risk Operations (San Francisco, CA)
+    Apply: https://jobs.ashbyhq.com/openai/bc059a72-8ff3-4a80-a499-5b82ccca1f05
+
+== Perplexity ==
+  - Payroll Analyst (San Francisco, CA)
+    Apply: https://jobs.ashbyhq.com/perplexity/5080dab5-7eb7-4cb2-9e2c-c61531fd3ad1
+
+== Plaid ==
+  - Financial Analyst, Corporate FP&A (San Francisco, CA)
+    Apply: https://jobs.ashbyhq.com/plaid/4d2f0d16-863d-46c5-bc86-2780a34eff44
+  - Senior Financial Analyst, Corporate Finance & Strategy (San Francisco, CA)
+    Apply: https://jobs.ashbyhq.com/plaid/e872aa15-c768-40be-8986-2f1fa2a686f3
+  - Product Manager - Data Supply (San Francisco, CA)
+    Apply: https://jobs.ashbyhq.com/plaid/7d2618d5-9777-487d-bf55-445e5eb198ec
+
+== Ramp ==
+  - Machine Learning Engineer (New York, NY)
+    Apply: https://jobs.ashbyhq.com/ramp/2888b101-b1da-4e53-a02e-1bb9b1b5a951
+
+== Reddit ==
+  - Staff Machine Learning Engineer, App Ads Modeling (Remote - US)
+    Apply: https://job-boards.greenhouse.io/reddit/jobs/8187652
+  - Senior Director, Data Science (Remote - US)
+    Apply: https://job-boards.greenhouse.io/reddit/jobs/8226397
+
+== Robinhood ==
+  - Finance & Strategy Senior Analyst (Chicago, IL)
+    Apply: https://boards.greenhouse.io/robinhood/jobs/8211233?t=gh_src=&gh_jid=8211233
+  - Manager of Data Science, Finance & Strategy (Menlo Park, CA)
+    Apply: https://boards.greenhouse.io/robinhood/jobs/8180757?t=gh_src=&gh_jid=8180757
+
+== SoFi ==
+  - Senior Auditor - Data Analytics (Remote - US)
+    Apply: https://sofi.com/careers/job/8002569003?gh_jid=8002569003
+  - Senior Staff Fraud Strategy Analyst, Card (Frisco, TX)
+    Apply: https://sofi.com/careers/job/8002663003?gh_jid=8002663003
+
+== Stripe ==
+  - Finance & Strategy Analyst (San Francisco, CA)
+    Apply: https://stripe.com/jobs/search?gh_jid=8231575
+  - Risk Operations Analyst - SSO (Remote - US)
+    Apply: https://stripe.com/jobs/search?gh_jid=8175824
+  - Frontend Engineer, Data Product Experiences (Remote - US)
+    Apply: https://stripe.com/jobs/search?gh_jid=8194604
+  - Frontend Engineer, Data Product Experiences (Remote - US)
+    Apply: https://stripe.com/jobs/search?gh_jid=8194606
+
+== Toast ==
+  - Lead Credit Risk Analyst (Remote - US)
+    Apply: https://careers.toasttab.com/jobs?gh_jid=8185640
+
+... and 64 more in the full list.

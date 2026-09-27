@@ -86,6 +86,28 @@ Each posting is scored against my criteria:
 | DFW / NYC / East Coast / Remote location | + |
 | Senior / principal / lead wording | −100 (excluded) |
 
+## Email alerts — Real Jobs Digest
+
+Each day the pipeline detects **genuinely-new postings**: first seen in
+today's snapshot, ghost score under 30 (not long-listed, not a repost), and
+US-based. The digest lands in `output/digest_YYYY-MM-DD.html`/`.txt` and a
+public archive is published at
+[kylewinpast.github.io/job-market-scraper/digest/](https://kylewinpast.github.io/job-market-scraper/digest/).
+
+To actually send the digest by email (3 steps, ~10 min):
+
+1. Create a free account at [resend.com](https://resend.com).
+2. Verify your sending domain (Resend dashboard → Domains), or use Resend's
+   test domain for trials. Update `FROM_ADDRESS` in `src/send_digest.py` to
+   match.
+3. `export RESEND_API_KEY="re_..." ALERT_RECIPIENTS="you@example.com"` and run
+   `python src/send_digest.py` (preview first with `--dry-run`). Sending stays
+   manual — the daily pipeline only *builds* the digest, never sends it.
+
+The signup form on the website posts to `SIGNUP_FORM_ACTION` in
+`src/build_site.py` — point it at your form backend
+(Resend / Buttondown / Formspree) to start collecting subscribers.
+
 ## Run it
 
 ```bash
@@ -94,6 +116,7 @@ pip install -r requirements.txt
 
 python src/scraper.py      # collect → data/jobs.db
 python src/ghost.py        # snapshots + ghost score → data/jobs.db
+python src/alerts.py       # real-new-job detector → output/digest_*.html
 python src/analyze.py      # score   → data/jobs_export.csv
 python src/build_pbix.py   # build   → output/job-market-dashboard.pbix
 ```

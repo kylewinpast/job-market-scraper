@@ -13,6 +13,14 @@ from datetime import date
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_PATH = os.path.join(PROJECT, "data", "jobs_export.csv")
 OUT_PATH = os.path.join(PROJECT, "docs", "index.html")
+OUTPUT_DIR = os.path.join(PROJECT, "output")
+DATA_DIR = os.path.join(PROJECT, "data")
+DIGEST_DIR = os.path.join(PROJECT, "docs", "digest")
+
+# Email signup form endpoint. Default "#" does nothing — replace with a real
+# form backend endpoint (Resend, Buttondown, Formspree, ...) to collect
+# subscribers, e.g. "https://api.buttondown.email/v1/subscribers".
+SIGNUP_FORM_ACTION = "#"
 
 NAVY = "#143D5E"
 TEAL = "#1B7F79"
@@ -99,7 +107,17 @@ def build(rows):
   header.hero h1 {{ margin:0 0 8px; font-size:2rem; }}
   header.hero h1 .ghost {{ color:var(--amber); }}
   header.hero p.tagline {{ margin:0 0 6px; color:#D7E3EC; font-size:1.05rem; }}
-  header.hero p.updated {{ margin:0; color:#9FB3C3; font-size:.85rem; }}
+  header.hero p.updated {{ margin:0 0 14px; color:#9FB3C3; font-size:.85rem; }}
+  .signup {{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
+            border-radius:10px; padding:14px 16px; max-width:560px; }}
+  .signup h2 {{ margin:0 0 4px; font-size:1.05rem; color:#fff; }}
+  .signup p {{ margin:0 0 10px; color:#D7E3EC; font-size:.9rem; }}
+  .signup form {{ display:flex; gap:8px; flex-wrap:wrap; }}
+  .signup input[type=email] {{ flex:1; min-width:200px; padding:10px 12px; font-size:.95rem;
+      border:none; border-radius:8px; }}
+  .signup button {{ padding:10px 18px; font-size:.95rem; font-weight:700; color:{NAVY};
+      background:{AMBER}; border:none; border-radius:8px; cursor:pointer; }}
+  .signup button:hover {{ filter:brightness(1.08); }}
   .kpis {{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:-24px 0 24px; }}
   .kpi {{ background:var(--card); border-radius:10px; padding:16px; text-align:center;
          box-shadow:0 2px 8px rgba(20,61,94,.12); }}
@@ -145,6 +163,17 @@ def build(rows):
     <h1>Ghost Job <span class="ghost">Tracker</span></h1>
     <p class="tagline">We track how long job postings stay listed &mdash; and flag the ghosts.</p>
     <p class="updated">Last updated: {today} &middot; {total:,} postings tracked daily</p>
+    <div class="signup">
+      <h2>Get the real jobs, skip the ghosts</h2>
+      <p>A free digest of genuinely-new postings &mdash; no ghost jobs, no spam.</p>
+      <!-- Replace the form action with your email backend endpoint
+           (Resend, Buttondown, Formspree, ...). See SIGNUP_FORM_ACTION in src/build_site.py. -->
+      <form action="{SIGNUP_FORM_ACTION}" method="post">
+        <input type="email" name="email" placeholder="you@example.com" required
+               aria-label="Email address">
+        <button type="submit">Notify me</button>
+      </form>
+    </div>
   </div>
 </header>
 
@@ -200,6 +229,12 @@ def build(rows):
     </table>
     <p class="disclaimer">These are heuristics based on public posting data, not an accusation
     against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+
+  <section class="card">
+    <h2>Daily digest</h2>
+    <p class="sub">Genuinely-new postings, zero ghosts. Browse the
+    <a href="digest/" style="color:{TEAL};font-weight:600;">digest archive</a>.</p>
   </section>
 
   <footer>
@@ -308,6 +343,80 @@ if (window.Chart && LABELS.length) {{
 </html>
 """
 
+def build_digest_archive():
+    """Copy each day's digest into docs/digest/ and build the archive index."""
+    import glob
+    import shutil
+    os.makedirs(DIGEST_DIR, exist_ok=True)
+    entries = []
+    for src in sorted(glob.glob(os.path.join(OUTPUT_DIR, "digest_*.html"))):
+        base = os.path.basename(src)              # digest_YYYY-MM-DD.html
+        day = base[len("digest_"):-len(".html")]
+        dst = os.path.join(DIGEST_DIR, f"{day}.html")
+        shutil.copyfile(src, dst)
+        count = None
+        meta = os.path.join(DATA_DIR, f"alerts_{day}.json")
+        if os.path.exists(meta):
+            try:
+                with open(meta, encoding="utf-8") as f:
+                    count = json.load(f).get("count")
+            except (OSError, ValueError):
+                pass
+        entries.append((day, count))
+    entries.sort(reverse=True)
+
+    items = []
+    for day, count in entries:
+        label = (f"{count:,} real new jobs" if count is not None
+                 else "digest")
+        items.append(
+            f'<li><a href="{html.escape(day)}.html">{html.escape(day)}</a>'
+            f' <span class="n">{html.escape(label)}</span></li>')
+    body = "\n".join(items) if items else "<p>No digests yet.</p>"
+
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digest archive — Ghost Job Tracker</title>
+<style>
+  body {{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+         background:#F2F4F7; color:#1F2A37; line-height:1.5; }}
+  .wrap {{ max-width:760px; margin:0 auto; padding:0 16px 48px; }}
+  header {{ background:{NAVY}; color:#fff; padding:32px 16px 24px; }}
+  header h1 {{ margin:0; font-size:1.6rem; }}
+  header h1 .z {{ color:{AMBER}; }}
+  header p {{ margin:6px 0 0; color:#D7E3EC; }}
+  header a {{ color:{AMBER}; }}
+  ul {{ list-style:none; margin:20px 0; padding:0; }}
+  li {{ background:#fff; border-radius:10px; padding:14px 18px; margin:10px 0;
+       box-shadow:0 2px 8px rgba(20,61,94,.12); }}
+  li a {{ color:{TEAL}; font-weight:700; text-decoration:none; font-size:1.05rem; }}
+  li a:hover {{ text-decoration:underline; }}
+  .n {{ color:#5A6C7D; font-size:.9rem; margin-left:10px; }}
+</style>
+</head>
+<body>
+<header><div class="wrap" style="padding-bottom:0">
+  <h1>Digest <span class="z">archive</span></h1>
+  <p>Every daily Real Jobs Digest. <a href="../">&larr; back to Ghost Job Tracker</a></p>
+</div></header>
+<div class="wrap">
+  <ul>
+    {body}
+  </ul>
+</div>
+</body>
+</html>
+"""
+    with open(os.path.join(DIGEST_DIR, "index.html"), "w",
+              encoding="utf-8") as f:
+        f.write(page)
+    print(f"digest archive: {len(entries)} digest(s) -> {DIGEST_DIR}/index.html")
+    return len(entries)
+
+
 def main():
     rows = load_rows()
     page = build(rows)
@@ -315,6 +424,7 @@ def main():
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write(page)
     print(f"wrote {OUT_PATH} ({len(page):,} bytes, {len(rows)} postings)")
+    build_digest_archive()
 
 
 if __name__ == "__main__":

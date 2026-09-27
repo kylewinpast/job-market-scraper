@@ -1,0 +1,1046 @@
+{
+ "date": "2026-09-27",
+ "count": 104,
+ "jobs": [
+  {
+   "company": "Fivetran",
+   "title": "Senior Marketing Analyst",
+   "location": "Oakland, California, United States, AMER",
+   "location_clean": "Remote - US",
+   "url": "https://www.fivetran.com/careers/job?gh_jid=8005007003",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-25T16:36:09-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Anthropic",
+   "title": "Marketing Analytics Lead, Enterprise Marketing",
+   "location": "San Francisco, CA | New York City, NY",
+   "location_clean": "San Francisco, CA",
+   "url": "https://job-boards.greenhouse.io/anthropic/jobs/5434145008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-25T16:08:42-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Stripe",
+   "title": "Finance & Strategy Analyst",
+   "location": "SF, SEA, CHI, NYC",
+   "location_clean": "San Francisco, CA",
+   "url": "https://stripe.com/jobs/search?gh_jid=8231575",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-25T14:11:25-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Okta",
+   "title": "Staff Product Analyst, Finance Technologies",
+   "location": "Bellevue, Washington; Chicago, Illinois; New York, New York; Washington, DC",
+   "location_clean": "Bellevue, WA",
+   "url": "https://www.okta.com/company/careers/opportunity/8213700?gh_jid=8213700",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-25T13:37:37-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Plaid",
+   "title": "Financial Analyst, Corporate FP&A",
+   "location": "San Francisco HQ",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/plaid/4d2f0d16-863d-46c5-bc86-2780a34eff44",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T21:27:32.879+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Reddit",
+   "title": "Staff Machine Learning Engineer, App Ads Modeling",
+   "location": "Remote - United States",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/reddit/jobs/8187652",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T21:13:27-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "OpenAI",
+   "title": "Machine Learning Engineer, Core Experimentation",
+   "location": "Seattle",
+   "location_clean": "Seattle, WA",
+   "url": "https://jobs.ashbyhq.com/openai/9d4d2727-27f3-4a63-857c-a96466130645",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T20:40:14.837+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Robinhood",
+   "title": "Finance & Strategy Senior Analyst",
+   "location": "Chicago, IL; Menlo Park, CA; New York, NY",
+   "location_clean": "Chicago, IL",
+   "url": "https://boards.greenhouse.io/robinhood/jobs/8211233?t=gh_src=&gh_jid=8211233",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T20:06:21-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Airbnb",
+   "title": "Senior Machine Learning Engineer, Trust",
+   "location": "San Francisco, CA",
+   "location_clean": "San Francisco, CA",
+   "url": "https://careers.airbnb.com/positions/8232153?gh_jid=8232153",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T19:24:17-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Chime Financial, Inc",
+   "title": "Security Risk Governance Analyst",
+   "location": "San Francisco, CA, USA",
+   "location_clean": "San Francisco, CA",
+   "url": "https://boards.greenhouse.io/chime/jobs/8806197002?gh_jid=8806197002",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T17:30:02-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Datadog",
+   "title": "Senior Business Systems Analyst",
+   "location": "New York, New York, USA",
+   "location_clean": "New York, NY",
+   "url": "https://careers.datadoghq.com/detail/8231811/?gh_jid=8231811",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T16:03:31-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "MongoDB",
+   "title": "Senior Analyst, Sales Strategy and Planning",
+   "location": "Austin",
+   "location_clean": "Austin, TX",
+   "url": "https://www.mongodb.com/careers/job/?gh_jid=8231579",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T15:43:03-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Block",
+   "title": "Data Scientist, Payments",
+   "location": "Bay Area, CA, United States of America",
+   "location_clean": "Remote - US",
+   "url": "http://block.xyz/careers/jobs/5214784008?gh_jid=5214784008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T15:14:19-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Block",
+   "title": "Senior Analytics Engineer, AI & DX Analytics",
+   "location": "New York, NY, United States of America",
+   "location_clean": "New York, NY",
+   "url": "http://block.xyz/careers/jobs/5434325008?gh_jid=5434325008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-24T13:40:25-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Plaid",
+   "title": "Senior Financial Analyst, Corporate Finance & Strategy",
+   "location": "San Francisco HQ",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/plaid/e872aa15-c768-40be-8986-2f1fa2a686f3",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-23T20:54:15.923+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Ramp",
+   "title": "Machine Learning Engineer",
+   "location": "New York, NY (HQ)",
+   "location_clean": "New York, NY",
+   "url": "https://jobs.ashbyhq.com/ramp/2888b101-b1da-4e53-a02e-1bb9b1b5a951",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-23T19:39:11.015+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Toast",
+   "title": "Lead Credit Risk Analyst",
+   "location": "Remote",
+   "location_clean": "Remote - US",
+   "url": "https://careers.toasttab.com/jobs?gh_jid=8185640",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-23T19:06:45-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Figma",
+   "title": "Data Engineer Intern (2027)",
+   "location": "San Francisco, CA • New York, NY",
+   "location_clean": "San Francisco, CA",
+   "url": "https://boards.greenhouse.io/figma/jobs/6178851004?gh_jid=6178851004",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-23T15:30:27-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Reddit",
+   "title": "Senior Director, Data Science",
+   "location": "Remote - United States",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/reddit/jobs/8226397",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-23T10:26:09-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Airbnb",
+   "title": "Senior Analyst, Frontline Performance",
+   "location": "United States ",
+   "location_clean": "Remote - US",
+   "url": "https://careers.airbnb.com/positions/8224146?gh_jid=8224146",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-23T10:06:18-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Anthropic",
+   "title": "Capacity Deployment Lead - Data Center Operations",
+   "location": "Remote-Friendly, United States",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/anthropic/jobs/5432020008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T19:48:42-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "OpenAI",
+   "title": "Regulatory Operations Analyst, User Safety & Risk Operations",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/openai/bc059a72-8ff3-4a80-a499-5b82ccca1f05",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T18:03:42.783+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Block",
+   "title": "Staff Machine Learning Engineer (Modeling), Support",
+   "location": "Seattle, WA, United States of America",
+   "location_clean": "Seattle, WA",
+   "url": "http://block.xyz/careers/jobs/5431987008?gh_jid=5431987008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T17:19:49-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Datadog",
+   "title": "FP&A Analyst",
+   "location": "New York, New York, USA",
+   "location_clean": "New York, NY",
+   "url": "https://careers.datadoghq.com/detail/8204554/?gh_jid=8204554",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T16:40:11-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Stripe",
+   "title": "Risk Operations Analyst - SSO",
+   "location": "Remote ",
+   "location_clean": "Remote - US",
+   "url": "https://stripe.com/jobs/search?gh_jid=8175824",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T16:19:21-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Plaid",
+   "title": "Product Manager - Data Supply",
+   "location": "San Francisco HQ",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/plaid/7d2618d5-9777-487d-bf55-445e5eb198ec",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T15:55:40.898+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Stripe",
+   "title": "Frontend Engineer, Data Product Experiences",
+   "location": "N/A",
+   "location_clean": "Remote - US",
+   "url": "https://stripe.com/jobs/search?gh_jid=8194604",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T15:34:29-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Anthropic",
+   "title": "Security Risk & Compliance, Data Centers & Compute",
+   "location": "San Francisco, CA | Seattle, WA | New York City, NY | Washington, DC",
+   "location_clean": "San Francisco, CA",
+   "url": "https://job-boards.greenhouse.io/anthropic/jobs/5430205008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T15:33:36-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Stripe",
+   "title": "Frontend Engineer, Data Product Experiences",
+   "location": "N/A",
+   "location_clean": "Remote - US",
+   "url": "https://stripe.com/jobs/search?gh_jid=8194606",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T15:31:09-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Benchling",
+   "title": "Strategic Financial Analyst, GTM",
+   "location": "San Francisco, CA",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/benchling/49454722-ea62-41da-80f8-864ff06e9265",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T15:30:07.364+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "SoFi",
+   "title": "Senior Auditor - Data Analytics",
+   "location": "United States",
+   "location_clean": "Remote - US",
+   "url": "https://sofi.com/careers/job/8002569003?gh_jid=8002569003",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T15:02:17-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Airbnb",
+   "title": "Senior Staff Data Engineer, Foundational Data",
+   "location": "United States",
+   "location_clean": "Remote - US",
+   "url": "https://careers.airbnb.com/positions/8224032?gh_jid=8224032",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T14:58:28-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Figma",
+   "title": "HRIS Analyst",
+   "location": "San Francisco, CA • New York, NY • United States",
+   "location_clean": "San Francisco, CA",
+   "url": "https://boards.greenhouse.io/figma/jobs/6201385004?gh_jid=6201385004",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T14:52:23-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Robinhood",
+   "title": "Manager of Data Science, Finance & Strategy",
+   "location": "Menlo Park, CA",
+   "location_clean": "Menlo Park, CA",
+   "url": "https://boards.greenhouse.io/robinhood/jobs/8180757?t=gh_src=&gh_jid=8180757",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T14:11:52-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "SoFi",
+   "title": "Senior Staff Fraud Strategy Analyst, Card",
+   "location": "TX - Frisco",
+   "location_clean": "Frisco, TX",
+   "url": "https://sofi.com/careers/job/8002663003?gh_jid=8002663003",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T13:36:05-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Anthropic",
+   "title": "Engineering Manager, Data Infrastructure",
+   "location": "San Francisco, CA | New York City, NY",
+   "location_clean": "San Francisco, CA",
+   "url": "https://job-boards.greenhouse.io/anthropic/jobs/5426135008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T13:23:06-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Drata",
+   "title": "Staff Data Engineer",
+   "location": "Hybrid - San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/drata/dca52941-f9c0-440b-8b49-c039f700e3f3",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-22T00:29:17.862+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Perplexity",
+   "title": "Payroll Analyst",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/perplexity/5080dab5-7eb7-4cb2-9e2c-c61531fd3ad1",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T22:29:03.627+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Coinbase",
+   "title": "Tax Information Reporting Intern",
+   "location": "Hybrid - New York, NY",
+   "location_clean": "New York, NY",
+   "url": "https://www.coinbase.com/careers/positions/8221241?gh_jid=8221241",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T22:02:12-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Coinbase",
+   "title": "Internal Audit Analytics Intern",
+   "location": "Hybrid - New York, NY",
+   "location_clean": "New York, NY",
+   "url": "https://www.coinbase.com/careers/positions/8221238?gh_jid=8221238",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T21:42:16-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Stripe",
+   "title": "Data Scientist",
+   "location": "Seattle, WA",
+   "location_clean": "Seattle, WA",
+   "url": "https://stripe.com/jobs/search?gh_jid=8222149",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T20:23:42-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "OpenAI",
+   "title": "Machine Learning Engineer, Monetization AI/ML",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/openai/80f9f564-d789-47bc-91c3-3babf5a1a33d",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T19:33:24.536+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Cloudflare",
+   "title": "Manager, Data Center Rack Integration",
+   "location": "Hybrid",
+   "location_clean": "Remote - US",
+   "url": "https://boards.greenhouse.io/cloudflare/jobs/8221187?gh_jid=8221187",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T18:43:49-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Plaid",
+   "title": "Strategic Partnerships – Credit | Product & Data",
+   "location": "San Francisco HQ",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/plaid/89f608d3-a383-4ca5-90b0-4d4b49ea2275",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T18:36:21.087+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Coinbase",
+   "title": "Senior Analyst, Compliance Technology",
+   "location": "Remote - USA",
+   "location_clean": "Remote - US",
+   "url": "https://www.coinbase.com/careers/positions/8221985?gh_jid=8221985",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T18:09:07-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Robinhood",
+   "title": "Data Solutions & Analytics Senior Analyst",
+   "location": "Westlake, TX",
+   "location_clean": "Westlake, TX",
+   "url": "https://boards.greenhouse.io/robinhood/jobs/8220699?t=gh_src=&gh_jid=8220699",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T17:17:57-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "MongoDB",
+   "title": "Associate Third-Party Risk Management (TPRM) Risk Analyst",
+   "location": "United States",
+   "location_clean": "Remote - US",
+   "url": "https://www.mongodb.com/careers/job/?gh_jid=8212146",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T15:45:33-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Notion",
+   "title": "Software Engineer, Data Platform (Foundations Lead)",
+   "location": "San Francisco, California",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/notion/e9bf7ffa-9cf2-4360-a2e4-e9fa66859927",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T15:26:27.112+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Stripe",
+   "title": "Workday Analyst",
+   "location": "US",
+   "location_clean": "Remote - US",
+   "url": "https://stripe.com/jobs/search?gh_jid=8220938",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T15:13:29-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Chime Financial, Inc",
+   "title": "Data Analyst, Credit Risk",
+   "location": "San Francisco, CA, USA",
+   "location_clean": "San Francisco, CA",
+   "url": "https://boards.greenhouse.io/chime/jobs/8770312002?gh_jid=8770312002",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T14:39:14-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Figma",
+   "title": "PhD Intern, Data Science (2027)",
+   "location": "San Francisco, CA • New York, NY",
+   "location_clean": "San Francisco, CA",
+   "url": "https://boards.greenhouse.io/figma/jobs/6200626004?gh_jid=6200626004",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T13:47:10-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "OpenAI",
+   "title": "Senior Manager, Financial Reporting",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/openai/201224fb-6d5f-4e3a-b183-25931d5c776d",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T12:54:01.786+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Stripe",
+   "title": "Machine Learning Engineer, Link",
+   "location": "New York City ",
+   "location_clean": "New York, NY",
+   "url": "https://stripe.com/jobs/search?gh_jid=8197886",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T12:52:34-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Figma",
+   "title": "Data Platform Engineer",
+   "location": "San Francisco, CA • New York, NY • United States",
+   "location_clean": "San Francisco, CA",
+   "url": "https://boards.greenhouse.io/figma/jobs/6201407004?gh_jid=6201407004",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T12:13:46-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Datadog",
+   "title": "Legal Operations Analyst",
+   "location": "New York, New York, USA",
+   "location_clean": "New York, NY",
+   "url": "https://careers.datadoghq.com/detail/8202086/?gh_jid=8202086",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T12:01:42-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Datadog",
+   "title": "Senior Deal Desk Analyst",
+   "location": "San Francisco, California, USA",
+   "location_clean": "San Francisco, CA",
+   "url": "https://careers.datadoghq.com/detail/8197674/?gh_jid=8197674",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-21T11:54:26-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Robinhood",
+   "title": "Staff Machine Learning Engineer, AI Platform & Agentic Apps",
+   "location": "Menlo Park, CA",
+   "location_clean": "Menlo Park, CA",
+   "url": "https://boards.greenhouse.io/robinhood/jobs/8107212?t=gh_src=&gh_jid=8107212",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-19T20:13:35-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Robinhood",
+   "title": "Senior Machine Learning Engineer, AI Infra",
+   "location": "Bellevue, WA; Menlo Park, CA",
+   "location_clean": "Bellevue, WA",
+   "url": "https://boards.greenhouse.io/robinhood/jobs/8189874?t=gh_src=&gh_jid=8189874",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-19T19:47:51-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "OpenAI",
+   "title": "Head of Finance - Data Centers",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/openai/144b12f3-5821-4727-a266-b5ed9ff46fd2",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-18T20:00:58.662+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Fivetran",
+   "title": "Senior Analyst, GTM Analytics",
+   "location": "CRI - Remote",
+   "location_clean": "Remote - US",
+   "url": "https://www.fivetran.com/careers/job?gh_jid=7994710003",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-18T17:55:45-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Fivetran",
+   "title": "Principal Analyst, GTM Analytics (Costa Rica)",
+   "location": "CRI - Remote",
+   "location_clean": "Remote - US",
+   "url": "https://www.fivetran.com/careers/job?gh_jid=7994507003",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-18T17:21:54-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Fivetran",
+   "title": "Analyst, GTM Analytics",
+   "location": "CRI - Remote",
+   "location_clean": "Remote - US",
+   "url": "https://www.fivetran.com/careers/job?gh_jid=7994731003",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-18T16:48:47-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Scale AI",
+   "title": "Payroll Analyst",
+   "location": "San Francisco, CA",
+   "location_clean": "San Francisco, CA",
+   "url": "https://job-boards.greenhouse.io/scaleai/jobs/4734728005",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-18T15:00:20-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Datadog",
+   "title": "Manager II, Engineering - Database Monitoring (AI)",
+   "location": "New York, New York, USA",
+   "location_clean": "New York, NY",
+   "url": "https://careers.datadoghq.com/detail/8212114/?gh_jid=8212114",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-18T13:31:24-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Airbnb",
+   "title": "Principal, Strategic Finance & Analytics, Acquisition",
+   "location": "United States ",
+   "location_clean": "Remote - US",
+   "url": "https://careers.airbnb.com/positions/8209984?gh_jid=8209984",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-18T12:28:21-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Coinbase",
+   "title": "Staff Machine Learning Engineer(Platform - Identity)",
+   "location": "Remote - USA",
+   "location_clean": "Remote - US",
+   "url": "https://www.coinbase.com/careers/positions/8211486?gh_jid=8211486",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-17T15:38:43-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Fivetran",
+   "title": "Compensation & Analytics Partner",
+   "location": "CRI - Remote",
+   "location_clean": "Remote - US",
+   "url": "https://www.fivetran.com/careers/job?gh_jid=7992087003",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-17T14:26:28-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Coinbase",
+   "title": "Senior Machine Learning Platform Engineer",
+   "location": "Remote - USA",
+   "location_clean": "Remote - US",
+   "url": "https://www.coinbase.com/careers/positions/8211490?gh_jid=8211490",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-17T14:06:33-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "MongoDB",
+   "title": "Strategic Finance Analyst",
+   "location": "New York City",
+   "location_clean": "New York, NY",
+   "url": "https://www.mongodb.com/careers/job/?gh_jid=8192216",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-17T13:16:47-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Block",
+   "title": "Senior Analytics Engineer, AI & DX Analytics",
+   "location": "Bay Area, CA, United States of America",
+   "location_clean": "Remote - US",
+   "url": "http://block.xyz/careers/jobs/5424561008?gh_jid=5424561008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-17T12:08:50-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Ramp",
+   "title": "HRIS Analyst (Workday)",
+   "location": "New York, NY (HQ)",
+   "location_clean": "New York, NY",
+   "url": "https://jobs.ashbyhq.com/ramp/a11f7720-f3a8-4e86-9cc6-562bb11420b2",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-17T04:12:23.468+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Ro",
+   "title": "Inventory Allocation Analyst",
+   "location": "New York, NY or Remote",
+   "location_clean": "New York, NY",
+   "url": "https://jobs.lever.co/ro/ba3037b9-9e7a-4381-8cb9-7ea866609ada",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-17T01:51:04.997000+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Cloudflare",
+   "title": "Workday Reporting Specialist",
+   "location": "In-Office",
+   "location_clean": "Remote - US",
+   "url": "https://boards.greenhouse.io/cloudflare/jobs/8204353?gh_jid=8204353",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-17T01:02:12-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Notion",
+   "title": "Software Engineer, User Database Infrastructure",
+   "location": "San Francisco, California",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/notion/ead663e3-3eb2-4e0e-97e5-86820062dd68",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-16T18:46:07.790+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Okta",
+   "title": "Principal Machine Learning Engineer, SecureAI",
+   "location": "San Francisco, California",
+   "location_clean": "San Francisco, CA",
+   "url": "https://www.okta.com/company/careers/opportunity/8208377?gh_jid=8208377",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-16T18:30:47-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Reddit",
+   "title": "Staff Machine Learning Engineer, Retrieval",
+   "location": "Remote - United States",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/reddit/jobs/8178085",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-16T18:20:41-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Ro",
+   "title": "Analytics Engineer, Conversational Analytics",
+   "location": "New York, NY",
+   "location_clean": "New York, NY",
+   "url": "https://jobs.lever.co/ro/3910baa9-f961-4380-ad0a-01deec07f7a2",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-16T17:43:56.068000+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Okta",
+   "title": "Senior Payroll Analyst",
+   "location": "San Francisco, California",
+   "location_clean": "San Francisco, CA",
+   "url": "https://www.okta.com/company/careers/opportunity/8209281?gh_jid=8209281",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-16T16:07:30-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Airbnb",
+   "title": "Staff Advanced Analytics, Community Blueprint & Quality",
+   "location": "United States",
+   "location_clean": "Remote - US",
+   "url": "https://careers.airbnb.com/positions/8207095?gh_jid=8207095",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-16T14:23:40-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Airbnb",
+   "title": "Lead Advanced Analyst, Integrated Marketing",
+   "location": "United States",
+   "location_clean": "Remote - US",
+   "url": "https://careers.airbnb.com/positions/8207084?gh_jid=8207084",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-16T14:23:26-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Elastic",
+   "title": "Sr. Director, Enterprise Data",
+   "location": "United States",
+   "location_clean": "Remote - US",
+   "url": "https://jobs.elastic.co/jobs?gh_jid=8207941&gh_jid=8207941",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-16T13:43:31-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Cursor",
+   "title": "Software Engineer, ML Research Tools",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/cursor/c1ac67d4-645a-4632-a178-ea6b5f49bb26",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-16T00:07:09.327+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "OpenAI",
+   "title": "Data Scientist, Inference Capacity Optimization",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/openai/4948533f-1df6-49f7-af9e-a2da0e02ebca",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-15T23:28:04.361+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Anthropic",
+   "title": "Protective Intelligence Analyst",
+   "location": "San Francisco, CA | New York City, NY | Washington, DC",
+   "location_clean": "San Francisco, CA",
+   "url": "https://job-boards.greenhouse.io/anthropic/jobs/5422952008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-15T21:31:25-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Cursor",
+   "title": "Software Engineer, RL Data",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/cursor/9a175381-45e2-42b6-bd64-6c84532365f9",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-15T21:25:43.578+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Stripe",
+   "title": "Engineering Manager, Machine Learning - Credit Risk",
+   "location": "N/A",
+   "location_clean": "Remote - US",
+   "url": "https://stripe.com/jobs/search?gh_jid=8205280",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-15T16:51:21-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Reddit",
+   "title": "Senior Staff Machine Learning Engineer, Ads Ranking",
+   "location": "Remote - United States",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/reddit/jobs/8201359",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-15T14:58:04-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Twilio",
+   "title": "Sr. Marketing Strategy and Analytics Manager",
+   "location": "Remote - US",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/twilio/jobs/8189769",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-15T14:25:10-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Twilio",
+   "title": "Senior People Technology Analyst - Talent Acquisition",
+   "location": "Remote - US",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/twilio/jobs/8202189",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-15T13:51:47-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Reddit",
+   "title": "Staff Machine Learning Engineer, AI Security",
+   "location": "Remote - United States",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/reddit/jobs/8203478",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-15T02:07:12-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "OpenAI",
+   "title": "Data Engineering Manager, Growth & Revenue",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/openai/acbf80cd-20a7-47fe-aaf9-3e9224d1570c",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T22:39:38.571+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Anthropic",
+   "title": "Recruiting Analytics Data Engineer",
+   "location": "San Francisco, CA | New York City, NY | Seattle, WA",
+   "location_clean": "San Francisco, CA",
+   "url": "https://job-boards.greenhouse.io/anthropic/jobs/5424111008",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T21:14:53-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Fivetran",
+   "title": "GTM Finance Sr. Analyst",
+   "location": "Oakland, California, United States, AMER",
+   "location_clean": "Remote - US",
+   "url": "https://www.fivetran.com/careers/job?gh_jid=7992802003",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T17:54:31-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Fivetran",
+   "title": "GTM Finance Sr. Analyst",
+   "location": "Denver, Colorado, United States, AMER",
+   "location_clean": "Denver, CO",
+   "url": "https://www.fivetran.com/careers/job?gh_jid=7994914003",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T17:54:30-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Cursor",
+   "title": "Deal Desk Analyst - Americas",
+   "location": "San Francisco",
+   "location_clean": "San Francisco, CA",
+   "url": "https://jobs.ashbyhq.com/cursor/4a1f9223-627b-4582-a038-0d7005d7a31d",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T17:04:22.836+00:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Stripe",
+   "title": "GTM Strategy & Operations Analyst",
+   "location": "NYC, SF, Seattle, US",
+   "location_clean": "New York, NY",
+   "url": "https://stripe.com/jobs/search?gh_jid=8201680",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T14:44:41-04:00",
+   "ghost_score": 25
+  },
+  {
+   "company": "Databricks",
+   "title": "Tax Data & Technology Manager",
+   "location": "San Francisco, California",
+   "location_clean": "San Francisco, CA",
+   "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8679978002",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T14:01:43-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Figma",
+   "title": "Data Science Intern (2027)",
+   "location": "San Francisco, CA • New York, NY",
+   "location_clean": "San Francisco, CA",
+   "url": "https://boards.greenhouse.io/figma/jobs/6178857004?gh_jid=6178857004",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T13:36:27-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Reddit",
+   "title": "Staff Threat Analyst, Ads Fraud",
+   "location": "Remote - United States",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/reddit/jobs/8189395",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T12:25:39-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Reddit",
+   "title": "International Payroll Analyst",
+   "location": "Remote - United States",
+   "location_clean": "Remote - US",
+   "url": "https://job-boards.greenhouse.io/reddit/jobs/8192369",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T08:05:09-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Robinhood",
+   "title": "Brokerage Risk Analyst Intern (Summer 2027)",
+   "location": "Chicago, IL",
+   "location_clean": "Chicago, IL",
+   "url": "https://boards.greenhouse.io/robinhood/jobs/8198223?t=gh_src=&gh_jid=8198223",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T08:00:09-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Robinhood",
+   "title": "PeopleX Insights & Analytics Intern (Summer 2027)",
+   "location": "Menlo Park, CA",
+   "location_clean": "Menlo Park, CA",
+   "url": "https://boards.greenhouse.io/robinhood/jobs/8198255?t=gh_src=&gh_jid=8198255",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T08:00:09-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Robinhood",
+   "title": "Business Analyst Intern (Summer 2027)",
+   "location": "Washington, DC",
+   "location_clean": "Washington, DC",
+   "url": "https://boards.greenhouse.io/robinhood/jobs/8123238?t=gh_src=&gh_jid=8123238",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T08:00:08-04:00",
+   "ghost_score": 0
+  },
+  {
+   "company": "Robinhood",
+   "title": "Investment Analyst Intern, Robinhood Ventures (Summer 2027)",
+   "location": "Menlo Park, CA",
+   "location_clean": "Menlo Park, CA",
+   "url": "https://boards.greenhouse.io/robinhood/jobs/8198187?t=gh_src=&gh_jid=8198187",
+   "first_seen": "2026-09-27",
+   "posted_at": "2026-09-14T08:00:08-04:00",
+   "ghost_score": 0
+  }
+ ]
+}

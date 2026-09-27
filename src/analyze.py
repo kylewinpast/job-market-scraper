@@ -1,10 +1,12 @@
 """Analyze collected postings: skill keywords + fit score, export CSV for Power BI."""
 import csv
+import os
 import re
 import sqlite3
 
-DB_PATH = "../data/jobs.db"
-OUT_PATH = "../data/jobs_export.csv"
+PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(PROJECT, "data", "jobs.db")
+OUT_PATH = os.path.join(PROJECT, "data", "jobs_export.csv")
 
 SKILLS = ["sql", "python", "r ", "tableau", "power bi", "powerbi", "excel",
           "vba", "sap", "snowflake", "databricks", "aws", "azure", "gcp",
@@ -19,6 +21,13 @@ DFW = ["dallas", "plano", "mckinney", "frisco", "irving", "fort worth",
        "arlington", "richardson", "addison", "allen"]
 EAST = ["new york", "nyc", "manhattan", "brooklyn", "new jersey", "nj",
         "boston", "philadelphia", "washington", "d.c.", "atlanta", "charlotte"]
+# Non-US postings (from EU boards) rank lower for a US job search.
+NON_US = ["france", "germany", "united kingdom", " ireland", "spain",
+          "netherlands", "belgium", "sweden", "poland", "portugal",
+          "italy", "singapore", "india", "australia", "japan", "canada",
+          "toronto", "vancouver", "brazil", "mexico", "london", "paris",
+          "berlin", "dublin", "amsterdam", "madrid", "tokyo", "sydney",
+          "bengaluru", "hyderabad", "emea", "apac", "latam", "deutschland"]
 
 
 def contains_skill(text, skill):
@@ -51,6 +60,9 @@ def fit_score(title, description, location):
     if any(c in loc for c in EAST):
         score += 10
         reasons.append("East Coast")
+    if "remote" not in loc and any(n in loc for n in NON_US):
+        score -= 10
+        reasons.append("non-US location")
     return score, reasons
 
 

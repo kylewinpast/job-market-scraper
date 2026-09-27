@@ -1,13 +1,18 @@
 """Job posting scraper v1: Remotive + Arbeitnow (free, no API key).
+v2: + US Greenhouse boards (see us_boards.py).
 Normalizes postings into a common schema and stores them in SQLite.
 """
 import json
+import os
 import sqlite3
 import time
 import urllib.request
 from datetime import datetime, timezone
 
-DB_PATH = "../data/jobs.db"
+from us_boards import fetch_us_boards
+
+PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(PROJECT, "data", "jobs.db")
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS jobs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -123,7 +128,7 @@ def save(jobs):
 
 def main():
     all_jobs = []
-    for fetcher in (fetch_remotive, fetch_arbeitnow):
+    for fetcher in (fetch_remotive, fetch_arbeitnow, fetch_us_boards):
         try:
             jobs = fetcher()
             print(f"{fetcher.__name__}: {len(jobs)} fetched")

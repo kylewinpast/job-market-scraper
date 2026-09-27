@@ -29,8 +29,7 @@ DISPLAY_NAMES = {
 # Buttondown newsletter username. Subscribers sign up through Buttondown's
 # public embed endpoint (no API key needed on the site); the daily pipeline
 # pulls the subscriber list back via the API in src/sync_subscribers.py.
-# TODO: replace with the real Buttondown username once the account exists.
-BUTTONDOWN_USERNAME = "ghostjobtracker"
+BUTTONDOWN_USERNAME = "ghostjpbtracker"
 
 # Email signup form endpoint. Posts to Buttondown's embed-subscribe endpoint,
 # which handles double opt-in on Buttondown's side.

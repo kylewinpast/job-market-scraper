@@ -8,6 +8,20 @@ dashboard refreshes daily with newly scraped postings.
 
 Built as a portfolio project while job hunting for entry-level data roles.
 
+## Website
+
+Live: **https://kylewinpast.github.io/job-market-scraper/**
+
+A public, mobile-friendly Ghost Job Tracker site (single static page, rebuilt
+daily by `src/build_site.py`): KPI cards (postings tracked, suspected ghosts,
+average days listed, companies), a searchable/sortable ghost watchlist with
+click-to-apply links, a per-company ghost chart, and the scoring methodology.
+
+Methodology in 3 lines: every day we snapshot which postings are still listed;
+postings earn ghost points for staying up 30/60/90+ days (+20/+35/+50) or being
+reposted under a new listing ID (2x → +25, 3x+ → +40, capped at 100); a score of
+50+ marks a suspected ghost. Heuristic only — not an accusation against any employer.
+
 ## What it does
 
 ```
@@ -21,8 +35,10 @@ Greenhouse boards (10 US tech companies: Datadog, MongoDB, Stripe, …)
         ▼
    data/jobs_export.csv
         │  src/build_pbix.py — generate a themed .pbix (pbix-mcp, pure Python)
+        │  src/build_site.py — generate docs/index.html (public website)
         ▼
    output/job-market-dashboard.pbix   ← download & open in Power BI Desktop
+   docs/index.html                    ← published via GitHub Pages
 ```
 
 ## The dashboard

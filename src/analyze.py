@@ -4,6 +4,8 @@ import os
 import re
 import sqlite3
 
+from clean import normalize_location
+
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(PROJECT, "data", "jobs.db")
 OUT_PATH = os.path.join(PROJECT, "data", "jobs_export.csv")
@@ -84,7 +86,8 @@ def main():
         score, reasons = fit_score(title, desc, location)
         out.append({
             "source": source, "title": title, "company": company,
-            "location": location, "job_type": job_type, "salary": salary,
+            "location": location, "location_clean": normalize_location(location),
+            "job_type": job_type, "salary": salary,
             "url": url, "posted_at": posted_at,
             "skills": extract_skills(title, desc),
             "fit_score": score, "fit_reasons": "|".join(reasons),

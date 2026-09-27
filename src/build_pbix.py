@@ -42,6 +42,7 @@ def build_tables(rows):
         {"name": "title", "data_type": "String"},
         {"name": "company", "data_type": "String"},
         {"name": "location", "data_type": "String"},
+        {"name": "location_clean", "data_type": "String"},
         {"name": "source", "data_type": "String"},
         {"name": "job_type", "data_type": "String"},
         {"name": "salary", "data_type": "String"},
@@ -54,7 +55,9 @@ def build_tables(rows):
     for r in rows:
         jobs_rows.append({
             "url": r["url"], "title": r["title"], "company": r["company"],
-            "location": r["location"], "source": r["source"],
+            "location": r["location"],
+            "location_clean": r.get("location_clean") or r["location"],
+            "source": r["source"],
             "job_type": r.get("job_type", ""), "salary": r.get("salary", ""),
             "posted_at": r.get("posted_at", ""),
             "fit_score": int(r["fit_score"] or 0),
@@ -197,13 +200,13 @@ def main():
 
     # Slicer
     s1 = add("slicer", 960, 96, 296, 132,
-             visual_config("Jobs", [("Values", "location", "col")]))
+             visual_config("Jobs", [("Values", "location_clean", "col")]))
     fmt(s1, title={"text": "Location", "show": True, "fontSize": 13,
                    "color": MUTED}, **card_fmt)
 
     # Location bar chart
     b1 = add("clusteredBarChart", 24, 244, 608, 220,
-             visual_config("Jobs", [("Category", "location", "col"),
+             visual_config("Jobs", [("Category", "location_clean", "col"),
                                     ("Y", "Posting count", "measure")]),
              sort_by="Jobs.Posting count", sort_dir="desc")
     fmt(b1, title={"text": "Postings by location", "show": True,
@@ -228,7 +231,7 @@ def main():
     t1 = add("table", 24, 480, 1232, 224,
              visual_config("Jobs", [("Values", "title", "col"),
                                     ("Values", "company", "col"),
-                                    ("Values", "location", "col"),
+                                    ("Values", "location_clean", "col"),
                                     ("Values", "fit_score", "col")]),
              sort_by="Jobs.fit_score", sort_dir="desc")
     fmt(t1, title={"text": "Postings ranked by fit score", "show": True,

@@ -78,6 +78,8 @@ def build(rows):
         for label, val, color in kpis
     )
 
+    n_companies = len(companies)
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -182,7 +184,7 @@ def build(rows):
 
   <section class="card">
     <h2>How it works</h2>
-    <p class="sub">Every day we snapshot the job boards of 10 US tech companies and record which
+    <p class="sub">Every day we snapshot the job boards of {n_companies} US tech companies and record which
     postings are still listed. A posting earns ghost points when it stays up for a long time
     or keeps getting reposted under a new listing ID:</p>
     <table class="method">
@@ -201,7 +203,7 @@ def build(rows):
   </section>
 
   <footer>
-    Data: daily snapshots of 10 US tech company Greenhouse boards.<br>
+    Data: daily snapshots of {n_companies} US tech company Greenhouse boards.<br>
     Built as a portfolio project by Geonung Weon &middot;
     <a href="https://github.com/kylewinpast/job-market-scraper">github.com/kylewinpast/job-market-scraper</a>
   </footer>

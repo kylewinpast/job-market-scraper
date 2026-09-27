@@ -16,7 +16,8 @@ import urllib.request
 
 HEADERS = {"User-Agent": "job-market-scraper/0.1 (personal portfolio project)"}
 
-# (board_token, company label). All verified working 2026-09-26.
+# (board_token, company label). First 10 verified working 2026-09-26;
+# expanded to 25 same day (each slug probed for HTTP 200 + >=30% US postings).
 BOARDS = [
     ("datadog", "Datadog"),      # NYC HQ
     ("mongodb", "MongoDB"),      # NYC HQ
@@ -28,6 +29,21 @@ BOARDS = [
     ("dropbox", "Dropbox"),
     ("figma", "Figma"),          # NYC office
     ("reddit", "Reddit"),        # NYC office
+    ("databricks", "Databricks"),
+    ("cloudflare", "Cloudflare"),
+    ("fivetran", "Fivetran"),
+    ("anthropic", "Anthropic"),
+    ("scaleai", "Scale AI"),
+    ("twilio", "Twilio"),
+    ("elastic", "Elastic"),
+    ("gitlab", "GitLab"),
+    ("okta", "Okta"),
+    ("brex", "Brex"),
+    ("chime", "Chime"),
+    ("sofi", "SoFi"),
+    ("affirm", "Affirm"),
+    ("toast", "Toast"),
+    ("block", "Block"),
 ]
 
 # Drop EMEA/APAC postings; US companies post mostly US roles anyway.

@@ -25,7 +25,7 @@ reposted under a new listing ID (2x → +25, 3x+ → +40, capped at 100); a scor
 ## What it does
 
 ```
-Greenhouse boards (10 US tech companies: Datadog, MongoDB, Stripe, …)
+Greenhouse boards (25 US tech companies: Datadog, MongoDB, Stripe, Databricks, Anthropic, …)
         │  src/scraper.py — collect postings, filter data roles, store in SQLite
         │  src/us_boards.py — Greenhouse public API, US-only locations
         │  src/ghost.py   — daily snapshots, first/last-seen tracking, ghost score

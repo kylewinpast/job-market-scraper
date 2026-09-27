@@ -25,9 +25,11 @@ reposted under a new listing ID (2x → +25, 3x+ → +40, capped at 100); a scor
 ## What it does
 
 ```
-Greenhouse boards (25 US tech companies: Datadog, MongoDB, Stripe, Databricks, Anthropic, …)
+Job boards (48 US tech companies: 25 Greenhouse + 2 Lever + 21 Ashby —
+Datadog, MongoDB, Stripe, Databricks, Anthropic, Palantir, OpenAI, Linear, Notion, Ramp, …)
         │  src/scraper.py — collect postings, filter data roles, store in SQLite
         │  src/us_boards.py — Greenhouse public API, US-only locations
+        │  src/lever_boards.py / src/ashby_boards.py — Lever + Ashby public APIs, US-only
         │  src/ghost.py   — daily snapshots, first/last-seen tracking, ghost score
         ▼
    data/jobs.db  (SQLite)  +  snapshots table (one row per job per day)

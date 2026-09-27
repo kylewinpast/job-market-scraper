@@ -10,6 +10,8 @@ import urllib.request
 from datetime import datetime, timezone
 
 from us_boards import fetch_us_boards
+from lever_boards import fetch_lever_boards
+from ashby_boards import fetch_ashby_boards
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(PROJECT, "data", "jobs.db")
@@ -129,7 +131,7 @@ def save(jobs):
 def main():
     all_jobs = []
     # US-only: EU/international boards (Remotive, Arbeitnow) disabled per user.
-    for fetcher in (fetch_us_boards,):
+    for fetcher in (fetch_us_boards, fetch_lever_boards, fetch_ashby_boards):
         try:
             jobs = fetcher()
             print(f"{fetcher.__name__}: {len(jobs)} fetched")

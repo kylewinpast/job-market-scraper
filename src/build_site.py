@@ -203,7 +203,8 @@ def build(rows):
   </section>
 
   <footer>
-    Data: daily snapshots of {n_companies} US tech company Greenhouse boards.<br>
+    Data: daily snapshots of {n_companies} US tech company boards
+    (Greenhouse / Lever / Ashby).<br>
     Built as a portfolio project by Geonung Weon &middot;
     <a href="https://github.com/kylewinpast/job-market-scraper">github.com/kylewinpast/job-market-scraper</a>
   </footer>

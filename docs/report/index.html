@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghost Jobs Report 2026: 43% of Tech Job Postings Are Ghosts — Ghost Job Tracker</title>
+<meta name="description" content="We tracked 754 job postings at 46 US tech companies. 43% show ghost signals: stale listings and reposts. Full breakdown by role, city, and experience level.">
+<meta property="og:title" content="Ghost Jobs Report 2026: 43% of Tech Job Postings Are Ghosts — Ghost Job Tracker">
+<meta property="og:description" content="We tracked 754 job postings at 46 US tech companies. 43% show ghost signals: stale listings and reposts. Full breakdown by role, city, and experience level.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kylewinpast.github.io/job-market-scraper/report/">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+         background:#F2F4F7; color:#1F2A37; line-height:1.6; }
+  .wrap { max-width:860px; margin:0 auto; padding:0 18px 48px; }
+  header.hero { background:#143D5E; color:#fff; padding:48px 18px 36px; text-align:center; }
+  header.hero h1 { margin:0 0 10px; font-size:2.2rem; line-height:1.2; }
+  header.hero h1 .big { color:#E8A838; font-size:3rem; display:block; }
+  header.hero p { margin:0 auto 6px; color:#D7E3EC; max-width:640px; }
+  header.hero .dateline { color:#9FB3C3; font-size:.85rem; margin-top:10px; }
+  header.hero a.home { color:#E8A838; font-size:.9rem; }
+  .kpis { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:24px 0; }
+  .kpi { background:#fff; border-radius:10px; padding:18px; text-align:center;
+         box-shadow:0 2px 8px rgba(20,61,94,.12); }
+  .kpi-value { font-size:2.2rem; font-weight:800; }
+  .kpi-label { color:#5A6C7D; font-size:.88rem; margin-top:6px; }
+  section.card { background:#fff; border-radius:10px; padding:22px;
+                 box-shadow:0 2px 8px rgba(20,61,94,.12); margin-bottom:24px; }
+  section.card h2 { margin:0 0 6px; color:#143D5E; font-size:1.35rem; }
+  section.card p.sub { margin:0 0 12px; color:#5A6C7D; font-size:.92rem; }
+  .lvl { display:grid; grid-template-columns:130px 1fr 170px; gap:10px;
+         align-items:center; margin:10px 0; font-size:.92rem; }
+  .lvl-name { font-weight:700; color:#143D5E; }
+  .lvl-track { background:#E6EBF0; border-radius:6px; height:12px; }
+  .lvl-fill { height:12px; border-radius:6px; min-width:4px; }
+  .lvl-num { text-align:right; color:#5A6C7D; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; min-width:560px; }
+  th { text-align:left; padding:10px 8px; color:#143D5E; border-bottom:2px solid #143D5E; white-space:nowrap; }
+  td { padding:9px 8px; border-bottom:1px solid #E6EBF0; }
+  tr:hover td { background:#F7FAFB; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  td a { color:#1B7F79; font-weight:600; text-decoration:none; }
+  td a:hover { text-decoration:underline; }
+  .method { width:100%; border-collapse:collapse; font-size:.9rem; min-width:0; }
+  .method td, .method th { padding:8px; }
+  .disclaimer { margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }
+  .cta { background:#143D5E; border-radius:10px; padding:24px; color:#fff; text-align:center; }
+  .cta h2 { margin:0 0 6px; font-size:1.4rem; }
+  .cta p { margin:0 0 14px; color:#D7E3EC; }
+  .cta form { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+  .cta input[type=email] { flex:1; min-width:220px; max-width:340px; padding:11px 14px;
+      font-size:.95rem; border:none; border-radius:8px; }
+  .cta button { padding:11px 22px; font-size:.95rem; font-weight:700; color:#143D5E;
+      background:#E8A838; border:none; border-radius:8px; cursor:pointer; }
+  .cta button:hover { filter:brightness(1.08); }
+  .cta .fineprint { margin:10px 0 0; color:#A9C0D1; font-size:.8rem; }
+  footer { color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 18px 32px; }
+  footer a { color:#1B7F79; }
+  @media (max-width:640px) { .kpis { grid-template-columns:1fr; }
+    header.hero h1 { font-size:1.6rem; } header.hero h1 .big { font-size:2.2rem; } }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap" style="padding-bottom:0">
+    <p><a class="home" href="../">&larr; Ghost Job Tracker</a></p>
+    <h1><span class="big">43%</span>of tech job postings are ghosts</h1>
+    <p>We tracked 754 job postings across 46 US tech companies,
+    day after day. 324 of them show ghost signals &mdash; listings that stay
+    up for months or get quietly reposted. Here is the full breakdown.</p>
+    <p class="dateline">Ghost Jobs Report &middot; data as of 2026-09-27 &middot;
+    updated daily</p>
+  </div>
+</header>
+<div class="wrap">
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-value" style="color:#D95D39">43%</div>
+        <div class="kpi-label">of 754 tracked postings look like ghost jobs</div></div>
+<div class="kpi"><div class="kpi-value" style="color:#E8A838">100%</div>
+        <div class="kpi-label">ghost rate for People roles — the highest of any role</div></div>
+<div class="kpi"><div class="kpi-value" style="color:#143D5E">60%</div>
+        <div class="kpi-label">ghost rate in Bellevue, WA — the highest of any metro</div></div>
+<div class="kpi"><div class="kpi-value" style="color:#1B7F79">9%</div>
+        <div class="kpi-label">ghost rate for entry-level postings — the lowest of any level</div></div>
+  </div>
+
+  <section class="card">
+    <h2>Ghost rate by experience level</h2>
+    <p class="sub">Mid-level roles are the ghost-job capital of the market.
+    Entry-level postings are the least likely to be ghosts.</p>
+    <div class="lvls">
+      <div class="lvl"><div class="lvl-name">Entry-level</div><div class="lvl-track"><div class="lvl-fill" style="width:18.5%;background:#1B7F79"></div></div><div class="lvl-num">2 of 23 &middot; 9% ghosts</div></div>
+<div class="lvl"><div class="lvl-name">Mid-level</div><div class="lvl-track"><div class="lvl-fill" style="width:100.0%;background:#1B7F79"></div></div><div class="lvl-num">140 of 298 &middot; 47% ghosts</div></div>
+<div class="lvl"><div class="lvl-name">Senior</div><div class="lvl-track"><div class="lvl-fill" style="width:90.5%;background:#1B7F79"></div></div><div class="lvl-num">179 of 421 &middot; 43% ghosts</div></div>
+<div class="lvl"><div class="lvl-name">Executive</div><div class="lvl-track"><div class="lvl-fill" style="width:53.2%;background:#1B7F79"></div></div><div class="lvl-num">3 of 12 &middot; 25% ghosts</div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Ghost rate by role</h2>
+    <p class="sub">Click a role for its full ghost-job breakdown.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Role</th><th class="num">Postings</th>
+      <th class="num">Suspected ghosts</th><th class="num">Ghost rate</th></tr></thead>
+      <tbody>
+        <tr><td>People</td><td class="num">1</td><td class="num">1</td><td class="num"><b>100%</b></td></tr>
+<tr><td><a href="roles/product/">Product</a></td><td class="num">23</td><td class="num">18</td><td class="num"><b>78%</b></td></tr>
+<tr><td><a href="roles/engineering/">Engineering</a></td><td class="num">163</td><td class="num">92</td><td class="num"><b>56%</b></td></tr>
+<tr><td><a href="roles/data/">Data</a></td><td class="num">304</td><td class="num">146</td><td class="num"><b>48%</b></td></tr>
+<tr><td><a href="roles/other/">Other</a></td><td class="num">75</td><td class="num">30</td><td class="num"><b>40%</b></td></tr>
+<tr><td>Legal</td><td class="num">3</td><td class="num">1</td><td class="num"><b>33%</b></td></tr>
+<tr><td><a href="roles/operations/">Operations</a></td><td class="num">39</td><td class="num">13</td><td class="num"><b>33%</b></td></tr>
+<tr><td><a href="roles/finance/">Finance</a></td><td class="num">130</td><td class="num">22</td><td class="num"><b>17%</b></td></tr>
+<tr><td><a href="roles/sales/">Sales</a></td><td class="num">12</td><td class="num">1</td><td class="num"><b>8%</b></td></tr>
+<tr><td>Marketing</td><td class="num">4</td><td class="num">0</td><td class="num"><b>0%</b></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>Ghost rate by city</h2>
+    <p class="sub">Metros with at least 5 tracked postings. Click for the full breakdown.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Metro</th><th class="num">Postings</th>
+      <th class="num">Suspected ghosts</th><th class="num">Ghost rate</th></tr></thead>
+      <tbody>
+        <tr><td><a href="../cities/bellevue-wa/">Bellevue, WA</a></td><td class="num">15</td><td class="num">9</td><td class="num"><b>60%</b></td></tr>
+<tr><td><a href="../cities/seattle-wa/">Seattle, WA</a></td><td class="num">26</td><td class="num">15</td><td class="num"><b>58%</b></td></tr>
+<tr><td><a href="../cities/san-francisco-ca/">San Francisco, CA</a></td><td class="num">302</td><td class="num">150</td><td class="num"><b>50%</b></td></tr>
+<tr><td><a href="../cities/washington-dc/">Washington, DC</a></td><td class="num">7</td><td class="num">3</td><td class="num"><b>43%</b></td></tr>
+<tr><td><a href="../cities/austin-tx/">Austin, TX</a></td><td class="num">5</td><td class="num">2</td><td class="num"><b>40%</b></td></tr>
+<tr><td><a href="../cities/new-york-ny/">New York, NY</a></td><td class="num">98</td><td class="num">36</td><td class="num"><b>37%</b></td></tr>
+<tr><td><a href="../cities/remote-us/">Remote - US</a></td><td class="num">257</td><td class="num">92</td><td class="num"><b>36%</b></td></tr>
+<tr><td><a href="../cities/menlo-park-ca/">Menlo Park, CA</a></td><td class="num">9</td><td class="num">3</td><td class="num"><b>33%</b></td></tr>
+<tr><td><a href="../cities/denver-co/">Denver, CO</a></td><td class="num">13</td><td class="num">4</td><td class="num"><b>31%</b></td></tr>
+<tr><td><a href="../cities/chicago-il/">Chicago, IL</a></td><td class="num">10</td><td class="num">2</td><td class="num"><b>20%</b></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>The 10 ghostiest companies</h2>
+    <p class="sub">Ranked by number of suspected ghost postings.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Company</th><th class="num">Postings</th>
+      <th class="num">Suspected ghosts</th><th class="num">Ghost rate</th></tr></thead>
+      <tbody>
+        <tr><td><a href="../companies/openai/">OpenAI</a></td><td class="num">87</td><td class="num">46</td><td class="num"><b>53%</b></td></tr>
+<tr><td><a href="../companies/databricks/">Databricks</a></td><td class="num">57</td><td class="num">45</td><td class="num"><b>79%</b></td></tr>
+<tr><td><a href="../companies/anthropic/">Anthropic</a></td><td class="num">75</td><td class="num">32</td><td class="num"><b>43%</b></td></tr>
+<tr><td><a href="../companies/stripe/">Stripe</a></td><td class="num">42</td><td class="num">16</td><td class="num"><b>38%</b></td></tr>
+<tr><td><a href="../companies/airbnb/">Airbnb</a></td><td class="num">30</td><td class="num">15</td><td class="num"><b>50%</b></td></tr>
+<tr><td><a href="../companies/datadog/">Datadog</a></td><td class="num">25</td><td class="num">14</td><td class="num"><b>56%</b></td></tr>
+<tr><td><a href="../companies/scale-ai/">Scale AI</a></td><td class="num">23</td><td class="num">14</td><td class="num"><b>61%</b></td></tr>
+<tr><td><a href="../companies/reddit/">Reddit</a></td><td class="num">30</td><td class="num">13</td><td class="num"><b>43%</b></td></tr>
+<tr><td><a href="../companies/harvey/">Harvey</a></td><td class="num">18</td><td class="num">12</td><td class="num"><b>67%</b></td></tr>
+<tr><td><a href="../companies/cloudflare/">Cloudflare</a></td><td class="num">23</td><td class="num">10</td><td class="num"><b>43%</b></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>How we score ghost jobs</h2>
+    <p class="sub">Every day we snapshot the job boards and record which postings
+    are still listed.</p>
+    <table class="method">
+      <thead><tr><th>Signal</th><th class="num">Points</th></tr></thead>
+      <tbody>
+        <tr><td>Listed 30+ days</td><td class="num">+20</td></tr>
+        <tr><td>Listed 60+ days</td><td class="num">+35</td></tr>
+        <tr><td>Listed 90+ days</td><td class="num">+50</td></tr>
+        <tr><td>Reposted 2&times; (same role, new listing)</td><td class="num">+25</td></tr>
+        <tr><td>Reposted 3&times; or more</td><td class="num">+40</td></tr>
+        <tr><td><strong>Maximum score</strong></td><td class="num"><strong>100</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="disclaimer">Heuristics based on public posting data, not an accusation
+    against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+
+  <div class="cta">
+    <h2>Get the real jobs, skip the ghosts</h2>
+    <p>A free daily digest of genuinely-new postings. No ghost jobs, no spam.</p>
+    <form action="https://buttondown.email/api/emails/embed-subscribe/ghostjpbtracker" method="post">
+      <input type="email" name="email" placeholder="you@example.com" required
+             aria-label="Email address">
+      <button type="submit">Notify me</button>
+    </form>
+    <p class="fineprint">Free forever. Unsubscribe anytime.</p>
+  </div>
+
+  <footer>
+    Data: daily snapshots of 46 US tech company boards
+    (Greenhouse / Lever / Ashby).<br>
+    <a href="../">Ghost Job Tracker</a> &middot;
+    <a href="https://github.com/kylewinpast/job-market-scraper">GitHub</a>
+  </footer>
+</div>
+</body>
+</html>

@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://kylewinpast.github.io/job-market-scraper/</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://kylewinpast.github.io/job-market-scraper/digest/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/report/</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://kylewinpast.github.io/job-market-scraper/digest/2026-09-27.html</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://kylewinpast.github.io/job-market-scraper/companies/abridge/</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://kylewinpast.github.io/job-market-scraper/companies/affirm/</loc><lastmod>2026-09-27</lastmod></url>
@@ -49,4 +50,21 @@
   <url><loc>https://kylewinpast.github.io/job-market-scraper/companies/toast/</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://kylewinpast.github.io/job-market-scraper/companies/twilio/</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://kylewinpast.github.io/job-market-scraper/companies/vanta/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/roles/data/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/roles/engineering/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/roles/finance/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/roles/operations/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/roles/other/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/roles/product/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/roles/sales/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/austin-tx/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/bellevue-wa/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/chicago-il/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/denver-co/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/menlo-park-ca/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/new-york-ny/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/remote-us/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/san-francisco-ca/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/seattle-wa/</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://kylewinpast.github.io/job-market-scraper/cities/washington-dc/</loc><lastmod>2026-09-27</lastmod></url>
 </urlset>

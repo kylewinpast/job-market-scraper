@@ -11,6 +11,7 @@ import os
 from datetime import date
 
 from seniority import seniority_label, LEVELS as SENIORITY_LEVELS
+from role import classify as classify_role, role_label
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_PATH = os.path.join(PROJECT, "data", "jobs_export.csv")
@@ -19,6 +20,9 @@ OUTPUT_DIR = os.path.join(PROJECT, "output")
 DATA_DIR = os.path.join(PROJECT, "data")
 DIGEST_DIR = os.path.join(PROJECT, "docs", "digest")
 COMPANIES_DIR = os.path.join(PROJECT, "docs", "companies")
+ROLES_DIR = os.path.join(PROJECT, "docs", "roles")
+CITIES_DIR = os.path.join(PROJECT, "docs", "cities")
+REPORT_DIR = os.path.join(PROJECT, "docs", "report")
 SITE_URL = "https://kylewinpast.github.io/job-market-scraper"
 
 # Canonical display names: strip junk, shorten legal suffixes.
@@ -355,17 +359,634 @@ def build_company_pages(rows):
     return pages
 
 
-def build_sitemap(pages):
-    """Write docs/sitemap.xml covering main, digest, and company pages."""
+# ---------------------------------------------------------------------------
+# Role / city SEO pages + Ghost Jobs Report (second SEO wave)
+# ---------------------------------------------------------------------------
+
+# Shared self-contained CSS for topic pages (mirrors the company page look).
+TOPIC_CSS = f"""
+  body {{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+         background:#F2F4F7; color:#1F2A37; line-height:1.5; }}
+  .wrap {{ max-width:1080px; margin:0 auto; padding:0 16px 48px; }}
+  header {{ background:{NAVY}; color:#fff; padding:32px 16px 24px; }}
+  header .wrap {{ padding-bottom:0; }}
+  header h1 {{ margin:0 0 6px; font-size:1.8rem; }}
+  header h1 .q {{ color:{AMBER}; }}
+  header p {{ margin:0; color:#D7E3EC; }}
+  .crumb {{ margin:0 0 10px; font-size:.9rem; }}
+  .crumb a {{ color:{AMBER}; text-decoration:none; }}
+  .crumb a:hover {{ text-decoration:underline; }}
+  .kpis {{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }}
+  .kpi {{ background:#fff; border-radius:10px; padding:16px; text-align:center;
+         box-shadow:0 2px 8px rgba(20,61,94,.12); }}
+  .kpi-value {{ font-size:1.9rem; font-weight:700; }}
+  .kpi-label {{ color:#5A6C7D; font-size:.85rem; margin-top:4px; }}
+  .levels {{ text-align:center; color:#5A6C7D; font-size:.9rem; margin:-6px 0 20px; }}
+  section.card {{ background:#fff; border-radius:10px; padding:20px;
+                 box-shadow:0 2px 8px rgba(20,61,94,.12); margin-bottom:24px; }}
+  section.card h2 {{ margin:0 0 8px; color:{NAVY}; font-size:1.25rem; }}
+  section.card p {{ margin:0 0 8px; }}
+  .table-wrap {{ overflow-x:auto; }}
+  table {{ width:100%; border-collapse:collapse; font-size:.88rem; min-width:760px; }}
+  th {{ text-align:left; padding:10px 8px; color:{NAVY}; border-bottom:2px solid {NAVY};
+       white-space:nowrap; }}
+  td {{ padding:9px 8px; border-bottom:1px solid #E6EBF0; vertical-align:middle; }}
+  tr:hover td {{ background:#F7FAFB; }}
+  td.num, th.num {{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }}
+  td.none {{ color:#5A6C7D; font-style:italic; text-align:center; }}
+  .bar {{ display:inline-block; height:10px; border-radius:5px; vertical-align:middle; margin-right:8px; }}
+  .score-num {{ font-weight:700; font-variant-numeric:tabular-nums; }}
+  .apply {{ color:{TEAL}; font-weight:600; text-decoration:none; white-space:nowrap; }}
+  .apply:hover {{ text-decoration:underline; }}
+  .disclaimer {{ margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }}
+  p.none {{ color:#5A6C7D; font-style:italic; }}
+  .real-note {{ color:#5A6C7D; font-size:.9rem; margin:0 0 12px; }}
+  footer {{ color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }}
+  footer a {{ color:{TEAL}; }}
+  @media (max-width:640px) {{ .kpis {{ grid-template-columns:repeat(2,1fr); }} }}
+"""
+
+
+def topic_stats(rows):
+    """Aggregate stats for a group of postings (role bucket or metro)."""
+    total = len(rows)
+    scored = [int(r.get("ghost_score") or 0) for r in rows]
+    ghosts = sum(1 for s in scored if s >= 50)
+    avg_days = (sum(int(r.get("days_listed") or 0) for r in rows) / total
+                if total else 0)
+    avg_score = sum(scored) / total if total else 0
+    suspects = sorted(
+        (r for r in rows if int(r.get("ghost_score") or 0) > 0),
+        key=lambda r: -int(r["ghost_score"]))[:50]
+    top = None
+    if suspects:
+        t = suspects[0]
+        top = {"title": t.get("title") or "",
+               "company": t.get("company") or "",
+               "location_clean": (t.get("location_clean")
+                                  or t.get("location") or ""),
+               "days_listed": int(t.get("days_listed") or 0),
+               "ghost_score": int(t.get("ghost_score") or 0)}
+    real = sorted(
+        (r for r in rows if int(r.get("ghost_score") or 0) < REAL_THRESHOLD),
+        key=lambda r: (int(r.get("days_listed") or 0),
+                       (r.get("title") or "")))[:15]
+    return {"total": total, "ghosts": ghosts, "avg_days": avg_days,
+            "avg_score": avg_score, "suspects": suspects, "top": top,
+            "real": real}
+
+
+def topic_commentary(noun, total, ghosts, avg_days, top):
+    """2-3 sentences of plain-English commentary for a role/city page.
+
+    noun: plural noun phrase, e.g. "Data job postings" or
+    "job postings in New York, NY".
+    """
+    pct = round(100 * ghosts / total) if total else 0
+    s1 = (f"We tracked {total:,} {noun}. {ghosts:,} of them ({pct}%) show "
+          f"ghost signals \u2014 listings that stay up for months or get "
+          f"reposted under new listing IDs.")
+    if avg_days >= 60:
+        s2 = (f"They stay listed for {avg_days:,.0f} days on average, well "
+              f"above a healthy hiring cycle.")
+    elif avg_days >= 30:
+        s2 = f"They stay listed for {avg_days:,.0f} days on average."
+    else:
+        s2 = (f"They turn over relatively quickly ({avg_days:,.0f} days on "
+              f"average).")
+    if top:
+        s3 = (f"The most suspicious listing is \u201c{top['title']}\u201d at "
+              f"{top['company']} ({top['location_clean']}), listed "
+              f"{top['days_listed']:,} days with a ghost score of "
+              f"{top['ghost_score']}.")
+    else:
+        s3 = "No individual posting currently trips our ghost-score threshold."
+    return " ".join([s1, s2, s3])
+
+
+def level_line_for(rows):
+    """'Ghost rate by level: Entry-level 9% · ...' (levels with >= 3 postings)."""
+    bits = []
+    for lvl in ("entry", "mid", "senior", "exec"):
+        sub = [r for r in rows if (r.get("seniority") or "mid") == lvl]
+        if len(sub) >= 3:
+            g = sum(1 for r in sub if int(r.get("ghost_score") or 0) >= 50)
+            bits.append(f"{seniority_label(lvl)} {100.0 * g / len(sub):.0f}%")
+        else:
+            bits.append(f"{seniority_label(lvl)} \u2014")
+    return "Ghost rate by level: " + " \u00b7 ".join(bits)
+
+
+def apply_link(url):
+    url = url or ""
+    if not url:
+        return ""
+    return (f'<a class="apply" href="{html.escape(url)}" target="_blank" '
+            f'rel="noopener">Apply &rarr;</a>')
+
+
+def build_topic_page(doc_title, meta_desc, h1, subtitle, stats, rows, today,
+                     crumb_href, crumb_label, commentary, second_col,
+                     method_note):
+    """Render a generic SEO stat page (role or city), mirroring company pages.
+
+    second_col: (header label, callable row -> cell text).
+    method_note: one-paragraph methodology text (HTML-escaped already ok).
+    """
+    total, ghosts = stats["total"], stats["ghosts"]
+    pct = round(100 * ghosts / total) if total else 0
+
+    trs = []
+    for r in stats["suspects"]:
+        score = int(r.get("ghost_score") or 0)
+        trs.append(
+            "<tr>"
+            f"<td>{html.escape(r.get('title') or '')}</td>"
+            f"<td>{html.escape(second_col[1](r))}</td>"
+            f'<td class="num">{int(r.get("days_listed") or 0):,}</td>'
+            f'<td class="num">{int(r.get("repost_count") or 0)}</td>'
+            f'<td class="num"><span class="bar" style="width:{min(score, 100)}px;'
+            f'background:{score_color(score)}"></span>'
+            f'<span class="score-num">{score}</span></td>'
+            f"<td>{apply_link(r.get('url'))}</td>"
+            "</tr>")
+    table = ("\n".join(trs) if trs
+             else '<tr><td colspan="6" class="none">No postings with ghost '
+                  "signals right now.</td></tr>")
+
+    real_trs = []
+    for r in stats["real"]:
+        real_trs.append(
+            "<tr>"
+            f"<td>{html.escape(r.get('title') or '')}</td>"
+            f"<td>{html.escape(second_col[1](r))}</td>"
+            f"<td>{html.escape(r.get('location_clean') or r.get('location') or '')}</td>"
+            f'<td class="num">{int(r.get("days_listed") or 0):,}</td>'
+            f"<td>{apply_link(r.get('url'))}</td>"
+            "</tr>")
+    real_table = (
+        '<div class="table-wrap"><table>\n'
+        f"<thead><tr><th>Job title</th><th>{html.escape(second_col[0])}</th>"
+        "<th>Location</th>"
+        '<th class="num">Days listed</th><th>Apply</th></tr></thead>\n'
+        "<tbody>\n" + "\n".join(real_trs) + "\n</tbody>\n</table></div>"
+        if real_trs else
+        '<p class="none">No verified-fresh openings right now.</p>')
+
+    kpis = [
+        ("Postings tracked", f"{total:,}", TEAL),
+        ("Suspected ghost jobs", f"{ghosts:,}", RUST),
+        ("Average days listed", f"{stats['avg_days']:,.0f}", NAVY),
+        ("Average ghost score", f"{stats['avg_score']:,.0f}", AMBER),
+    ]
+    kpi_html = "\n".join(
+        f'''<div class="kpi"><div class="kpi-value" style="color:{color}">{html.escape(val)}</div>
+        <div class="kpi-label">{html.escape(label)}</div></div>'''
+        for label, val, color in kpis)
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{html.escape(doc_title)}</title>
+<meta name="description" content="{html.escape(meta_desc)}">
+<style>{TOPIC_CSS}</style>
+</head>
+<body>
+<header><div class="wrap">
+  <p class="crumb"><a href="{crumb_href}">&larr; {html.escape(crumb_label)}</a></p>
+  <h1>{h1}<span class="q">?</span></h1>
+  <p>{subtitle} Last updated: {today}.</p>
+</div></header>
+<div class="wrap">
+  <div class="kpis">
+    {kpi_html}
+  </div>
+  <p class="levels">{html.escape(level_line_for(rows))}</p>
+  <section class="card">
+    <h2>What the data says</h2>
+    <p>{html.escape(commentary)}</p>
+    <p class="disclaimer">Heuristics based on public posting data, not an accusation
+    against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+  <section class="card">
+    <h2>Real openings right now</h2>
+    <p class="real-note">Postings with a ghost score under 30 &mdash; no 90-day
+    stale listings, no reposts. Freshest first.</p>
+    {real_table}
+  </section>
+  <section class="card">
+    <h2>Top suspects</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Job title</th><th>{html.escape(second_col[0])}</th>
+      <th class="num">Days listed</th>
+      <th class="num">Reposts</th><th class="num">Ghost score</th><th>Apply</th></tr></thead>
+      <tbody>
+        {table}
+      </tbody>
+    </table></div>
+  </section>
+  <section class="card">
+    <h2>How the ghost score works</h2>
+    <p>{method_note}</p>
+  </section>
+  <footer>
+    <a href="../../">Ghost Job Tracker</a> &middot;
+    <a href="https://github.com/kylewinpast/job-market-scraper">GitHub</a>
+  </footer>
+</div>
+</body>
+</html>
+"""
+
+
+def group_rows(rows, key_fn, min_n=5):
+    """Group rows by key_fn, keeping only groups with >= min_n postings."""
+    groups = {}
+    for r in rows:
+        k = key_fn(r)
+        groups.setdefault(k, []).append(r)
+    return {k: v for k, v in groups.items() if len(v) >= min_n}
+
+
+def build_role_pages(role_groups, role_slugs, today):
+    """Write docs/roles/{slug}/index.html for each qualifying role bucket."""
+    method = (f"Every day we snapshot the job boards of US tech companies and "
+              f"record which postings are still listed. A posting earns ghost "
+              f"points for staying up 30/60/90+ days (+20/+35/+50) and for "
+              f"being reposted under a new listing ID (+25 for 2\u00d7, +40 "
+              f"for 3\u00d7+), capped at 100. Read the "
+              f'<a href="../../#how-it-works" style="color:{TEAL};font-weight:600;">'
+              f"full methodology</a>.")
+    pages = []
+    for role in sorted(role_groups):
+        rows = role_groups[role]
+        stats = topic_stats(rows)
+        label = role_label(role)
+        total, ghosts = stats["total"], stats["ghosts"]
+        pct = round(100 * ghosts / total) if total else 0
+        doc_title = f"Ghost Jobs for {label} Roles \u2014 Ghost Job Tracker"
+        meta = (f"We tracked {total:,} {label.lower()} job postings: {ghosts:,} "
+                f"({pct}%) look like ghost jobs "
+                f"(listed {stats['avg_days']:,.0f} days on average). "
+                f"See the full watchlist.")
+        h1 = f"Ghost jobs in {html.escape(label)}"
+        subtitle = (f"{ghosts:,} of {total:,} tracked {label.lower()} postings "
+                    f"({pct}%) show ghost signals.")
+        commentary = topic_commentary(f"{label} job postings", total, ghosts,
+                                      stats["avg_days"], stats["top"])
+        slug = role_slugs[role]
+        outdir = os.path.join(ROLES_DIR, slug)
+        os.makedirs(outdir, exist_ok=True)
+        page = build_topic_page(
+            doc_title, meta, h1, subtitle, stats, rows, today, "../../",
+            "Ghost Job Tracker", commentary,
+            ("Company", lambda r: r.get("company") or ""), method)
+        with open(os.path.join(outdir, "index.html"), "w",
+                  encoding="utf-8") as f:
+            f.write(page)
+        pages.append({"role": role, "label": label, "slug": slug,
+                      "total": total, "ghosts": ghosts})
+    print(f"role pages: {len(pages)} -> {ROLES_DIR}/")
+    return pages
+
+
+def build_city_pages(city_groups, city_slugs, today):
+    """Write docs/cities/{slug}/index.html for each qualifying metro."""
+    method = (f"Every day we snapshot the job boards of US tech companies and "
+              f"record which postings are still listed. A posting earns ghost "
+              f"points for staying up 30/60/90+ days (+20/+35/+50) and for "
+              f"being reposted under a new listing ID (+25 for 2\u00d7, +40 "
+              f"for 3\u00d7+), capped at 100. Read the "
+              f'<a href="../../#how-it-works" style="color:{TEAL};font-weight:600;">'
+              f"full methodology</a>.")
+    pages = []
+    for city in sorted(city_groups):
+        rows = city_groups[city]
+        stats = topic_stats(rows)
+        total, ghosts = stats["total"], stats["ghosts"]
+        pct = round(100 * ghosts / total) if total else 0
+        doc_title = f"Ghost Jobs in {city} \u2014 Ghost Job Tracker"
+        meta = (f"We tracked {total:,} job postings in {city}: {ghosts:,} "
+                f"({pct}%) look like ghost jobs "
+                f"(listed {stats['avg_days']:,.0f} days on average). "
+                f"See the full watchlist.")
+        h1 = f"Ghost jobs in {html.escape(city)}"
+        subtitle = (f"{ghosts:,} of {total:,} tracked postings in "
+                    f"{html.escape(city)} ({pct}%) show ghost signals.")
+        commentary = topic_commentary(f"job postings in {city}", total, ghosts,
+                                      stats["avg_days"], stats["top"])
+        slug = city_slugs[city]
+        outdir = os.path.join(CITIES_DIR, slug)
+        os.makedirs(outdir, exist_ok=True)
+        page = build_topic_page(
+            doc_title, meta, h1, subtitle, stats, rows, today, "../../",
+            "Ghost Job Tracker", commentary,
+            ("Company", lambda r: r.get("company") or ""), method)
+        with open(os.path.join(outdir, "index.html"), "w",
+                  encoding="utf-8") as f:
+            f.write(page)
+        pages.append({"city": city, "slug": slug,
+                      "total": total, "ghosts": ghosts})
+    print(f"city pages: {len(pages)} -> {CITIES_DIR}/")
+    return pages
+
+
+def build_report(rows, today):
+    """Write docs/report/index.html — the shareable long-form Ghost Jobs Report."""
+    total = len(rows)
+    ghosts = sum(1 for r in rows if int(r.get("ghost_score") or 0) >= 50)
+    rate = round(100 * ghosts / total) if total else 0
+    companies = {r.get("company") or "Unknown" for r in rows}
+
+    # Ghost rate by experience level (bars).
+    lvl_stats = []
+    for lvl in SENIORITY_LEVELS:
+        sub = [r for r in rows if (r.get("seniority") or "mid") == lvl]
+        g = sum(1 for r in sub if int(r.get("ghost_score") or 0) >= 50)
+        lvl_stats.append((seniority_label(lvl), len(sub), g,
+                          100.0 * g / len(sub) if sub else 0.0))
+    max_rate = max((s[3] for s in lvl_stats), default=0) or 1
+    lvl_rows = "\n".join(
+        f'<div class="lvl"><div class="lvl-name">{html.escape(l)}</div>'
+        f'<div class="lvl-track"><div class="lvl-fill" style="width:'
+        f'{100.0 * rt / max_rate:.1f}%;background:{score_color(rt)}"></div></div>'
+        f'<div class="lvl-num">{g:,} of {n:,} &middot; {rt:.0f}% ghosts</div></div>'
+        for l, n, g, rt in lvl_stats)
+
+    # Ghost rate by role (all buckets with >= 1 posting), rate desc.
+    role_rows = []
+    for role in sorted({r.get("role") or "other" for r in rows}):
+        sub = [r for r in rows if (r.get("role") or "other") == role]
+        g = sum(1 for r in sub if int(r.get("ghost_score") or 0) >= 50)
+        role_rows.append((role_label(role),
+                          f"roles/{slugify(role)}/" if len(sub) >= 5 else "",
+                          len(sub), g, 100.0 * g / len(sub) if sub else 0.0))
+    role_rows.sort(key=lambda x: -x[4])
+    role_trs = "\n".join(
+        "<tr><td>" + (f'<a href="{href}">{html.escape(l)}</a>' if href
+                      else html.escape(l)) + "</td>"
+        f'<td class="num">{n:,}</td><td class="num">{g:,}</td>'
+        f'<td class="num"><b>{rt:.0f}%</b></td></tr>'
+        for l, href, n, g, rt in role_rows)
+
+    # Ghost rate by city (>= 5 postings), rate desc.
+    def city_of(r):
+        return r.get("location_clean") or r.get("location") or "Unknown"
+    city_rows = []
+    for city in sorted({city_of(r) for r in rows}):
+        sub = [r for r in rows if city_of(r) == city]
+        if len(sub) < 5:
+            continue
+        g = sum(1 for r in sub if int(r.get("ghost_score") or 0) >= 50)
+        city_rows.append((city, len(sub), g,
+                          100.0 * g / len(sub) if sub else 0.0))
+    city_rows.sort(key=lambda x: -x[3])
+    city_slugs = company_slugs([c for c, _, _, _ in city_rows])
+    city_trs = "\n".join(
+        f'<tr><td><a href="../cities/{city_slugs[c]}/">{html.escape(c)}</a></td>'
+        f'<td class="num">{n:,}</td><td class="num">{g:,}</td>'
+        f'<td class="num"><b>{rt:.0f}%</b></td></tr>'
+        for c, n, g, rt in city_rows)
+
+    # Top 10 ghostiest companies by suspected-ghost count.
+    by_company = {}
+    for r in rows:
+        c = r.get("company") or "Unknown"
+        by_company.setdefault(c, []).append(r)
+    co_rows = []
+    for c, sub in by_company.items():
+        g = sum(1 for r in sub if int(r.get("ghost_score") or 0) >= 50)
+        co_rows.append((c, len(sub), g,
+                        100.0 * g / len(sub) if sub else 0.0))
+    co_rows.sort(key=lambda x: (-x[2], -x[1]))
+    co_slugs = company_slugs([c for c, _, _, _ in co_rows])
+    co_trs = "\n".join(
+        f'<tr><td><a href="../companies/{co_slugs[c]}/">{html.escape(c)}</a></td>'
+        f'<td class="num">{n:,}</td><td class="num">{g:,}</td>'
+        f'<td class="num"><b>{rt:.0f}%</b></td></tr>'
+        for c, n, g, rt in co_rows[:10])
+
+    # Key findings for the hero cards.
+    ghostiest_role = role_rows[0] if role_rows else ("—", "", 0, 0, 0)
+    ghostiest_city = city_rows[0] if city_rows else ("—", 0, 0, 0)
+    entry = next((s for s in lvl_stats if s[0] == "Entry-level"),
+                 ("Entry-level", 0, 0, 0))
+    findings = [
+        (f"{rate}%", f"of {total:,} tracked postings look like ghost jobs", RUST),
+        (f"{ghostiest_role[4]:.0f}%",
+         f"ghost rate for {ghostiest_role[0]} roles \u2014 the highest of any role",
+         AMBER),
+        (f"{ghostiest_city[3]:.0f}%",
+         f"ghost rate in {ghostiest_city[0]} \u2014 the highest of any metro",
+         NAVY),
+        (f"{entry[3]:.0f}%",
+         "ghost rate for entry-level postings \u2014 the lowest of any level",
+         TEAL),
+    ]
+    finding_html = "\n".join(
+        f'''<div class="kpi"><div class="kpi-value" style="color:{color}">{html.escape(val)}</div>
+        <div class="kpi-label">{html.escape(label)}</div></div>'''
+        for val, label, color in findings)
+
+    doc_title = (f"Ghost Jobs Report 2026: {rate}% of Tech Job Postings Are "
+                 f"Ghosts \u2014 Ghost Job Tracker")
+    meta_desc = (f"We tracked {total:,} job postings at {len(companies)} US tech "
+                 f"companies. {rate}% show ghost signals: stale listings and "
+                 f"reposts. Full breakdown by role, city, and experience level.")
+    og_url = f"{SITE_URL}/report/"
+
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{html.escape(doc_title)}</title>
+<meta name="description" content="{html.escape(meta_desc)}">
+<meta property="og:title" content="{html.escape(doc_title)}">
+<meta property="og:description" content="{html.escape(meta_desc)}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{og_url}">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  body {{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+         background:#F2F4F7; color:#1F2A37; line-height:1.6; }}
+  .wrap {{ max-width:860px; margin:0 auto; padding:0 18px 48px; }}
+  header.hero {{ background:{NAVY}; color:#fff; padding:48px 18px 36px; text-align:center; }}
+  header.hero h1 {{ margin:0 0 10px; font-size:2.2rem; line-height:1.2; }}
+  header.hero h1 .big {{ color:{AMBER}; font-size:3rem; display:block; }}
+  header.hero p {{ margin:0 auto 6px; color:#D7E3EC; max-width:640px; }}
+  header.hero .dateline {{ color:#9FB3C3; font-size:.85rem; margin-top:10px; }}
+  header.hero a.home {{ color:{AMBER}; font-size:.9rem; }}
+  .kpis {{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:24px 0; }}
+  .kpi {{ background:#fff; border-radius:10px; padding:18px; text-align:center;
+         box-shadow:0 2px 8px rgba(20,61,94,.12); }}
+  .kpi-value {{ font-size:2.2rem; font-weight:800; }}
+  .kpi-label {{ color:#5A6C7D; font-size:.88rem; margin-top:6px; }}
+  section.card {{ background:#fff; border-radius:10px; padding:22px;
+                 box-shadow:0 2px 8px rgba(20,61,94,.12); margin-bottom:24px; }}
+  section.card h2 {{ margin:0 0 6px; color:{NAVY}; font-size:1.35rem; }}
+  section.card p.sub {{ margin:0 0 12px; color:#5A6C7D; font-size:.92rem; }}
+  .lvl {{ display:grid; grid-template-columns:130px 1fr 170px; gap:10px;
+         align-items:center; margin:10px 0; font-size:.92rem; }}
+  .lvl-name {{ font-weight:700; color:{NAVY}; }}
+  .lvl-track {{ background:#E6EBF0; border-radius:6px; height:12px; }}
+  .lvl-fill {{ height:12px; border-radius:6px; min-width:4px; }}
+  .lvl-num {{ text-align:right; color:#5A6C7D; font-variant-numeric:tabular-nums; white-space:nowrap; }}
+  .table-wrap {{ overflow-x:auto; }}
+  table {{ width:100%; border-collapse:collapse; font-size:.9rem; min-width:560px; }}
+  th {{ text-align:left; padding:10px 8px; color:{NAVY}; border-bottom:2px solid {NAVY}; white-space:nowrap; }}
+  td {{ padding:9px 8px; border-bottom:1px solid #E6EBF0; }}
+  tr:hover td {{ background:#F7FAFB; }}
+  td.num, th.num {{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }}
+  td a {{ color:{TEAL}; font-weight:600; text-decoration:none; }}
+  td a:hover {{ text-decoration:underline; }}
+  .method {{ width:100%; border-collapse:collapse; font-size:.9rem; min-width:0; }}
+  .method td, .method th {{ padding:8px; }}
+  .disclaimer {{ margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }}
+  .cta {{ background:{NAVY}; border-radius:10px; padding:24px; color:#fff; text-align:center; }}
+  .cta h2 {{ margin:0 0 6px; font-size:1.4rem; }}
+  .cta p {{ margin:0 0 14px; color:#D7E3EC; }}
+  .cta form {{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }}
+  .cta input[type=email] {{ flex:1; min-width:220px; max-width:340px; padding:11px 14px;
+      font-size:.95rem; border:none; border-radius:8px; }}
+  .cta button {{ padding:11px 22px; font-size:.95rem; font-weight:700; color:{NAVY};
+      background:{AMBER}; border:none; border-radius:8px; cursor:pointer; }}
+  .cta button:hover {{ filter:brightness(1.08); }}
+  .cta .fineprint {{ margin:10px 0 0; color:#A9C0D1; font-size:.8rem; }}
+  footer {{ color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 18px 32px; }}
+  footer a {{ color:{TEAL}; }}
+  @media (max-width:640px) {{ .kpis {{ grid-template-columns:1fr; }}
+    header.hero h1 {{ font-size:1.6rem; }} header.hero h1 .big {{ font-size:2.2rem; }} }}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap" style="padding-bottom:0">
+    <p><a class="home" href="../">&larr; Ghost Job Tracker</a></p>
+    <h1><span class="big">{rate}%</span>of tech job postings are ghosts</h1>
+    <p>We tracked {total:,} job postings across {len(companies)} US tech companies,
+    day after day. {ghosts:,} of them show ghost signals &mdash; listings that stay
+    up for months or get quietly reposted. Here is the full breakdown.</p>
+    <p class="dateline">Ghost Jobs Report &middot; data as of {today} &middot;
+    updated daily</p>
+  </div>
+</header>
+<div class="wrap">
+  <div class="kpis">
+    {finding_html}
+  </div>
+
+  <section class="card">
+    <h2>Ghost rate by experience level</h2>
+    <p class="sub">Mid-level roles are the ghost-job capital of the market.
+    Entry-level postings are the least likely to be ghosts.</p>
+    <div class="lvls">
+      {lvl_rows}
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Ghost rate by role</h2>
+    <p class="sub">Click a role for its full ghost-job breakdown.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Role</th><th class="num">Postings</th>
+      <th class="num">Suspected ghosts</th><th class="num">Ghost rate</th></tr></thead>
+      <tbody>
+        {role_trs}
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>Ghost rate by city</h2>
+    <p class="sub">Metros with at least 5 tracked postings. Click for the full breakdown.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Metro</th><th class="num">Postings</th>
+      <th class="num">Suspected ghosts</th><th class="num">Ghost rate</th></tr></thead>
+      <tbody>
+        {city_trs}
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>The 10 ghostiest companies</h2>
+    <p class="sub">Ranked by number of suspected ghost postings.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Company</th><th class="num">Postings</th>
+      <th class="num">Suspected ghosts</th><th class="num">Ghost rate</th></tr></thead>
+      <tbody>
+        {co_trs}
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2>How we score ghost jobs</h2>
+    <p class="sub">Every day we snapshot the job boards and record which postings
+    are still listed.</p>
+    <table class="method">
+      <thead><tr><th>Signal</th><th class="num">Points</th></tr></thead>
+      <tbody>
+        <tr><td>Listed 30+ days</td><td class="num">+20</td></tr>
+        <tr><td>Listed 60+ days</td><td class="num">+35</td></tr>
+        <tr><td>Listed 90+ days</td><td class="num">+50</td></tr>
+        <tr><td>Reposted 2&times; (same role, new listing)</td><td class="num">+25</td></tr>
+        <tr><td>Reposted 3&times; or more</td><td class="num">+40</td></tr>
+        <tr><td><strong>Maximum score</strong></td><td class="num"><strong>100</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="disclaimer">Heuristics based on public posting data, not an accusation
+    against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+
+  <div class="cta">
+    <h2>Get the real jobs, skip the ghosts</h2>
+    <p>A free daily digest of genuinely-new postings. No ghost jobs, no spam.</p>
+    <form action="{SIGNUP_FORM_ACTION}" method="post">
+      <input type="email" name="email" placeholder="you@example.com" required
+             aria-label="Email address">
+      <button type="submit">Notify me</button>
+    </form>
+    <p class="fineprint">Free forever. Unsubscribe anytime.</p>
+  </div>
+
+  <footer>
+    Data: daily snapshots of {len(companies)} US tech company boards
+    (Greenhouse / Lever / Ashby).<br>
+    <a href="../">Ghost Job Tracker</a> &middot;
+    <a href="https://github.com/kylewinpast/job-market-scraper">GitHub</a>
+  </footer>
+</div>
+</body>
+</html>
+"""
+    os.makedirs(REPORT_DIR, exist_ok=True)
+    path = os.path.join(REPORT_DIR, "index.html")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(page)
+    print(f"report -> {path} (ghost rate {rate}%)")
+    return {"rate": rate, "total": total, "ghosts": ghosts}
+
+
+def build_sitemap(pages, role_pages, city_pages):
+    """Write docs/sitemap.xml covering main, digest, company, role, city,
+    and report pages."""
     today = date.today().isoformat()
     import glob
-    urls = ["", "digest/"]
+    urls = ["", "digest/", "report/"]
     for src in sorted(glob.glob(os.path.join(
             os.path.dirname(COMPANIES_DIR), "digest", "[0-9]*.html"))):
         day = os.path.basename(src)[:-len(".html")]
         urls.append(f"digest/{day}.html")
     for p in pages:
         urls.append(f"companies/{p['slug']}/")
+    for p in role_pages:
+        urls.append(f"roles/{p['slug']}/")
+    for p in city_pages:
+        urls.append(f"cities/{p['slug']}/")
     items = "\n".join(
         f"  <url><loc>{SITE_URL}/{u}</loc><lastmod>{today}</lastmod></url>"
         for u in urls)
@@ -388,7 +1009,7 @@ def build_robots():
     print(f"robots.txt -> {path}")
 
 
-def build(rows):
+def build(rows, role_groups, role_slugs, city_groups, city_slugs):
     total = len(rows)
     ghosts = [r for r in rows if int(r.get("ghost_score") or 0) >= 50]
     companies = {r["company"] for r in rows if r.get("company")}
@@ -437,6 +1058,25 @@ def build(rows):
         f'<div class="cstats">{g["total"]:,} postings &middot; '
         f'{g["ghosts"]:,} suspected ghosts</div></div>'
         for g in grid_rows)
+
+    # Compact role / city browse grids (quieter than the company grid).
+    def tag_grid(groups, slugs, label_fn, url_prefix):
+        tags = []
+        for key in sorted(groups,
+                          key=lambda k: (-sum(1 for r in groups[k]
+                                             if int(r.get("ghost_score") or 0) >= 50),
+                                         -len(groups[k]))):
+            n = len(groups[key])
+            g = sum(1 for r in groups[key]
+                    if int(r.get("ghost_score") or 0) >= 50)
+            tags.append(
+                f'<a class="tag" href="{url_prefix}{slugs[key]}/">'
+                f'<b>{html.escape(label_fn(key))}</b>'
+                f'<span>{n:,} postings &middot; {g:,} ghosts</span></a>')
+        return "\n".join(tags)
+
+    role_tags = tag_grid(role_groups, role_slugs, role_label, "roles/")
+    city_tags = tag_grid(city_groups, city_slugs, lambda c: c, "cities/")
 
     today = date.today().isoformat()
 
@@ -600,6 +1240,20 @@ def build(rows):
   .cocard a {{ color:var(--navy); font-weight:700; text-decoration:none; }}
   .cocard a:hover {{ color:var(--teal); text-decoration:underline; }}
   .cocard .cstats {{ color:var(--muted); font-size:.82rem; margin-top:2px; }}
+  section.card.quiet h2 {{ font-size:1.1rem; }}
+  .taglist {{ display:flex; flex-wrap:wrap; gap:8px; }}
+  .tag {{ display:inline-flex; align-items:baseline; gap:8px; padding:7px 12px;
+      background:var(--bg); border-radius:20px; text-decoration:none; }}
+  .tag b {{ color:var(--navy); font-size:.88rem; }}
+  .tag span {{ color:var(--muted); font-size:.78rem; }}
+  .tag:hover {{ background:#E2E9F0; }}
+  .tag:hover b {{ color:var(--teal); }}
+  .report-promo {{ background:linear-gradient(135deg, var(--navy), #1E5A7A); }}
+  .report-promo h2 {{ color:#fff; }}
+  .report-promo p.sub {{ color:#D7E3EC; }}
+  .report-promo .btn {{ display:inline-block; padding:10px 22px; background:var(--amber);
+      color:var(--navy); font-weight:700; border-radius:8px; text-decoration:none; }}
+  .report-promo .btn:hover {{ filter:brightness(1.08); }}
   footer {{ color:var(--muted); font-size:.85rem; text-align:center; padding:8px 16px 32px; }}
   footer a {{ color:var(--teal); }}
   @media (max-width:640px) {{
@@ -663,6 +1317,30 @@ def build(rows):
     <div class="cogrid">
       {grid_html}
     </div>
+  </section>
+
+  <section class="card quiet">
+    <h2>Browse by role</h2>
+    <p class="sub">Ghost-job stats per role family &mdash; most suspected ghosts first.</p>
+    <div class="taglist">
+      {role_tags}
+    </div>
+  </section>
+
+  <section class="card quiet">
+    <h2>Browse by city</h2>
+    <p class="sub">Ghost-job stats per metro &mdash; most suspected ghosts first.</p>
+    <div class="taglist">
+      {city_tags}
+    </div>
+  </section>
+
+  <section class="card report-promo">
+    <h2>The Ghost Jobs Report</h2>
+    <p class="sub">{len(ghosts):,} of {total:,} tracked postings
+    ({round(100 * len(ghosts) / total) if total else 0}%) look like ghosts.
+    The full shareable breakdown &mdash; by role, city, and experience level.</p>
+    <p><a class="btn" href="report/">Read the report &rarr;</a></p>
   </section>
 
   <section class="card">
@@ -926,16 +1604,32 @@ def build_digest_archive():
     return len(entries)
 
 
+def city_of(r):
+    """Canonical metro for a posting row."""
+    return (r.get("location_clean") or r.get("location") or "Unknown").strip()
+
+
 def main():
     rows = load_rows()
-    page = build(rows)
+    for r in rows:
+        r["role"] = classify_role(r.get("title"))
+    role_groups = group_rows(rows, lambda r: r.get("role") or "other", min_n=5)
+    city_groups = group_rows(rows, city_of, min_n=5)
+    role_slugs = company_slugs(role_groups)
+    city_slugs = company_slugs(city_groups)
+    page = build(rows, role_groups, role_slugs, city_groups, city_slugs)
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write(page)
     print(f"wrote {OUT_PATH} ({len(page):,} bytes, {len(rows)} postings)")
     build_digest_archive()
-    pages = build_company_pages(rows)
-    build_sitemap(pages)
+    company_pages = build_company_pages(rows)
+    role_pages = build_role_pages(role_groups, role_slugs,
+                                  date.today().isoformat())
+    city_pages = build_city_pages(city_groups, city_slugs,
+                                  date.today().isoformat())
+    build_report(rows, date.today().isoformat())
+    build_sitemap(company_pages, role_pages, city_pages)
     build_robots()
 
 

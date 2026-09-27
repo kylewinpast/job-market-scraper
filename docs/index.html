@@ -85,6 +85,20 @@
   .cocard a { color:var(--navy); font-weight:700; text-decoration:none; }
   .cocard a:hover { color:var(--teal); text-decoration:underline; }
   .cocard .cstats { color:var(--muted); font-size:.82rem; margin-top:2px; }
+  section.card.quiet h2 { font-size:1.1rem; }
+  .taglist { display:flex; flex-wrap:wrap; gap:8px; }
+  .tag { display:inline-flex; align-items:baseline; gap:8px; padding:7px 12px;
+      background:var(--bg); border-radius:20px; text-decoration:none; }
+  .tag b { color:var(--navy); font-size:.88rem; }
+  .tag span { color:var(--muted); font-size:.78rem; }
+  .tag:hover { background:#E2E9F0; }
+  .tag:hover b { color:var(--teal); }
+  .report-promo { background:linear-gradient(135deg, var(--navy), #1E5A7A); }
+  .report-promo h2 { color:#fff; }
+  .report-promo p.sub { color:#D7E3EC; }
+  .report-promo .btn { display:inline-block; padding:10px 22px; background:var(--amber);
+      color:var(--navy); font-weight:700; border-radius:8px; text-decoration:none; }
+  .report-promo .btn:hover { filter:brightness(1.08); }
   footer { color:var(--muted); font-size:.85rem; text-align:center; padding:8px 16px 32px; }
   footer a { color:var(--teal); }
   @media (max-width:640px) {
@@ -462,6 +476,45 @@
 <div class="cocard"><a href="companies/linear/">Linear</a><div class="cstats">1 postings &middot; 0 suspected ghosts</div></div>
 <div class="cocard"><a href="companies/drata/">Drata</a><div class="cstats">1 postings &middot; 0 suspected ghosts</div></div>
     </div>
+  </section>
+
+  <section class="card quiet">
+    <h2>Browse by role</h2>
+    <p class="sub">Ghost-job stats per role family &mdash; most suspected ghosts first.</p>
+    <div class="taglist">
+      <a class="tag" href="roles/data/"><b>Data</b><span>304 postings &middot; 146 ghosts</span></a>
+<a class="tag" href="roles/engineering/"><b>Engineering</b><span>163 postings &middot; 92 ghosts</span></a>
+<a class="tag" href="roles/other/"><b>Other</b><span>75 postings &middot; 30 ghosts</span></a>
+<a class="tag" href="roles/finance/"><b>Finance</b><span>130 postings &middot; 22 ghosts</span></a>
+<a class="tag" href="roles/product/"><b>Product</b><span>23 postings &middot; 18 ghosts</span></a>
+<a class="tag" href="roles/operations/"><b>Operations</b><span>39 postings &middot; 13 ghosts</span></a>
+<a class="tag" href="roles/sales/"><b>Sales</b><span>12 postings &middot; 1 ghosts</span></a>
+    </div>
+  </section>
+
+  <section class="card quiet">
+    <h2>Browse by city</h2>
+    <p class="sub">Ghost-job stats per metro &mdash; most suspected ghosts first.</p>
+    <div class="taglist">
+      <a class="tag" href="cities/san-francisco-ca/"><b>San Francisco, CA</b><span>302 postings &middot; 150 ghosts</span></a>
+<a class="tag" href="cities/remote-us/"><b>Remote - US</b><span>257 postings &middot; 92 ghosts</span></a>
+<a class="tag" href="cities/new-york-ny/"><b>New York, NY</b><span>98 postings &middot; 36 ghosts</span></a>
+<a class="tag" href="cities/seattle-wa/"><b>Seattle, WA</b><span>26 postings &middot; 15 ghosts</span></a>
+<a class="tag" href="cities/bellevue-wa/"><b>Bellevue, WA</b><span>15 postings &middot; 9 ghosts</span></a>
+<a class="tag" href="cities/denver-co/"><b>Denver, CO</b><span>13 postings &middot; 4 ghosts</span></a>
+<a class="tag" href="cities/menlo-park-ca/"><b>Menlo Park, CA</b><span>9 postings &middot; 3 ghosts</span></a>
+<a class="tag" href="cities/washington-dc/"><b>Washington, DC</b><span>7 postings &middot; 3 ghosts</span></a>
+<a class="tag" href="cities/chicago-il/"><b>Chicago, IL</b><span>10 postings &middot; 2 ghosts</span></a>
+<a class="tag" href="cities/austin-tx/"><b>Austin, TX</b><span>5 postings &middot; 2 ghosts</span></a>
+    </div>
+  </section>
+
+  <section class="card report-promo">
+    <h2>The Ghost Jobs Report</h2>
+    <p class="sub">324 of 754 tracked postings
+    (43%) look like ghosts.
+    The full shareable breakdown &mdash; by role, city, and experience level.</p>
+    <p><a class="btn" href="report/">Read the report &rarr;</a></p>
   </section>
 
   <section class="card">

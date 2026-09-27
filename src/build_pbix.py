@@ -39,6 +39,7 @@ def load_rows():
 def build_tables(rows):
     jobs_cols = [
         {"name": "url", "data_type": "String"},
+        {"name": "apply", "data_type": "String", "data_category": "WebUrl"},
         {"name": "title", "data_type": "String"},
         {"name": "company", "data_type": "String"},
         {"name": "location", "data_type": "String"},
@@ -54,7 +55,8 @@ def build_tables(rows):
     jobs_rows, skill_rows = [], []
     for r in rows:
         jobs_rows.append({
-            "url": r["url"], "title": r["title"], "company": r["company"],
+            "url": r["url"], "apply": r["url"],
+            "title": r["title"], "company": r["company"],
             "location": r["location"],
             "location_clean": r.get("location_clean") or r["location"],
             "source": r["source"],
@@ -232,7 +234,8 @@ def main():
              visual_config("Jobs", [("Values", "title", "col"),
                                     ("Values", "company", "col"),
                                     ("Values", "location_clean", "col"),
-                                    ("Values", "fit_score", "col")]),
+                                    ("Values", "fit_score", "col"),
+                                    ("Values", "apply", "col")]),
              sort_by="Jobs.fit_score", sort_dir="desc")
     fmt(t1, title={"text": "Postings ranked by fit score", "show": True,
                    "fontSize": 14, "color": NAVY},

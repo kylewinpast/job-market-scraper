@@ -82,6 +82,27 @@ def score_color(score):
     return TEAL
 
 
+# Bar for "real jobs": same threshold as the email digest (src/alerts.py).
+REAL_THRESHOLD = 30
+
+
+def real_job_row(r):
+    """One table row for the real-jobs tabs (ghost_score < 30)."""
+    score = int(r.get("ghost_score") or 0)
+    url = r.get("url") or ""
+    apply = (f'<a class="apply" href="{html.escape(url)}" target="_blank" '
+             f'rel="noopener">Apply &rarr;</a>' if url else "")
+    return (
+        "<tr>"
+        f"<td>{html.escape(r.get('title') or '')}</td>"
+        f"<td>{html.escape(r.get('company') or '')}</td>"
+        f"<td>{html.escape(r.get('location_clean') or r.get('location') or '')}</td>"
+        f'<td class="num">{int(r.get("days_listed") or 0):,}</td>'
+        f'<td class="num"><span class="score-badge">{score}</span></td>'
+        f"<td>{apply}</td>"
+        "</tr>")
+
+
 def company_commentary(company, total, ghosts, avg_days, top):
     """2-3 sentences of plain-English commentary generated from the numbers."""
     pct = round(100 * ghosts / total) if total else 0
@@ -144,6 +165,32 @@ def build_company_page(company, rows, today, slugs):
     table = ("\n".join(trs) if trs
              else '<tr><td colspan="6" class="none">No postings with ghost '
                   "signals right now.</td></tr>")
+
+    # Real openings: ghost_score < 30 (same bar as the email digest),
+    # freshest first, cap 15.
+    real = [r for r in rows if int(r.get("ghost_score") or 0) < 30]
+    real.sort(key=lambda r: (int(r.get("days_listed") or 0),
+                             (r.get("title") or "")))
+    real = real[:15]
+    real_trs = []
+    for r in real:
+        rurl = r.get("url") or ""
+        rapply = (f'<a class="apply" href="{html.escape(rurl)}" target="_blank" '
+                  f'rel="noopener">Apply &rarr;</a>' if rurl else "")
+        real_trs.append(
+            "<tr>"
+            f"<td>{html.escape(r.get('title') or '')}</td>"
+            f"<td>{html.escape(r.get('location_clean') or r.get('location') or '')}</td>"
+            f'<td class="num">{int(r.get("days_listed") or 0):,}</td>'
+            f"<td>{rapply}</td>"
+            "</tr>")
+    real_table = (
+        '<div class="table-wrap"><table>\n'
+        "<thead><tr><th>Job title</th><th>Location</th>"
+        '<th class="num">Days listed</th><th>Apply</th></tr></thead>\n'
+        "<tbody>\n" + "\n".join(real_trs) + "\n</tbody>\n</table></div>"
+        if real_trs else
+        '<p class="none">No verified-fresh openings right now.</p>')
 
     kpis = [
         ("Postings tracked", f"{total:,}", TEAL),
@@ -215,6 +262,8 @@ def build_company_page(company, rows, today, slugs):
   .apply {{ color:{TEAL}; font-weight:600; text-decoration:none; white-space:nowrap; }}
   .apply:hover {{ text-decoration:underline; }}
   .disclaimer {{ margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }}
+  p.none {{ color:#5A6C7D; font-style:italic; }}
+  .real-note {{ color:#5A6C7D; font-size:.9rem; margin:0 0 12px; }}
   footer {{ color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }}
   footer a {{ color:{TEAL}; }}
   @media (max-width:640px) {{ .kpis {{ grid-template-columns:repeat(2,1fr); }} }}
@@ -237,6 +286,12 @@ def build_company_page(company, rows, today, slugs):
     <p>{html.escape(company_commentary(company, total, ghosts, avg_days, top))}</p>
     <p class="disclaimer">Heuristics based on public posting data, not an accusation
     against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+  <section class="card">
+    <h2>Real openings right now</h2>
+    <p class="real-note">Postings with a ghost score under 30 &mdash; no 90-day
+    stale listings, no reposts. Freshest first.</p>
+    {real_table}
   </section>
   <section class="card">
     <h2>Top suspects at {esc_c}</h2>
@@ -399,6 +454,45 @@ def build(rows):
         f'{s["rate"]:.0f}% ghosts</div></div>'
         for s in lvl_stats)
 
+    # Real jobs by experience level: ghost_score < REAL_THRESHOLD,
+    # freshest first, cap 100 rows per tab (totals counted in full).
+    real_tabs = []
+    for lvl in SENIORITY_LEVELS:
+        sub = [r for r in rows
+               if int(r.get("ghost_score") or 0) < REAL_THRESHOLD
+               and (r.get("seniority") or "mid") == lvl]
+        sub.sort(key=lambda r: (int(r.get("days_listed") or 0),
+                                (r.get("title") or "")))
+        real_tabs.append({"lvl": lvl, "label": seniority_label(lvl),
+                          "rows": sub[:100], "total": len(sub)})
+
+    tab_btns = "\n      ".join(
+        f'<button class="tab-btn{" active" if t["lvl"] == "mid" else ""}" '
+        f'data-lvl="{t["lvl"]}" role="tab" '
+        f'aria-selected="{"true" if t["lvl"] == "mid" else "false"}">'
+        f'{html.escape(t["label"])} ({t["total"]:,})</button>'
+        for t in real_tabs)
+
+    def tab_panel(t):
+        if t["rows"]:
+            body = "\n".join(real_job_row(r) for r in t["rows"])
+            note = (f'<p class="tab-note">Showing the freshest 100 of '
+                    f'{t["total"]:,} {html.escape(t["label"].lower())} openings.</p>'
+                    if t["total"] > 100 else "")
+            inner = (f'<div class="table-wrap"><table>\n'
+                     "<thead><tr><th>Job title</th><th>Company</th><th>Location</th>"
+                     '<th class="num">Days listed</th><th class="num">Ghost score</th>'
+                     "<th>Apply</th></tr></thead>\n<tbody>\n" + body +
+                     "\n</tbody>\n</table></div>" + note)
+        else:
+            inner = ('<p class="none">No verified-fresh openings at this level '
+                     "right now.</p>")
+        active = " active" if t["lvl"] == "mid" else ""
+        return (f'<div class="tab-panel{active}" id="tab-{t["lvl"]}" '
+                f'role="tabpanel">\n{inner}\n</div>')
+
+    tab_panels = "\n".join(tab_panel(t) for t in real_tabs)
+
     kpis = [
         ("Postings tracked", f"{total:,}", TEAL),
         ("Suspected ghost jobs", f"{len(ghosts):,}", RUST),
@@ -483,6 +577,17 @@ def build(rows):
              white-space:nowrap; }}
   .controls select {{ padding:9px 12px; font-size:.95rem; border:1px solid #C9D4DD;
       border-radius:8px; background:#fff; }}
+  .tabs {{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }}
+  .tab-btn {{ padding:9px 16px; font-size:.92rem; font-weight:600; color:var(--navy);
+      background:#E6EBF0; border:none; border-radius:20px; cursor:pointer; }}
+  .tab-btn:hover {{ background:#D5DFE8; }}
+  .tab-btn.active {{ background:var(--teal); color:#fff; }}
+  .tab-panel {{ display:none; }}
+  .tab-panel.active {{ display:block; }}
+  .score-badge {{ display:inline-block; min-width:34px; padding:2px 8px; border-radius:12px;
+      background:var(--teal); color:#fff; font-weight:700; font-size:.8rem; text-align:center; }}
+  .tab-note {{ color:var(--muted); font-size:.85rem; margin:8px 0 0; }}
+  p.none {{ color:var(--muted); font-style:italic; }}
   .cogrid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; }}
   .cocard {{ background:var(--bg); border-radius:8px; padding:12px 14px; }}
   .cocard a {{ color:var(--navy); font-weight:700; text-decoration:none; }}
@@ -520,6 +625,16 @@ def build(rows):
   <div class="kpis">
     {kpi_html}
   </div>
+
+  <section class="card">
+    <h2>Real jobs by experience level</h2>
+    <p class="sub">Postings with a ghost score under 30 &mdash; no 90-day stale listings, no reposts.
+    Freshest first.</p>
+    <div class="tabs" role="tablist">
+      {tab_btns}
+    </div>
+    {tab_panels}
+  </section>
 
   <section class="card">
     <h2>Suspected ghosts by company</h2>
@@ -693,6 +808,25 @@ document.getElementById("q").addEventListener("input", function (e) {{
 document.getElementById("level").addEventListener("change", function (e) {{
   levelFilter = e.target.value; render();
 }});
+
+var tabBtns = document.querySelectorAll(".tab-btn");
+function showTab(lvl) {{
+  for (var i = 0; i < tabBtns.length; i++) {{
+    var b = tabBtns[i];
+    var on = b.getAttribute("data-lvl") === lvl;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-selected", on ? "true" : "false");
+    var panel = document.getElementById("tab-" + b.getAttribute("data-lvl"));
+    if (panel) panel.classList.toggle("active", on);
+  }}
+}}
+for (var i = 0; i < tabBtns.length; i++) {{
+  (function (b) {{
+    b.addEventListener("click", function () {{
+      showTab(b.getAttribute("data-lvl"));
+    }});
+  }})(tabBtns[i]);
+}}
 arrows(); render();
 
 if (window.Chart && LABELS.length) {{

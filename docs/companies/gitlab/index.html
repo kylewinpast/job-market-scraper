@@ -40,6 +40,8 @@
   .apply { color:#1B7F79; font-weight:600; text-decoration:none; white-space:nowrap; }
   .apply:hover { text-decoration:underline; }
   .disclaimer { margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }
+  p.none { color:#5A6C7D; font-style:italic; }
+  .real-note { color:#5A6C7D; font-size:.9rem; margin:0 0 12px; }
   footer { color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }
   footer a { color:#1B7F79; }
   @media (max-width:640px) { .kpis { grid-template-columns:repeat(2,1fr); } }
@@ -69,6 +71,21 @@
     <p>We tracked 7 GitLab job postings. 1 of them (14%) show ghost signals — listings that stay up for months or get reposted under new listing IDs. Their postings stay listed for 46 days on average. The most suspicious listing is “Engineering Manager, Data Foundations” (Remote - US), listed 102 days with a ghost score of 50.</p>
     <p class="disclaimer">Heuristics based on public posting data, not an accusation
     against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+  <section class="card">
+    <h2>Real openings right now</h2>
+    <p class="real-note">Postings with a ghost score under 30 &mdash; no 90-day
+    stale listings, no reposts. Freshest first.</p>
+    <div class="table-wrap"><table>
+<thead><tr><th>Job title</th><th>Location</th><th class="num">Days listed</th><th>Apply</th></tr></thead>
+<tbody>
+<tr><td>Intermediate Security Analyst, Vulnerability Operations  (North America)</td><td>Remote - US</td><td class="num">3</td><td><a class="apply" href="https://job-boards.greenhouse.io/gitlab/jobs/8821526002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Staff Backend Engineer, Database Automation (Go)</td><td>Remote - US</td><td class="num">18</td><td><a class="apply" href="https://job-boards.greenhouse.io/gitlab/jobs/8770702002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior FP&amp;A Analyst, Cloud Hosting</td><td>Remote - US</td><td class="num">33</td><td><a class="apply" href="https://job-boards.greenhouse.io/gitlab/jobs/8731564002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Director, Revenue Analytics</td><td>Remote - US</td><td class="num">52</td><td><a class="apply" href="https://job-boards.greenhouse.io/gitlab/jobs/8686820002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Analyst, Sales Strategy </td><td>Remote - US</td><td class="num">53</td><td><a class="apply" href="https://job-boards.greenhouse.io/gitlab/jobs/8679047002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+</tbody>
+</table></div>
   </section>
   <section class="card">
     <h2>Top suspects at GitLab</h2>

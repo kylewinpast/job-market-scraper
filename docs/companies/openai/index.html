@@ -40,6 +40,8 @@
   .apply { color:#1B7F79; font-weight:600; text-decoration:none; white-space:nowrap; }
   .apply:hover { text-decoration:underline; }
   .disclaimer { margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }
+  p.none { color:#5A6C7D; font-style:italic; }
+  .real-note { color:#5A6C7D; font-size:.9rem; margin:0 0 12px; }
   footer { color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }
   footer a { color:#1B7F79; }
   @media (max-width:640px) { .kpis { grid-template-columns:repeat(2,1fr); } }
@@ -69,6 +71,31 @@
     <p>We tracked 87 OpenAI job postings. 46 of them (53%) show ghost signals — listings that stay up for months or get reposted under new listing IDs. Their postings stay listed for 168 days on average, well above a healthy hiring cycle. The most suspicious listing is “Research Engineer / Research Scientist- Personal AGI (Post Training)” (San Francisco, CA), listed 300 days with a ghost score of 90.</p>
     <p class="disclaimer">Heuristics based on public posting data, not an accusation
     against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+  <section class="card">
+    <h2>Real openings right now</h2>
+    <p class="real-note">Postings with a ghost score under 30 &mdash; no 90-day
+    stale listings, no reposts. Freshest first.</p>
+    <div class="table-wrap"><table>
+<thead><tr><th>Job title</th><th>Location</th><th class="num">Days listed</th><th>Apply</th></tr></thead>
+<tbody>
+<tr><td>Machine Learning Engineer, Core Experimentation</td><td>Seattle, WA</td><td class="num">3</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/9d4d2727-27f3-4a63-857c-a96466130645" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Regulatory Operations Analyst, User Safety &amp; Risk Operations</td><td>San Francisco, CA</td><td class="num">5</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/bc059a72-8ff3-4a80-a499-5b82ccca1f05" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Machine Learning Engineer, Monetization AI/ML</td><td>San Francisco, CA</td><td class="num">6</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/80f9f564-d789-47bc-91c3-3babf5a1a33d" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Manager, Financial Reporting </td><td>San Francisco, CA</td><td class="num">6</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/201224fb-6d5f-4e3a-b183-25931d5c776d" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Head of Finance - Data Centers</td><td>San Francisco, CA</td><td class="num">9</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/144b12f3-5821-4727-a266-b5ed9ff46fd2" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Data Scientist, Inference Capacity Optimization</td><td>San Francisco, CA</td><td class="num">12</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/4948533f-1df6-49f7-af9e-a2da0e02ebca" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Data Engineering Manager, Growth &amp; Revenue</td><td>San Francisco, CA</td><td class="num">13</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/acbf80cd-20a7-47fe-aaf9-3e9224d1570c" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Head of Analyst Relations</td><td>San Francisco, CA</td><td class="num">15</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/abc4b2b4-c251-482e-8f71-f02dda1e3b65" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Technical Program Manager, Storage &amp; Data Infrastructure</td><td>San Francisco, CA</td><td class="num">19</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/c0c70d7e-c450-4ca4-842a-dbc5e643c048" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Technical Program Manager, Foundations Data and Operations</td><td>San Francisco, CA</td><td class="num">26</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/c0f0136e-f4e7-43ca-b3d5-4d7aee5eed7f" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Data Center Infrastructure Architect</td><td>San Francisco, CA</td><td class="num">27</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/65bc2ffe-a622-47cd-949c-2ca8b7ec6951" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>People Research Data Scientist, AI Fairness &amp; Bias</td><td>San Francisco, CA</td><td class="num">27</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/cadb7c24-2aea-4b98-a793-65ae9388b5d6" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Marketing Scientist</td><td>San Francisco, CA</td><td class="num">30</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/6c21e5e0-a41c-4936-a278-dd7d2c88f25c" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Trust &amp; Safety Ads Operations Analyst, Data</td><td>San Francisco, CA</td><td class="num">30</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/26e8c199-7dcb-4144-b263-f35220421a6d" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Trust &amp; Safety Ads Operations Analyst, Programs</td><td>San Francisco, CA</td><td class="num">30</td><td><a class="apply" href="https://jobs.ashbyhq.com/openai/c9e9e3a5-fb93-4162-b876-6266016819c0" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+</tbody>
+</table></div>
   </section>
   <section class="card">
     <h2>Top suspects at OpenAI</h2>

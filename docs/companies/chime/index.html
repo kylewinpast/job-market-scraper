@@ -40,6 +40,8 @@
   .apply { color:#1B7F79; font-weight:600; text-decoration:none; white-space:nowrap; }
   .apply:hover { text-decoration:underline; }
   .disclaimer { margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }
+  p.none { color:#5A6C7D; font-style:italic; }
+  .real-note { color:#5A6C7D; font-size:.9rem; margin:0 0 12px; }
   footer { color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }
   footer a { color:#1B7F79; }
   @media (max-width:640px) { .kpis { grid-template-columns:repeat(2,1fr); } }
@@ -69,6 +71,22 @@
     <p>We tracked 11 Chime job postings. 4 of them (36%) show ghost signals — listings that stay up for months or get reposted under new listing IDs. Their postings stay listed for 62 days on average, well above a healthy hiring cycle. The most suspicious listing is “Data Scientist, Growth Product” (San Francisco, CA), listed 109 days with a ghost score of 50.</p>
     <p class="disclaimer">Heuristics based on public posting data, not an accusation
     against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+  <section class="card">
+    <h2>Real openings right now</h2>
+    <p class="real-note">Postings with a ghost score under 30 &mdash; no 90-day
+    stale listings, no reposts. Freshest first.</p>
+    <div class="table-wrap"><table>
+<thead><tr><th>Job title</th><th>Location</th><th class="num">Days listed</th><th>Apply</th></tr></thead>
+<tbody>
+<tr><td>Security Risk Governance Analyst</td><td>San Francisco, CA</td><td class="num">3</td><td><a class="apply" href="https://boards.greenhouse.io/chime/jobs/8806197002?gh_jid=8806197002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Data Analyst, Credit Risk</td><td>San Francisco, CA</td><td class="num">6</td><td><a class="apply" href="https://boards.greenhouse.io/chime/jobs/8770312002?gh_jid=8770312002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Software Engineer, Machine Learning Platform</td><td>San Francisco, CA</td><td class="num">16</td><td><a class="apply" href="https://boards.greenhouse.io/chime/jobs/8765684002?gh_jid=8765684002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Business Analyst, TPRM</td><td>San Francisco, CA</td><td class="num">17</td><td><a class="apply" href="https://boards.greenhouse.io/chime/jobs/8742766002?gh_jid=8742766002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Data Scientist, Organic Growth</td><td>San Francisco, CA</td><td class="num">18</td><td><a class="apply" href="https://boards.greenhouse.io/chime/jobs/8790231002?gh_jid=8790231002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Lead Analyst, Financial Crimes</td><td>Chicago, IL</td><td class="num">23</td><td><a class="apply" href="https://boards.greenhouse.io/chime/jobs/8779819002?gh_jid=8779819002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+</tbody>
+</table></div>
   </section>
   <section class="card">
     <h2>Top suspects at Chime</h2>

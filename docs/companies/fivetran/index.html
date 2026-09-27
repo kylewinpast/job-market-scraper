@@ -40,6 +40,8 @@
   .apply { color:#1B7F79; font-weight:600; text-decoration:none; white-space:nowrap; }
   .apply:hover { text-decoration:underline; }
   .disclaimer { margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }
+  p.none { color:#5A6C7D; font-style:italic; }
+  .real-note { color:#5A6C7D; font-size:.9rem; margin:0 0 12px; }
   footer { color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }
   footer a { color:#1B7F79; }
   @media (max-width:640px) { .kpis { grid-template-columns:repeat(2,1fr); } }
@@ -69,6 +71,24 @@
     <p>We tracked 26 Fivetran job postings. 1 of them (4%) show ghost signals — listings that stay up for months or get reposted under new listing IDs. Their postings turn over relatively quickly (25 days on average). The most suspicious listing is “Global Technology Alliance Manager, Databricks” (Remote - US), listed 39 days with a ghost score of 60.</p>
     <p class="disclaimer">Heuristics based on public posting data, not an accusation
     against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+  <section class="card">
+    <h2>Real openings right now</h2>
+    <p class="real-note">Postings with a ghost score under 30 &mdash; no 90-day
+    stale listings, no reposts. Freshest first.</p>
+    <div class="table-wrap"><table>
+<thead><tr><th>Job title</th><th>Location</th><th class="num">Days listed</th><th>Apply</th></tr></thead>
+<tbody>
+<tr><td>Senior Marketing Analyst</td><td>Remote - US</td><td class="num">2</td><td><a class="apply" href="https://www.fivetran.com/careers/job?gh_jid=8005007003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Analyst, GTM Analytics</td><td>Remote - US</td><td class="num">9</td><td><a class="apply" href="https://www.fivetran.com/careers/job?gh_jid=7994731003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Principal Analyst, GTM Analytics (Costa Rica)</td><td>Remote - US</td><td class="num">9</td><td><a class="apply" href="https://www.fivetran.com/careers/job?gh_jid=7994507003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Analyst, GTM Analytics</td><td>Remote - US</td><td class="num">9</td><td><a class="apply" href="https://www.fivetran.com/careers/job?gh_jid=7994710003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Compensation &amp; Analytics Partner</td><td>Remote - US</td><td class="num">10</td><td><a class="apply" href="https://www.fivetran.com/careers/job?gh_jid=7992087003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>GTM Finance Sr. Analyst</td><td>Remote - US</td><td class="num">13</td><td><a class="apply" href="https://www.fivetran.com/careers/job?gh_jid=7992802003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>GTM Finance Sr. Analyst</td><td>Denver, CO</td><td class="num">13</td><td><a class="apply" href="https://www.fivetran.com/careers/job?gh_jid=7994914003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Strategic Finance Analyst</td><td>Remote - US</td><td class="num">31</td><td><a class="apply" href="https://www.fivetran.com/careers/job?gh_jid=7818336003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+</tbody>
+</table></div>
   </section>
   <section class="card">
     <h2>Top suspects at Fivetran</h2>

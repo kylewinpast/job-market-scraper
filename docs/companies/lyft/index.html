@@ -40,6 +40,8 @@
   .apply { color:#1B7F79; font-weight:600; text-decoration:none; white-space:nowrap; }
   .apply:hover { text-decoration:underline; }
   .disclaimer { margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }
+  p.none { color:#5A6C7D; font-style:italic; }
+  .real-note { color:#5A6C7D; font-size:.9rem; margin:0 0 12px; }
   footer { color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }
   footer a { color:#1B7F79; }
   @media (max-width:640px) { .kpis { grid-template-columns:repeat(2,1fr); } }
@@ -69,6 +71,23 @@
     <p>We tracked 19 Lyft job postings. 8 of them (42%) show ghost signals — listings that stay up for months or get reposted under new listing IDs. Their postings stay listed for 102 days on average, well above a healthy hiring cycle. The most suspicious listing is “Senior Data Scientist, Causal Inference” (San Francisco, CA), listed 109 days with a ghost score of 90.</p>
     <p class="disclaimer">Heuristics based on public posting data, not an accusation
     against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+  <section class="card">
+    <h2>Real openings right now</h2>
+    <p class="real-note">Postings with a ghost score under 30 &mdash; no 90-day
+    stale listings, no reposts. Freshest first.</p>
+    <div class="table-wrap"><table>
+<thead><tr><th>Job title</th><th>Location</th><th class="num">Days listed</th><th>Apply</th></tr></thead>
+<tbody>
+<tr><td>Data Analyst Intern (Summer 2027)</td><td>New York, NY</td><td class="num">16</td><td><a class="apply" href="https://app.careerpuck.com/job-board/lyft/job/8802198002?gh_jid=8802198002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Data Science Intern, Algorithms (Summer 2027 - SF/NYC)</td><td>New York, NY</td><td class="num">16</td><td><a class="apply" href="https://app.careerpuck.com/job-board/lyft/job/8796124002?gh_jid=8796124002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Data Science Intern, Algorithms (Summer 2027 - SF/NYC)</td><td>San Francisco, CA</td><td class="num">16</td><td><a class="apply" href="https://app.careerpuck.com/job-board/lyft/job/8767723002?gh_jid=8767723002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Data Scientist </td><td>Seattle, WA</td><td class="num">25</td><td><a class="apply" href="https://app.careerpuck.com/job-board/lyft/job/8772592002?gh_jid=8772592002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Machine Learning Engineer</td><td>New York, NY</td><td class="num">40</td><td><a class="apply" href="https://app.careerpuck.com/job-board/lyft/job/8689127002?gh_jid=8689127002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Machine Learning Engineer, Fulfillment</td><td>San Francisco, CA</td><td class="num">40</td><td><a class="apply" href="https://app.careerpuck.com/job-board/lyft/job/8688633002?gh_jid=8688633002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Security Assurance Analyst</td><td>New York, NY</td><td class="num">48</td><td><a class="apply" href="https://app.careerpuck.com/job-board/lyft/job/8662388002?gh_jid=8662388002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+</tbody>
+</table></div>
   </section>
   <section class="card">
     <h2>Top suspects at Lyft</h2>

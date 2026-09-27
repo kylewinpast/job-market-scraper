@@ -40,6 +40,8 @@
   .apply { color:#1B7F79; font-weight:600; text-decoration:none; white-space:nowrap; }
   .apply:hover { text-decoration:underline; }
   .disclaimer { margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }
+  p.none { color:#5A6C7D; font-style:italic; }
+  .real-note { color:#5A6C7D; font-size:.9rem; margin:0 0 12px; }
   footer { color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }
   footer a { color:#1B7F79; }
   @media (max-width:640px) { .kpis { grid-template-columns:repeat(2,1fr); } }
@@ -69,6 +71,19 @@
     <p>We tracked 9 Abridge job postings. 6 of them (67%) show ghost signals — listings that stay up for months or get reposted under new listing IDs. Their postings stay listed for 195 days on average, well above a healthy hiring cycle. The most suspicious listing is “Research Scientist (Measurement and Evaluation)” (New York, NY), listed 208 days with a ghost score of 50.</p>
     <p class="disclaimer">Heuristics based on public posting data, not an accusation
     against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+  </section>
+  <section class="card">
+    <h2>Real openings right now</h2>
+    <p class="real-note">Postings with a ghost score under 30 &mdash; no 90-day
+    stale listings, no reposts. Freshest first.</p>
+    <div class="table-wrap"><table>
+<thead><tr><th>Job title</th><th>Location</th><th class="num">Days listed</th><th>Apply</th></tr></thead>
+<tbody>
+<tr><td>Senior Software Engineer, Data</td><td>San Francisco, CA</td><td class="num">26</td><td><a class="apply" href="https://jobs.ashbyhq.com/abridge/480c4c99-2ca8-4dc7-ba6b-29a9ee28ed95" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Associate General Counsel, Product  (Data Products, Machine Learning &amp; Artificial Intelligence)</td><td>San Francisco, CA</td><td class="num">37</td><td><a class="apply" href="https://jobs.ashbyhq.com/abridge/c709786d-5d36-4c8a-b973-e4cd0c2a16cd" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Product Counsel - Data Products, Machine Learning &amp; Artificial Intelligence</td><td>San Francisco, CA</td><td class="num">38</td><td><a class="apply" href="https://jobs.ashbyhq.com/abridge/789a6426-0256-4f42-9382-5267733ddf14" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+</tbody>
+</table></div>
   </section>
   <section class="card">
     <h2>Top suspects at Abridge</h2>

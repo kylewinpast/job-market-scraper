@@ -10,9 +10,9 @@ Built as a portfolio project while job hunting for entry-level data roles.
 ## What it does
 
 ```
-Remotive API + Arbeitnow API + Greenhouse boards (10 US tech companies)
+Greenhouse boards (10 US tech companies: Datadog, MongoDB, Stripe, …)
         │  src/scraper.py — collect postings, filter data roles, store in SQLite
-        │  src/us_boards.py — Greenhouse API: Datadog, MongoDB, Stripe, etc.
+        │  src/us_boards.py — Greenhouse public API, US-only locations
         ▼
    data/jobs.db  (SQLite)
         │  src/analyze.py — extract skill keywords, compute fit score

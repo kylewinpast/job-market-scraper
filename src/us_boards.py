@@ -33,10 +33,14 @@ BOARDS = [
 # Drop EMEA/APAC postings; US companies post mostly US roles anyway.
 NON_US = ["france", "germany", "united kingdom", " ireland", "spain",
           "netherlands", "belgium", "sweden", "poland", "portugal",
-          "italy", "singapore", "india", "australia", "japan", "canada",
-          "toronto", "vancouver", "brazil", "mexico", "london", "paris",
-          "berlin", "dublin", "amsterdam", "madrid", "tokyo", "sydney",
-          "bengaluru", "hyderabad", "emea", "apac", "latam"]
+          "italy", "singapore", "india", "bangalore", "gurugram", "pune",
+          "chennai", "mumbai", "delhi", "noida", "hyderabad", "australia",
+          "japan", "tokyo", "china", "thailand", "bangkok", "philippines",
+          "manila", "romania", "bucharest", "ukraine", "brazil", "sao paulo",
+          "são paulo", "mexico", "canada", "toronto", "vancouver", "israel",
+          "tel aviv", "uae", "dubai", "london", "paris", "berlin", "dublin",
+          "amsterdam", "madrid", "sydney", "luxembourg", "emea", "apac",
+          "latam", " uk", "-uk", "(uk)"]
 
 
 def http_get(url, timeout=30):
@@ -55,8 +59,10 @@ def is_data_role(title):
 
 def is_us_relevant(location):
     loc = (location or "").lower()
-    if "remote" in loc:
-        return True  # remote-US / remote-worldwide from a US company
+    if "usa" in loc or "united states" in loc or "u.s." in loc:
+        return True
+    # Remote is fine unless tied to another country ("Remote - UK").
+    # Unknown / N/A locations stay: they're postings from US companies.
     return not any(n in loc for n in NON_US)
 
 

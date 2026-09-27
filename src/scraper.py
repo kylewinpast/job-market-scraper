@@ -128,7 +128,8 @@ def save(jobs):
 
 def main():
     all_jobs = []
-    for fetcher in (fetch_remotive, fetch_arbeitnow, fetch_us_boards):
+    # US-only: EU/international boards (Remotive, Arbeitnow) disabled per user.
+    for fetcher in (fetch_us_boards,):
         try:
             jobs = fetcher()
             print(f"{fetcher.__name__}: {len(jobs)} fetched")

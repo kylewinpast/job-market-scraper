@@ -5,119 +5,492 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ghost Jobs for Sales Roles — Ghost Job Tracker</title>
 <meta name="description" content="We tracked 12 sales job postings: 1 (8%) look like ghost jobs (listed 58 days on average). See the full watchlist.">
+<meta property="og:title" content="Ghost Jobs for Sales Roles — Ghost Job Tracker">
+<meta property="og:description" content="We tracked 12 sales job postings: 1 (8%) look like ghost jobs (listed 58 days on average). See the full watchlist.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kylewinpast.github.io/job-market-scraper/roles/sales/">
+<meta property="og:site_name" content="Ghost Job Tracker">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ghost Jobs for Sales Roles — Ghost Job Tracker">
+<meta name="twitter:description" content="We tracked 12 sales job postings: 1 (8%) look like ghost jobs (listed 58 days on average). See the full watchlist.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230B0E13'/><path d='M32 12c-10 0-16 8-16 18v18l5-4 5 4 6-4 6 4 5-4 5 4V30c0-10-6-18-16-18z' fill='white'/><circle cx='25' cy='30' r='3' fill='%230B0E13'/><circle cx='39' cy='30' r='3' fill='%230B0E13'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-         background:#F2F4F7; color:#1F2A37; line-height:1.5; }
-  .wrap { max-width:1080px; margin:0 auto; padding:0 16px 48px; }
-  header { background:#143D5E; color:#fff; padding:32px 16px 24px; }
-  header .wrap { padding-bottom:0; }
-  header h1 { margin:0 0 6px; font-size:1.8rem; }
-  header h1 .q { color:#E8A838; }
-  header p { margin:0; color:#D7E3EC; }
-  .crumb { margin:0 0 10px; font-size:.9rem; }
-  .crumb a { color:#E8A838; text-decoration:none; }
-  .crumb a:hover { text-decoration:underline; }
-  .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }
-  .kpi { background:#fff; border-radius:10px; padding:16px; text-align:center;
-         box-shadow:0 2px 8px rgba(20,61,94,.12); }
-  .kpi-value { font-size:1.9rem; font-weight:700; }
-  .kpi-label { color:#5A6C7D; font-size:.85rem; margin-top:4px; }
-  .levels { text-align:center; color:#5A6C7D; font-size:.9rem; margin:-6px 0 20px; }
-  section.card { background:#fff; border-radius:10px; padding:20px;
-                 box-shadow:0 2px 8px rgba(20,61,94,.12); margin-bottom:24px; }
-  section.card h2 { margin:0 0 8px; color:#143D5E; font-size:1.25rem; }
-  section.card p { margin:0 0 8px; }
-  .table-wrap { overflow-x:auto; }
-  table { width:100%; border-collapse:collapse; font-size:.88rem; min-width:760px; }
-  th { text-align:left; padding:10px 8px; color:#143D5E; border-bottom:2px solid #143D5E;
-       white-space:nowrap; }
-  td { padding:9px 8px; border-bottom:1px solid #E6EBF0; vertical-align:middle; }
-  tr:hover td { background:#F7FAFB; }
-  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
-  td.none { color:#5A6C7D; font-style:italic; text-align:center; }
-  .bar { display:inline-block; height:10px; border-radius:5px; vertical-align:middle; margin-right:8px; }
-  .score-num { font-weight:700; font-variant-numeric:tabular-nums; }
-  .apply { color:#1B7F79; font-weight:600; text-decoration:none; white-space:nowrap; }
-  .apply:hover { text-decoration:underline; }
-  .disclaimer { margin-top:12px; font-size:.82rem; color:#5A6C7D; font-style:italic; }
-  p.none { color:#5A6C7D; font-style:italic; }
-  .real-note { color:#5A6C7D; font-size:.9rem; margin:0 0 12px; }
-  footer { color:#5A6C7D; font-size:.85rem; text-align:center; padding:8px 16px 32px; }
-  footer a { color:#1B7F79; }
-  @media (max-width:640px) { .kpis { grid-template-columns:repeat(2,1fr); } }
+:root {
+  --ink:#0E1116; --ink-soft:#1B2129; --muted:#5D6B7A; --faint:#8A94A1;
+  --line:#E7E9EC; --paper:#FFFFFF; --paper-dim:#F6F7F8;
+  --ghost:#D92D20; --ghost-deep:#B42318; --real:#12805C; --accent:#175CD3;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; font-family:var(--sans); background:var(--paper); color:var(--ink);
+  line-height:1.6; font-size:16px; -webkit-font-smoothing:antialiased;
+}
+::selection { background:#FBD9D5; }
+.wrap { max-width:1120px; margin:0 auto; padding:0 24px; }
+.wrap-narrow { max-width:820px; margin:0 auto; padding:0 24px; }
+.num, .tnum { font-variant-numeric:tabular-nums; font-feature-settings:"tnum"; }
+
+/* ---------- sticky nav ---------- */
+.nav {
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,.88); backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
+}
+.nav-inner {
+  max-width:1120px; margin:0 auto; padding:0 24px; height:60px;
+  display:flex; align-items:center; gap:28px;
+}
+.brand { display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); }
+.brand img { width:26px; height:26px; display:block; }
+.brand b { font-weight:800; font-size:1rem; letter-spacing:-0.01em; }
+.brand b span { color:var(--ghost); }
+.nav-links { display:flex; gap:22px; margin-left:8px; }
+.nav-links a {
+  color:var(--muted); text-decoration:none; font-size:.9rem; font-weight:500;
+}
+.nav-links a:hover { color:var(--ink); }
+.nav-cta { margin-left:auto; }
+.btn {
+  display:inline-block; padding:10px 20px; border-radius:8px;
+  background:var(--accent); color:#fff; font-weight:600; font-size:.92rem;
+  text-decoration:none; border:none; cursor:pointer; line-height:1.4;
+}
+.btn:hover { background:#0F4FBB; }
+.btn-ghost-red { background:var(--ghost); }
+.btn-ghost-red:hover { background:var(--ghost-deep); }
+.btn-outline {
+  background:transparent; color:var(--ink); border:1px solid var(--line);
+}
+.btn-outline:hover { border-color:var(--faint); background:var(--paper-dim); }
+
+/* ---------- hero ---------- */
+.hero { background:#0B0E13; color:#fff; overflow:hidden; position:relative; }
+.hero::after {
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(900px 420px at 18% -10%, rgba(217,45,32,.16), transparent 60%);
+}
+.hero-inner {
+  max-width:1120px; margin:0 auto; padding:88px 24px 72px; position:relative; z-index:1;
+}
+.eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:#F2B8B2; margin:0 0 20px;
+}
+.eyebrow .dot { width:7px; height:7px; border-radius:50%; background:var(--ghost); }
+.hero h1 {
+  font-family:var(--serif); font-weight:600; letter-spacing:-0.015em;
+  font-size:clamp(2.6rem, 6vw, 4.4rem); line-height:1.05; margin:0 0 20px; max-width:16em;
+}
+.hero h1 .stat { color:#FF6B5E; }
+.hero .lede {
+  font-size:clamp(1.02rem, 1.6vw, 1.2rem); color:#C6CFD9; max-width:38em; margin:0 0 32px;
+}
+.hero-ctas { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:40px; }
+.hero .btn { padding:13px 26px; font-size:1rem; border-radius:10px; }
+.hero-note { color:#8A94A1; font-size:.85rem; }
+.hero-note a { color:#C6CFD9; }
+.signup-inline { display:flex; gap:0; max-width:480px; }
+.signup-inline input[type=email] {
+  flex:1; min-width:0; padding:13px 16px; font-size:1rem; font-family:var(--sans);
+  border:1px solid rgba(255,255,255,.2); border-right:none; border-radius:10px 0 0 10px;
+  background:rgba(255,255,255,.07); color:#fff;
+}
+.signup-inline input[type=email]::placeholder { color:#8A94A1; }
+.signup-inline input[type=email]:focus { outline:2px solid var(--accent); outline-offset:-2px; }
+.signup-inline button {
+  padding:13px 24px; font-size:1rem; font-weight:700; font-family:var(--sans);
+  background:var(--ghost); color:#fff; border:none; border-radius:0 10px 10px 0; cursor:pointer;
+  white-space:nowrap;
+}
+.signup-inline button:hover { background:var(--ghost-deep); }
+.kpi-strip {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(255,255,255,.14); margin-top:8px; padding-top:28px;
+}
+.kpi-dark { padding:4px 28px 4px 0; }
+.kpi-dark + .kpi-dark { border-left:1px solid rgba(255,255,255,.14); padding-left:28px; }
+.kpi-dark .v {
+  font-size:clamp(1.9rem, 3vw, 2.6rem); font-weight:800; letter-spacing:-0.02em;
+  font-variant-numeric:tabular-nums;
+}
+.kpi-dark .v.red { color:#FF6B5E; }
+.kpi-dark .v.green { color:#5ED3A3; }
+.kpi-dark .l { color:#9AA5B2; font-size:.85rem; margin-top:4px; }
+
+/* ---------- sections ---------- */
+.section { padding:72px 0; }
+.section.alt { background:var(--paper-dim); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.sec-head { max-width:720px; margin-bottom:36px; }
+.sec-eyebrow {
+  font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ghost); margin:0 0 10px;
+}
+.sec-eyebrow.green { color:var(--real); }
+.sec-eyebrow.blue { color:var(--accent); }
+.sec-head h2 {
+  font-family:var(--serif); font-weight:600; letter-spacing:-0.01em;
+  font-size:clamp(1.7rem, 3vw, 2.3rem); line-height:1.15; margin:0 0 10px;
+}
+.sec-head p { color:var(--muted); margin:0; font-size:1.02rem; }
+
+/* ---------- stat cards ---------- */
+.kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.kpi {
+  background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  padding:22px 20px;
+}
+.kpi .v { font-size:2rem; font-weight:800; letter-spacing:-0.02em; font-variant-numeric:tabular-nums; }
+.kpi .l { color:var(--muted); font-size:.87rem; margin-top:6px; }
+
+/* ---------- bars ---------- */
+.barrow { display:grid; grid-template-columns:150px 1fr 190px; gap:14px; align-items:center; padding:9px 0; border-bottom:1px solid var(--line); font-size:.93rem; }
+.barrow:last-child { border-bottom:none; }
+.barrow .n { font-weight:600; }
+.barrow .n a { color:var(--ink); text-decoration:none; }
+.barrow .n a:hover { color:var(--accent); text-decoration:underline; }
+.barrow .track { background:#EEF0F3; border-radius:6px; height:10px; }
+.barrow .fill { height:10px; border-radius:6px; min-width:3px; }
+.barrow .v { text-align:right; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap; }
+.barrow .v b { color:var(--ink); }
+
+/* ---------- tables ---------- */
+.controls { display:flex; gap:12px; align-items:center; margin-bottom:16px; flex-wrap:wrap; }
+.controls input[type=search] {
+  flex:1; min-width:200px; padding:10px 14px; font-size:.95rem; font-family:var(--sans);
+  border:1px solid var(--line); border-radius:8px; background:var(--paper);
+}
+.controls input[type=search]:focus { outline:2px solid var(--accent); outline-offset:-1px; border-color:var(--accent); }
+.controls select {
+  padding:10px 14px; font-size:.95rem; font-family:var(--sans);
+  border:1px solid var(--line); border-radius:8px; background:var(--paper);
+}
+.count { color:var(--faint); font-size:.85rem; white-space:nowrap; }
+.table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--paper); }
+table.data { width:100%; border-collapse:collapse; font-size:.9rem; min-width:780px; }
+table.data thead th {
+  text-align:left; padding:12px 14px; font-size:.72rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--faint);
+  border-bottom:1px solid var(--line); background:var(--paper-dim);
+  white-space:nowrap; cursor:pointer; user-select:none;
+}
+table.data thead th:hover { color:var(--ink); }
+table.data thead th.num, table.data td.num { text-align:right; }
+table.data td { padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:middle; }
+table.data tbody tr:last-child td { border-bottom:none; }
+table.data tbody tr:hover td { background:#F8FAFC; }
+table.data td.num { font-variant-numeric:tabular-nums; white-space:nowrap; }
+.scorebar { display:inline-flex; align-items:center; gap:8px; }
+.scorebar .track { width:72px; background:#EEF0F3; border-radius:5px; height:8px; }
+.scorebar .fill { height:8px; border-radius:5px; }
+.scorebar .n { font-weight:700; font-variant-numeric:tabular-nums; min-width:24px; text-align:right; }
+.badge-real {
+  display:inline-block; padding:3px 10px; border-radius:20px; font-size:.78rem; font-weight:700;
+  background:#E3F4EC; color:var(--real);
+}
+.apply { color:var(--accent); font-weight:600; text-decoration:none; white-space:nowrap; font-size:.9rem; }
+.apply:hover { text-decoration:underline; }
+td.none, p.none { color:var(--faint); font-style:italic; }
+td.none { text-align:center; padding:24px; }
+
+/* ---------- tabs (underline style) ---------- */
+.tabs { display:flex; gap:4px; border-bottom:1px solid var(--line); margin-bottom:20px; overflow-x:auto; }
+.tab-btn {
+  padding:12px 18px; font-size:.95rem; font-weight:600; font-family:var(--sans);
+  color:var(--muted); background:none; border:none; cursor:pointer; white-space:nowrap;
+  border-bottom:2px solid transparent; margin-bottom:-1px;
+}
+.tab-btn:hover { color:var(--ink); }
+.tab-btn.active { color:var(--ink); border-bottom-color:var(--ghost); }
+.tab-btn .cnt { color:var(--faint); font-weight:500; font-size:.85rem; margin-left:6px; }
+.tab-btn.active .cnt { color:var(--muted); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+.tab-note { color:var(--faint); font-size:.85rem; margin:12px 0 0; }
+
+/* ---------- browse grids ---------- */
+.cogrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; }
+.cocard {
+  border:1px solid var(--line); border-radius:12px; padding:16px 18px; background:var(--paper);
+  transition:border-color .15s ease;
+}
+.cocard:hover { border-color:#C9CFD6; }
+.cocard a { color:var(--ink); font-weight:700; text-decoration:none; font-size:1rem; }
+.cocard a:hover { color:var(--accent); }
+.cocard .cstats { color:var(--muted); font-size:.85rem; margin-top:4px; font-variant-numeric:tabular-nums; }
+.cocard .cstats b { color:var(--ghost); font-weight:700; }
+.taglist { display:flex; flex-wrap:wrap; gap:10px; }
+.tag {
+  display:inline-flex; align-items:baseline; gap:10px; padding:9px 16px;
+  border:1px solid var(--line); border-radius:24px; text-decoration:none; background:var(--paper);
+}
+.tag b { color:var(--ink); font-size:.9rem; font-weight:600; }
+.tag span { color:var(--faint); font-size:.8rem; font-variant-numeric:tabular-nums; }
+.tag:hover { border-color:#C9CFD6; background:var(--paper-dim); }
+
+/* ---------- report promo / cta ---------- */
+.promo {
+  background:#0B0E13; color:#fff; border-radius:16px; padding:48px;
+  display:grid; grid-template-columns:1.2fr .8fr; gap:32px; align-items:center; position:relative; overflow:hidden;
+}
+.promo::after {
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(600px 300px at 85% 20%, rgba(217,45,32,.18), transparent 60%);
+}
+.promo h2 { font-family:var(--serif); font-weight:600; font-size:clamp(1.6rem,3vw,2.2rem); margin:0 0 10px; position:relative; z-index:1; }
+.promo p { color:#C6CFD9; margin:0 0 20px; position:relative; z-index:1; }
+.promo .bignum {
+  font-family:var(--serif); font-size:clamp(3.4rem,7vw,5.2rem); font-weight:700; color:#FF6B5E;
+  line-height:1; position:relative; z-index:1; text-align:right;
+}
+.promo .bignum small { display:block; font-family:var(--sans); font-size:.85rem; color:#9AA5B2; font-weight:500; margin-top:8px; }
+.newsletter {
+  border:1px solid var(--line); border-radius:16px; padding:44px; background:var(--paper-dim);
+  text-align:center;
+}
+.newsletter h2 { font-family:var(--serif); font-size:clamp(1.5rem,2.6vw,2rem); font-weight:600; margin:0 0 8px; }
+.newsletter p { color:var(--muted); margin:0 0 22px; }
+.newsletter form { display:flex; gap:0; max-width:460px; margin:0 auto; }
+.newsletter input[type=email] {
+  flex:1; min-width:0; padding:13px 16px; font-size:1rem; font-family:var(--sans);
+  border:1px solid var(--line); border-right:none; border-radius:10px 0 0 10px; background:#fff;
+}
+.newsletter input[type=email]:focus { outline:2px solid var(--accent); outline-offset:-2px; }
+.newsletter button {
+  padding:13px 26px; font-size:1rem; font-weight:700; font-family:var(--sans);
+  background:var(--ink); color:#fff; border:none; border-radius:0 10px 10px 0; cursor:pointer; white-space:nowrap;
+}
+.newsletter button:hover { background:var(--ink-soft); }
+.fineprint { color:var(--faint); font-size:.82rem; margin:12px 0 0; }
+
+/* ---------- methodology table ---------- */
+table.method { width:100%; border-collapse:collapse; font-size:.95rem; }
+table.method th {
+  text-align:left; padding:10px 12px; font-size:.72rem; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--faint); border-bottom:1px solid var(--line);
+}
+table.method td { padding:10px 12px; border-bottom:1px solid var(--line); }
+table.method td.num, table.method th.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.disclaimer { margin-top:14px; font-size:.85rem; color:var(--faint); font-style:italic; }
+
+/* ---------- topic pages (company / role / city) ---------- */
+.pagehead { border-bottom:1px solid var(--line); padding:40px 0 32px; }
+.crumb { font-size:.88rem; margin:0 0 14px; }
+.crumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+.crumb a:hover { text-decoration:underline; }
+.pagehead h1 {
+  font-family:var(--serif); font-weight:600; letter-spacing:-0.01em;
+  font-size:clamp(2rem,4.5vw,3rem); line-height:1.08; margin:0 0 12px;
+}
+.pagehead h1 .q { color:var(--ghost); }
+.pagehead .sub { color:var(--muted); font-size:1.05rem; margin:0; max-width:44em; }
+.level-line { color:var(--muted); font-size:.92rem; margin:20px 0 0; font-variant-numeric:tabular-nums; }
+.prose { font-size:1.02rem; }
+.prose p { margin:0 0 12px; }
+
+/* ---------- report page ---------- */
+.report-hero { background:#0B0E13; color:#fff; padding:96px 0 72px; position:relative; overflow:hidden; }
+.report-hero::after {
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(1000px 500px at 50% -10%, rgba(217,45,32,.22), transparent 65%);
+}
+.report-hero .bignum {
+  font-family:var(--serif); font-weight:700; color:#FF6B5E;
+  font-size:clamp(4.5rem,14vw,9rem); line-height:1; letter-spacing:-0.02em;
+}
+.report-hero h1 {
+  font-family:var(--serif); font-weight:600; font-size:clamp(1.8rem,4vw,2.8rem);
+  margin:16px 0 16px; letter-spacing:-0.01em; max-width:20em;
+}
+.report-hero .lede { color:#C6CFD9; font-size:1.1rem; max-width:40em; margin:0; }
+.report-hero .dateline { color:#8A94A1; font-size:.85rem; margin:28px 0 0; }
+.pullquote {
+  border-left:3px solid var(--ghost); padding:8px 0 8px 24px; margin:36px 0;
+}
+.pullquote .big {
+  font-family:var(--serif); font-size:clamp(2rem,5vw,3rem); font-weight:700; color:var(--ghost-deep);
+  line-height:1.1; letter-spacing:-0.01em;
+}
+.pullquote .cap { color:var(--muted); margin-top:8px; font-size:.95rem; }
+
+/* ---------- digest archive ---------- */
+.dlist { list-style:none; margin:28px 0 0; padding:0; }
+.dlist li {
+  border:1px solid var(--line); border-radius:12px; padding:18px 22px; margin:12px 0;
+  display:flex; align-items:baseline; gap:14px; background:var(--paper);
+}
+.dlist li a { color:var(--accent); font-weight:700; text-decoration:none; font-size:1.05rem; font-variant-numeric:tabular-nums; }
+.dlist li a:hover { text-decoration:underline; }
+.dlist .n { color:var(--faint); font-size:.9rem; }
+
+/* ---------- footer ---------- */
+footer.site {
+  border-top:1px solid var(--line); background:var(--paper-dim); margin-top:0;
+}
+.foot-inner {
+  max-width:1120px; margin:0 auto; padding:48px 24px 40px;
+  display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:32px;
+}
+.foot-brand p { color:var(--muted); font-size:.9rem; margin:10px 0 0; max-width:30em; }
+.foot-col h3 {
+  font-size:.75rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--faint); margin:0 0 14px;
+}
+.foot-col a { display:block; color:var(--muted); text-decoration:none; font-size:.92rem; margin:8px 0; }
+.foot-col a:hover { color:var(--ink); }
+.foot-base {
+  max-width:1120px; margin:0 auto; padding:20px 24px 28px; border-top:1px solid var(--line);
+  color:var(--faint); font-size:.82rem; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.foot-base a { color:var(--muted); }
+
+/* ---------- responsive ---------- */
+@media (max-width:860px) {
+  .nav-links { display:none; }
+  .kpi-strip { grid-template-columns:repeat(2,1fr); gap:20px 0; }
+  .kpi-dark { padding:4px 16px 4px 0; }
+  .kpi-dark:nth-child(3) { border-left:none; padding-left:0; }
+  .kpis { grid-template-columns:repeat(2,1fr); }
+  .promo { grid-template-columns:1fr; padding:36px 28px; }
+  .promo .bignum { text-align:left; }
+  .foot-inner { grid-template-columns:1fr; }
+  .barrow { grid-template-columns:110px 1fr 130px; }
+}
+@media (max-width:560px) {
+  .section { padding:52px 0; }
+  .hero-inner { padding:64px 24px 52px; }
+  .signup-inline, .newsletter form { flex-direction:column; }
+  .signup-inline input[type=email], .newsletter input[type=email] {
+    border-right:1px solid var(--line); border-radius:10px; margin-bottom:10px;
+  }
+  .signup-inline input[type=email] { border-color:rgba(255,255,255,.2); }
+  .signup-inline button, .newsletter button { border-radius:10px; }
+  .barrow { grid-template-columns:96px 1fr 108px; font-size:.85rem; }
+  .newsletter { padding:32px 22px; }
+}
 </style>
 </head>
 <body>
-<header><div class="wrap">
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="../../"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230B0E13'/><path d='M32 12c-10 0-16 8-16 18v18l5-4 5 4 6-4 6 4 5-4 5 4V30c0-10-6-18-16-18z' fill='white'/><circle cx='25' cy='30' r='3' fill='%230B0E13'/><circle cx='39' cy='30' r='3' fill='%230B0E13'/></svg>" alt="Ghost Job Tracker" width="26" height="26"><b>Ghost Job <span>Tracker</span></b></a>
+  <div class="nav-links"><a href="../../#ghost-rate">Ghost rate</a><a href="../../#watchlist">Watchlist</a><a href="../../#real-jobs">Real jobs</a><a href="../../#companies">Companies</a><a href="../../#report">Report</a></div>
+  <span class="nav-cta"><a class="btn" href="../../#newsletter">Get the digest</a></span>
+</div></nav>
+<div class="pagehead"><div class="wrap">
   <p class="crumb"><a href="../../">&larr; Ghost Job Tracker</a></p>
   <h1>Ghost jobs in Sales<span class="q">?</span></h1>
-  <p>1 of 12 tracked sales postings (8%) show ghost signals. Last updated: 2026-09-27.</p>
-</div></header>
+  <p class="sub">1 of 12 tracked sales postings (8%) show ghost signals. Last updated: 2026-09-27.</p>
+  <p class="level-line">Ghost rate by level: Entry-level — · Mid-level 0% · Senior 17% · Executive —</p>
+</div></div>
 <div class="wrap">
-  <div class="kpis">
-    <div class="kpi"><div class="kpi-value" style="color:#1B7F79">12</div>
-        <div class="kpi-label">Postings tracked</div></div>
-<div class="kpi"><div class="kpi-value" style="color:#D95D39">1</div>
-        <div class="kpi-label">Suspected ghost jobs</div></div>
-<div class="kpi"><div class="kpi-value" style="color:#143D5E">58</div>
-        <div class="kpi-label">Average days listed</div></div>
-<div class="kpi"><div class="kpi-value" style="color:#E8A838">19</div>
-        <div class="kpi-label">Average ghost score</div></div>
+  <div class="section" style="padding:40px 0 0;">
+    <div class="kpis">
+      <div class="kpi"><div class="v">12</div>
+        <div class="l">Postings tracked</div></div>
+<div class="kpi"><div class="v">1</div>
+        <div class="l">Suspected ghost jobs</div></div>
+<div class="kpi"><div class="v">58</div>
+        <div class="l">Average days listed</div></div>
+<div class="kpi"><div class="v">19</div>
+        <div class="l">Average ghost score</div></div>
+    </div>
   </div>
-  <p class="levels">Ghost rate by level: Entry-level — · Mid-level 0% · Senior 17% · Executive —</p>
-  <section class="card">
-    <h2>What the data says</h2>
-    <p>We tracked 12 Sales job postings. 1 of them (8%) show ghost signals — listings that stay up for months or get reposted under new listing IDs. They stay listed for 58 days on average. The most suspicious listing is “Senior Revenue Analyst, Technical Revenue” at MongoDB (Austin, TX), listed 248 days with a ghost score of 50.</p>
-    <p class="disclaimer">Heuristics based on public posting data, not an accusation
-    against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
-  </section>
-  <section class="card">
-    <h2>Real openings right now</h2>
-    <p class="real-note">Postings with a ghost score under 30 &mdash; no 90-day
-    stale listings, no reposts. Freshest first.</p>
-    <div class="table-wrap"><table>
-<thead><tr><th>Job title</th><th>Company</th><th>Location</th><th class="num">Days listed</th><th>Apply</th></tr></thead>
+  <div class="section" style="padding:40px 0;">
+    <div class="sec-head">
+      <p class="sec-eyebrow">Analysis</p>
+      <h2>What the data says</h2>
+    </div>
+    <div class="prose">
+      <p>We tracked 12 Sales job postings. 1 of them (8%) show ghost signals — listings that stay up for months or get reposted under new listing IDs. They stay listed for 58 days on average. The most suspicious listing is “Senior Revenue Analyst, Technical Revenue” at MongoDB (Austin, TX), listed 248 days with a ghost score of 50.</p>
+      <p class="disclaimer">Heuristics based on public posting data, not an accusation
+      against any employer &mdash; some roles are simply evergreen or hard to fill.</p>
+    </div>
+  </div>
+  <div class="section alt" style="padding:40px 0;">
+    <div class="sec-head">
+      <p class="sec-eyebrow green">Verified fresh</p>
+      <h2>Real openings right now</h2>
+      <p>Postings with a ghost score under 30 &mdash; no 90-day stale
+      listings, no reposts. Freshest first.</p>
+    </div>
+    <div class="table-wrap"><table class="data">
+<thead><tr><th>Job title</th><th>Company</th><th class="num">Days listed</th><th>Apply</th></tr></thead>
 <tbody>
-<tr><td>Senior Analyst, Sales Strategy and Planning</td><td>MongoDB</td><td>Austin, TX</td><td class="num">3</td><td><a class="apply" href="https://www.mongodb.com/careers/job/?gh_jid=8231579" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Senior Analyst, Revenue Transformation</td><td>Figma</td><td>San Francisco, CA</td><td class="num">18</td><td><a class="apply" href="https://boards.greenhouse.io/figma/jobs/6180170004?gh_jid=6180170004" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Sales Strategy &amp; Operations Analyst </td><td>Stripe</td><td>Chicago, IL</td><td class="num">26</td><td><a class="apply" href="https://stripe.com/jobs/search?gh_jid=8164674" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Revenue Operations Analyst II</td><td>Affirm</td><td>Remote - US</td><td class="num">40</td><td><a class="apply" href="https://job-boards.greenhouse.io/affirm/jobs/7871460003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Sales Revenue Analyst - NYC</td><td>Datadog</td><td>New York, NY</td><td class="num">40</td><td><a class="apply" href="https://careers.datadoghq.com/detail/8132294/?gh_jid=8132294" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Account Executive, Product Sales (Data) </td><td>Stripe</td><td>San Francisco, CA</td><td class="num">48</td><td><a class="apply" href="https://stripe.com/jobs/search?gh_jid=8114738" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Senior Analyst, Revenue Operations</td><td>ClickHouse</td><td>Remote - US</td><td class="num">48</td><td><a class="apply" href="https://jobs.ashbyhq.com/clickhouse/d8414b6c-51f2-4a40-a65d-26681575604a" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Senior Technical Revenue Analyst</td><td>Figma</td><td>San Francisco, CA</td><td class="num">48</td><td><a class="apply" href="https://boards.greenhouse.io/figma/jobs/6139275004?gh_jid=6139275004" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Revenue Operations Analyst</td><td>Perplexity</td><td>San Francisco, CA</td><td class="num">52</td><td><a class="apply" href="https://jobs.ashbyhq.com/perplexity/03f8f956-1cb3-4945-81d1-73b7ff048d4e" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Senior Analyst, Sales Strategy </td><td>GitLab</td><td>Remote - US</td><td class="num">53</td><td><a class="apply" href="https://job-boards.greenhouse.io/gitlab/jobs/8679047002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Analyst, Sales Strategy and Planning</td><td>MongoDB</td><td class="num">3</td><td><a class="apply" href="https://www.mongodb.com/careers/job/?gh_jid=8231579" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Analyst, Revenue Transformation</td><td>Figma</td><td class="num">18</td><td><a class="apply" href="https://boards.greenhouse.io/figma/jobs/6180170004?gh_jid=6180170004" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Sales Strategy &amp; Operations Analyst </td><td>Stripe</td><td class="num">26</td><td><a class="apply" href="https://stripe.com/jobs/search?gh_jid=8164674" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Revenue Operations Analyst II</td><td>Affirm</td><td class="num">40</td><td><a class="apply" href="https://job-boards.greenhouse.io/affirm/jobs/7871460003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Sales Revenue Analyst - NYC</td><td>Datadog</td><td class="num">40</td><td><a class="apply" href="https://careers.datadoghq.com/detail/8132294/?gh_jid=8132294" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Account Executive, Product Sales (Data) </td><td>Stripe</td><td class="num">48</td><td><a class="apply" href="https://stripe.com/jobs/search?gh_jid=8114738" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Analyst, Revenue Operations</td><td>ClickHouse</td><td class="num">48</td><td><a class="apply" href="https://jobs.ashbyhq.com/clickhouse/d8414b6c-51f2-4a40-a65d-26681575604a" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Technical Revenue Analyst</td><td>Figma</td><td class="num">48</td><td><a class="apply" href="https://boards.greenhouse.io/figma/jobs/6139275004?gh_jid=6139275004" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Revenue Operations Analyst</td><td>Perplexity</td><td class="num">52</td><td><a class="apply" href="https://jobs.ashbyhq.com/perplexity/03f8f956-1cb3-4945-81d1-73b7ff048d4e" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Analyst, Sales Strategy </td><td>GitLab</td><td class="num">53</td><td><a class="apply" href="https://job-boards.greenhouse.io/gitlab/jobs/8679047002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
 </tbody>
 </table></div>
-  </section>
-  <section class="card">
-    <h2>Top suspects</h2>
-    <div class="table-wrap"><table>
+  </div>
+  <div class="section" style="padding:40px 0;">
+    <div class="sec-head">
+      <p class="sec-eyebrow">Watchlist</p>
+      <h2>Top suspects</h2>
+    </div>
+    <div class="table-wrap"><table class="data">
       <thead><tr><th>Job title</th><th>Company</th>
-      <th class="num">Days listed</th>
-      <th class="num">Reposts</th><th class="num">Ghost score</th><th>Apply</th></tr></thead>
+      <th class="num">Days listed</th><th class="num">Reposts</th>
+      <th class="num">Ghost score</th><th>Apply</th></tr></thead>
       <tbody>
-        <tr><td>Senior Revenue Analyst, Technical Revenue</td><td>MongoDB</td><td class="num">248</td><td class="num">1</td><td class="num"><span class="bar" style="width:50px;background:#E8A838"></span><span class="score-num">50</span></td><td><a class="apply" href="https://www.mongodb.com/careers/job/?gh_jid=7557741" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Sales Operations Analyst - Public Sector</td><td>Elastic</td><td class="num">76</td><td class="num">1</td><td class="num"><span class="bar" style="width:35px;background:#1B7F79"></span><span class="score-num">35</span></td><td><a class="apply" href="https://jobs.elastic.co/jobs?gh_jid=8053209&amp;gh_jid=8053209" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Revenue Operations Analyst II</td><td>Affirm</td><td class="num">40</td><td class="num">1</td><td class="num"><span class="bar" style="width:20px;background:#1B7F79"></span><span class="score-num">20</span></td><td><a class="apply" href="https://job-boards.greenhouse.io/affirm/jobs/7871460003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Sales Revenue Analyst - NYC</td><td>Datadog</td><td class="num">40</td><td class="num">1</td><td class="num"><span class="bar" style="width:20px;background:#1B7F79"></span><span class="score-num">20</span></td><td><a class="apply" href="https://careers.datadoghq.com/detail/8132294/?gh_jid=8132294" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Account Executive, Product Sales (Data) </td><td>Stripe</td><td class="num">48</td><td class="num">1</td><td class="num"><span class="bar" style="width:20px;background:#1B7F79"></span><span class="score-num">20</span></td><td><a class="apply" href="https://stripe.com/jobs/search?gh_jid=8114738" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Revenue Operations Analyst</td><td>Perplexity</td><td class="num">52</td><td class="num">1</td><td class="num"><span class="bar" style="width:20px;background:#1B7F79"></span><span class="score-num">20</span></td><td><a class="apply" href="https://jobs.ashbyhq.com/perplexity/03f8f956-1cb3-4945-81d1-73b7ff048d4e" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Senior Technical Revenue Analyst</td><td>Figma</td><td class="num">48</td><td class="num">1</td><td class="num"><span class="bar" style="width:20px;background:#1B7F79"></span><span class="score-num">20</span></td><td><a class="apply" href="https://boards.greenhouse.io/figma/jobs/6139275004?gh_jid=6139275004" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Senior Analyst, Sales Strategy </td><td>GitLab</td><td class="num">53</td><td class="num">1</td><td class="num"><span class="bar" style="width:20px;background:#1B7F79"></span><span class="score-num">20</span></td><td><a class="apply" href="https://job-boards.greenhouse.io/gitlab/jobs/8679047002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
-<tr><td>Senior Analyst, Revenue Operations</td><td>ClickHouse</td><td class="num">48</td><td class="num">1</td><td class="num"><span class="bar" style="width:20px;background:#1B7F79"></span><span class="score-num">20</span></td><td><a class="apply" href="https://jobs.ashbyhq.com/clickhouse/d8414b6c-51f2-4a40-a65d-26681575604a" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+        <tr><td>Senior Revenue Analyst, Technical Revenue</td><td>MongoDB</td><td class="num">248</td><td class="num">1</td><td class="num"><span class="scorebar"><span class="track"><span class="fill" style="display:block;width:50%;background:#D92D20"></span></span><span class="n">50</span></span></td><td><a class="apply" href="https://www.mongodb.com/careers/job/?gh_jid=7557741" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Sales Operations Analyst - Public Sector</td><td>Elastic</td><td class="num">76</td><td class="num">1</td><td class="num"><span class="scorebar"><span class="track"><span class="fill" style="display:block;width:35%;background:#12805C"></span></span><span class="n">35</span></span></td><td><a class="apply" href="https://jobs.elastic.co/jobs?gh_jid=8053209&amp;gh_jid=8053209" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Revenue Operations Analyst II</td><td>Affirm</td><td class="num">40</td><td class="num">1</td><td class="num"><span class="scorebar"><span class="track"><span class="fill" style="display:block;width:20%;background:#12805C"></span></span><span class="n">20</span></span></td><td><a class="apply" href="https://job-boards.greenhouse.io/affirm/jobs/7871460003" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Sales Revenue Analyst - NYC</td><td>Datadog</td><td class="num">40</td><td class="num">1</td><td class="num"><span class="scorebar"><span class="track"><span class="fill" style="display:block;width:20%;background:#12805C"></span></span><span class="n">20</span></span></td><td><a class="apply" href="https://careers.datadoghq.com/detail/8132294/?gh_jid=8132294" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Account Executive, Product Sales (Data) </td><td>Stripe</td><td class="num">48</td><td class="num">1</td><td class="num"><span class="scorebar"><span class="track"><span class="fill" style="display:block;width:20%;background:#12805C"></span></span><span class="n">20</span></span></td><td><a class="apply" href="https://stripe.com/jobs/search?gh_jid=8114738" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Revenue Operations Analyst</td><td>Perplexity</td><td class="num">52</td><td class="num">1</td><td class="num"><span class="scorebar"><span class="track"><span class="fill" style="display:block;width:20%;background:#12805C"></span></span><span class="n">20</span></span></td><td><a class="apply" href="https://jobs.ashbyhq.com/perplexity/03f8f956-1cb3-4945-81d1-73b7ff048d4e" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Technical Revenue Analyst</td><td>Figma</td><td class="num">48</td><td class="num">1</td><td class="num"><span class="scorebar"><span class="track"><span class="fill" style="display:block;width:20%;background:#12805C"></span></span><span class="n">20</span></span></td><td><a class="apply" href="https://boards.greenhouse.io/figma/jobs/6139275004?gh_jid=6139275004" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Analyst, Sales Strategy </td><td>GitLab</td><td class="num">53</td><td class="num">1</td><td class="num"><span class="scorebar"><span class="track"><span class="fill" style="display:block;width:20%;background:#12805C"></span></span><span class="n">20</span></span></td><td><a class="apply" href="https://job-boards.greenhouse.io/gitlab/jobs/8679047002" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
+<tr><td>Senior Analyst, Revenue Operations</td><td>ClickHouse</td><td class="num">48</td><td class="num">1</td><td class="num"><span class="scorebar"><span class="track"><span class="fill" style="display:block;width:20%;background:#12805C"></span></span><span class="n">20</span></span></td><td><a class="apply" href="https://jobs.ashbyhq.com/clickhouse/d8414b6c-51f2-4a40-a65d-26681575604a" target="_blank" rel="noopener">Apply &rarr;</a></td></tr>
       </tbody>
     </table></div>
-  </section>
-  <section class="card">
-    <h2>How the ghost score works</h2>
-    <p>Every day we snapshot the job boards of US tech companies and record which postings are still listed. A posting earns ghost points for staying up 30/60/90+ days (+20/+35/+50) and for being reposted under a new listing ID (+25 for 2×, +40 for 3×+), capped at 100. Read the <a href="../../#how-it-works" style="color:#1B7F79;font-weight:600;">full methodology</a>.</p>
-  </section>
-  <footer>
-    <a href="../../">Ghost Job Tracker</a> &middot;
-    <a href="https://github.com/kylewinpast/job-market-scraper">GitHub</a>
-  </footer>
+  </div>
+  <div class="section alt" style="padding:40px 0;">
+    <div class="sec-head">
+      <p class="sec-eyebrow blue">Methodology</p>
+      <h2>How the ghost score works</h2>
+    </div>
+    <div class="prose"><p>Every day we snapshot the job boards of US tech companies and record which postings are still listed. A posting earns ghost points for staying up 30/60/90+ days (+20/+35/+50) and for being reposted under a new listing ID (+25 for 2×, +40 for 3×+), capped at 100. Read the <a href="../../#how-it-works" style="color:#175CD3;font-weight:600;">full methodology</a>.</p></div>
+  </div>
 </div>
+<footer class="site">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <a class="brand" href="../../"><img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230B0E13'/><path d='M32 12c-10 0-16 8-16 18v18l5-4 5 4 6-4 6 4 5-4 5 4V30c0-10-6-18-16-18z' fill='white'/><circle cx='25' cy='30' r='3' fill='%230B0E13'/><circle cx='39' cy='30' r='3' fill='%230B0E13'/></svg>" alt="Ghost Job Tracker" width="26" height="26"><b>Ghost Job <span>Tracker</span></b></a>
+      <p>We snapshot the job boards of 46 US tech companies every day
+      and score each posting for ghost signals &mdash; stale listings and silent
+      reposts &mdash; so job seekers can skip the ghosts.</p>
+    </div>
+    <div class="foot-col">
+      <h3>Explore</h3>
+      <a href="../../#real-jobs">Real jobs by level</a>
+      <a href="../../#watchlist">Ghost watchlist</a>
+      <a href="../../report/">Ghost Jobs Report</a>
+      <a href="../../digest/">Digest archive</a>
+    </div>
+    <div class="foot-col">
+      <h3>Project</h3>
+      <a href="../../#how-it-works">Methodology</a>
+      <a href="https://github.com/kylewinpast/job-market-scraper">GitHub</a>
+      <a href="../../sitemap.xml">Sitemap</a>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>Data as of 2026-09-27 &middot; updated daily from public job boards (Greenhouse / Lever / Ashby).</span>
+    <span>Heuristics, not accusations &mdash; some roles are simply evergreen.</span>
+  </div>
+</footer>
 </body>
 </html>

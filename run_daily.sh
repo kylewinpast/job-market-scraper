@@ -4,6 +4,7 @@ set -e
 cd "$HOME/workspace/projects/job-market-scraper"
 .venv/bin/python src/scraper.py
 .venv/bin/python src/ghost.py
+.venv/bin/python src/sync_subscribers.py
 .venv/bin/python src/alerts.py
 .venv/bin/python src/analyze.py
 .venv/bin/python src/build_pbix.py

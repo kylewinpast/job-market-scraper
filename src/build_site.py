@@ -26,10 +26,17 @@ DISPLAY_NAMES = {
     "Chime Financial, Inc": "Chime",
 }
 
-# Email signup form endpoint. Default "#" does nothing — replace with a real
-# form backend endpoint (Resend, Buttondown, Formspree, ...) to collect
-# subscribers, e.g. "https://api.buttondown.email/v1/subscribers".
-SIGNUP_FORM_ACTION = "#"
+# Buttondown newsletter username. Subscribers sign up through Buttondown's
+# public embed endpoint (no API key needed on the site); the daily pipeline
+# pulls the subscriber list back via the API in src/sync_subscribers.py.
+# TODO: replace with the real Buttondown username once the account exists.
+BUTTONDOWN_USERNAME = "ghostjobtracker"
+
+# Email signup form endpoint. Posts to Buttondown's embed-subscribe endpoint,
+# which handles double opt-in on Buttondown's side.
+SIGNUP_FORM_ACTION = (
+    f"https://buttondown.email/api/emails/embed-subscribe/{BUTTONDOWN_USERNAME}"
+)
 
 NAVY = "#143D5E"
 TEAL = "#1B7F79"
@@ -537,6 +544,7 @@ def build(rows):
   .signup button {{ padding:10px 18px; font-size:.95rem; font-weight:700; color:{NAVY};
       background:{AMBER}; border:none; border-radius:8px; cursor:pointer; }}
   .signup button:hover {{ filter:brightness(1.08); }}
+  .signup .fineprint {{ margin:8px 0 0; color:#A9C0D1; font-size:.8rem; }}
   .kpis {{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:-24px 0 24px; }}
   .kpi {{ background:var(--card); border-radius:10px; padding:16px; text-align:center;
          box-shadow:0 2px 8px rgba(20,61,94,.12); }}
@@ -610,13 +618,12 @@ def build(rows):
     <div class="signup">
       <h2>Get the real jobs, skip the ghosts</h2>
       <p>A free digest of genuinely-new postings &mdash; no ghost jobs, no spam.</p>
-      <!-- Replace the form action with your email backend endpoint
-           (Resend, Buttondown, Formspree, ...). See SIGNUP_FORM_ACTION in src/build_site.py. -->
       <form action="{SIGNUP_FORM_ACTION}" method="post">
         <input type="email" name="email" placeholder="you@example.com" required
                aria-label="Email address">
         <button type="submit">Notify me</button>
       </form>
+      <p class="fineprint">Free forever. Unsubscribe anytime.</p>
     </div>
   </div>
 </header>

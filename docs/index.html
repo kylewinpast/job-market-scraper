@@ -28,6 +28,7 @@
   .signup button { padding:10px 18px; font-size:.95rem; font-weight:700; color:#143D5E;
       background:#E8A838; border:none; border-radius:8px; cursor:pointer; }
   .signup button:hover { filter:brightness(1.08); }
+  .signup .fineprint { margin:8px 0 0; color:#A9C0D1; font-size:.8rem; }
   .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:-24px 0 24px; }
   .kpi { background:var(--card); border-radius:10px; padding:16px; text-align:center;
          box-shadow:0 2px 8px rgba(20,61,94,.12); }
@@ -101,13 +102,12 @@
     <div class="signup">
       <h2>Get the real jobs, skip the ghosts</h2>
       <p>A free digest of genuinely-new postings &mdash; no ghost jobs, no spam.</p>
-      <!-- Replace the form action with your email backend endpoint
-           (Resend, Buttondown, Formspree, ...). See SIGNUP_FORM_ACTION in src/build_site.py. -->
-      <form action="#" method="post">
+      <form action="https://buttondown.email/api/emails/embed-subscribe/ghostjobtracker" method="post">
         <input type="email" name="email" placeholder="you@example.com" required
                aria-label="Email address">
         <button type="submit">Notify me</button>
       </form>
+      <p class="fineprint">Free forever. Unsubscribe anytime.</p>
     </div>
   </div>
 </header>

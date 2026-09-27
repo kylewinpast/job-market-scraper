@@ -7,6 +7,8 @@ Setup (Kyle does this once):
 
 Then:  python src/send_digest.py            # sends today's digest
        python src/send_digest.py --dry-run  # prints payload without sending
+       python src/send_digest.py --subscribers data/subscribers.json
+                                            # sends to every Buttondown subscriber
 
 If RESEND_API_KEY is missing, this prints setup instructions and exits 0
 so the daily pipeline never fails because of email config.
@@ -62,6 +64,19 @@ def job_count(date):
         return None
 
 
+def load_subscriber_emails(path):
+    """Load a subscriber email list from JSON (list of str or list of dicts)."""
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    emails = []
+    for item in data if isinstance(data, list) else []:
+        email = item.get("email") if isinstance(item, dict) else item
+        email = (email or "").strip()
+        if email and "@" in email and email not in emails:
+            emails.append(email)
+    return emails
+
+
 def send(api_key, payload):
     req = urllib.request.Request(
         RESEND_URL,
@@ -78,6 +93,10 @@ def main():
     ap = argparse.ArgumentParser(description="Send the Real Jobs Digest email")
     ap.add_argument("--date", help="digest date YYYY-MM-DD (default: today UTC)")
     ap.add_argument("--to", help="comma-separated recipients (overrides ALERT_RECIPIENTS)")
+    ap.add_argument("--subscribers",
+                    help="JSON file with the subscriber list "
+                         "(e.g. data/subscribers.json from src/sync_subscribers.py); "
+                         "sends the digest to every address in it")
     ap.add_argument("--dry-run", action="store_true",
                     help="print the payload without sending")
     args = ap.parse_args()
@@ -86,8 +105,18 @@ def main():
     date = args.date or datetime.now(timezone.utc).date().isoformat()
 
     api_key = os.environ.get("RESEND_API_KEY", "").strip()
-    recipients = (args.to or os.environ.get("ALERT_RECIPIENTS", "")).strip()
-    to_list = [a.strip() for a in recipients.split(",") if a.strip()]
+    if args.subscribers:
+        try:
+            to_list = load_subscriber_emails(args.subscribers)
+        except (OSError, ValueError) as e:
+            print(f"error: cannot load subscriber list: {e}", file=sys.stderr)
+            return 2
+        if not to_list:
+            print("no subscribers — nothing to send")
+            return 0
+    else:
+        recipients = (args.to or os.environ.get("ALERT_RECIPIENTS", "")).strip()
+        to_list = [a.strip() for a in recipients.split(",") if a.strip()]
 
     if args.dry_run:
         html_body, text_body = load_digest(date)

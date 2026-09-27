@@ -51,6 +51,10 @@ def build_tables(rows):
         {"name": "fit_score", "data_type": "Int64"},
         {"name": "fit_reasons", "data_type": "String"},
         {"name": "skills", "data_type": "String"},
+        {"name": "days_listed", "data_type": "Int64"},
+        {"name": "repost_count", "data_type": "Int64"},
+        {"name": "ghost_score", "data_type": "Int64"},
+        {"name": "ghost_signals", "data_type": "String"},
     ]
     jobs_rows, skill_rows = [], []
     for r in rows:
@@ -64,6 +68,10 @@ def build_tables(rows):
             "posted_at": r.get("posted_at", ""),
             "fit_score": int(r["fit_score"] or 0),
             "fit_reasons": r["fit_reasons"], "skills": r["skills"],
+            "days_listed": int(r.get("days_listed") or 0),
+            "repost_count": int(r.get("repost_count") or 0),
+            "ghost_score": int(r.get("ghost_score") or 0),
+            "ghost_signals": r.get("ghost_signals", ""),
         })
         for s in (r["skills"] or "").split("|"):
             s = s.strip()
@@ -87,6 +95,9 @@ def measures():
          "expression": "AVERAGE(Jobs[fit_score])", "format_string": "#,0.0"},
         {"table": "Jobs", "name": "Top matches",
          "expression": "COUNTROWS(FILTER(Jobs, Jobs[fit_score] >= 10))",
+         "format_string": "#,0"},
+        {"table": "Jobs", "name": "Ghost jobs",
+         "expression": "COUNTROWS(FILTER(Jobs, Jobs[ghost_score] >= 50))",
          "format_string": "#,0"},
         {"table": "JobSkills", "name": "Skill mentions",
          "expression": "COUNTROWS(JobSkills)", "format_string": "#,0"},
@@ -206,8 +217,14 @@ def main():
     fmt(s1, title={"text": "Location", "show": True, "fontSize": 13,
                    "color": MUTED}, **card_fmt)
 
+    # Ghost KPI card
+    c4 = add("card", 24, 240, 296, 132,
+             visual_config("Jobs", [("Values", "Ghost jobs", "measure")]))
+    fmt(c4, title={"text": "Suspected ghost jobs (score ≥ 50)", "show": True,
+                   "fontSize": 13, "color": MUTED}, **card_fmt)
+
     # Location bar chart
-    b1 = add("clusteredBarChart", 24, 244, 608, 220,
+    b1 = add("clusteredBarChart", 24, 384, 608, 220,
              visual_config("Jobs", [("Category", "location_clean", "col"),
                                     ("Y", "Posting count", "measure")]),
              sort_by="Jobs.Posting count", sort_dir="desc")
@@ -218,7 +235,7 @@ def main():
         **card_fmt)
 
     # Skills bar chart
-    b2 = add("clusteredBarChart", 648, 244, 608, 220,
+    b2 = add("clusteredBarChart", 648, 384, 608, 220,
              visual_config("JobSkills",
                            [("Category", "skill", "col"),
                             ("Y", "Skill mentions", "measure")]),
@@ -230,7 +247,7 @@ def main():
         **card_fmt)
 
     # Postings table
-    t1 = add("table", 24, 480, 1232, 224,
+    t1 = add("table", 24, 620, 1232, 224,
              visual_config("Jobs", [("Values", "title", "col"),
                                     ("Values", "company", "col"),
                                     ("Values", "location_clean", "col"),
@@ -246,9 +263,28 @@ def main():
               "gridHorizontalColor": "#E1E6EB"},
         **card_fmt)
 
+    # Ghost watchlist table
+    t2 = add("table", 24, 860, 1232, 224,
+             visual_config("Jobs", [("Values", "title", "col"),
+                                    ("Values", "company", "col"),
+                                    ("Values", "location_clean", "col"),
+                                    ("Values", "days_listed", "col"),
+                                    ("Values", "repost_count", "col"),
+                                    ("Values", "ghost_score", "col"),
+                                    ("Values", "apply", "col")]),
+             sort_by="Jobs.ghost_score", sort_dir="desc")
+    fmt(t2, title={"text": "Ghost watchlist", "show": True,
+                   "fontSize": 14, "color": NAVY},
+        columnHeaders={"bold": True, "fontSize": 10, "fontColor": "#FFFFFF",
+                       "backColor": NAVY},
+        values={"fontSize": 9, "fontColor": INK},
+        grid={"gridHorizontal": True,
+              "gridHorizontalColor": "#E1E6EB"},
+        **card_fmt)
+
     # Validate measures with the built-in DAX engine
     res = pbi.pbix_evaluate_dax(
-        alias, 'Posting count,Avg fit score,Top matches')
+        alias, 'Posting count,Avg fit score,Top matches,Ghost jobs')
     print("dax check:", str(res)[:300])
 
     check(pbi.pbix_doctor(alias), "doctor")

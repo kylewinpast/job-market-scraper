@@ -5,6 +5,7 @@ import re
 import sqlite3
 
 from clean import normalize_location
+from ghost import compute_metrics
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(PROJECT, "data", "jobs.db")
@@ -77,13 +78,15 @@ def extract_skills(title, description):
 def main():
     conn = sqlite3.connect(DB_PATH)
     rows = conn.execute(
-        "SELECT source, title, company, location, job_type, salary, url, posted_at, description FROM jobs"
+        "SELECT id, source, title, company, location, job_type, salary, url, posted_at, description FROM jobs"
     ).fetchall()
+    ghost_metrics = compute_metrics(conn)
     conn.close()
 
     out = []
-    for source, title, company, location, job_type, salary, url, posted_at, desc in rows:
+    for jid, source, title, company, location, job_type, salary, url, posted_at, desc in rows:
         score, reasons = fit_score(title, desc, location)
+        g = ghost_metrics.get(jid, {})
         out.append({
             "source": source, "title": title, "company": company,
             "location": location, "location_clean": normalize_location(location),
@@ -91,6 +94,10 @@ def main():
             "url": url, "posted_at": posted_at,
             "skills": extract_skills(title, desc),
             "fit_score": score, "fit_reasons": "|".join(reasons),
+            "days_listed": g.get("days_listed", 0),
+            "repost_count": g.get("repost_count", 0),
+            "ghost_score": g.get("ghost_score", 0),
+            "ghost_signals": g.get("ghost_signals", ""),
         })
     out.sort(key=lambda r: r["fit_score"], reverse=True)
 

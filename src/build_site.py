@@ -10,6 +10,8 @@ import json
 import os
 from datetime import date
 
+from seniority import seniority_label, LEVELS as SENIORITY_LEVELS
+
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_PATH = os.path.join(PROJECT, "data", "jobs_export.csv")
 OUT_PATH = os.path.join(PROJECT, "docs", "index.html")
@@ -160,6 +162,17 @@ def build_company_page(company, rows, today, slugs):
             f"See the full watchlist.")
     pct = round(100 * ghosts / total) if total else 0
 
+    # Ghost rate per experience level; only levels with >= 3 postings shown.
+    lvl_bits = []
+    for lvl in ("entry", "mid", "senior", "exec"):
+        sub = [r for r in rows if (r.get("seniority") or "mid") == lvl]
+        if len(sub) >= 3:
+            g = sum(1 for r in sub if int(r.get("ghost_score") or 0) >= 50)
+            lvl_bits.append(f"{seniority_label(lvl)} {100.0 * g / len(sub):.0f}%")
+        else:
+            lvl_bits.append(f"{seniority_label(lvl)} \u2014")
+    level_line = "Ghost rate by level: " + " \u00b7 ".join(lvl_bits)
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -184,6 +197,7 @@ def build_company_page(company, rows, today, slugs):
          box-shadow:0 2px 8px rgba(20,61,94,.12); }}
   .kpi-value {{ font-size:1.9rem; font-weight:700; }}
   .kpi-label {{ color:#5A6C7D; font-size:.85rem; margin-top:4px; }}
+  .levels {{ text-align:center; color:#5A6C7D; font-size:.9rem; margin:-6px 0 20px; }}
   section.card {{ background:#fff; border-radius:10px; padding:20px;
                  box-shadow:0 2px 8px rgba(20,61,94,.12); margin-bottom:24px; }}
   section.card h2 {{ margin:0 0 8px; color:{NAVY}; font-size:1.25rem; }}
@@ -217,6 +231,7 @@ def build_company_page(company, rows, today, slugs):
   <div class="kpis">
     {kpi_html}
   </div>
+  <p class="levels">{html.escape(level_line)}</p>
   <section class="card">
     <h2>What the data says</h2>
     <p>{html.escape(company_commentary(company, total, ghosts, avg_days, top))}</p>
@@ -326,6 +341,7 @@ def build(rows):
         "title": r["title"] or "",
         "company": r["company"] or "",
         "location": r.get("location_clean") or r.get("location") or "",
+        "level": seniority_label(r.get("seniority") or "mid"),
         "days": int(r.get("days_listed") or 0),
         "reposts": int(r.get("repost_count") or 0),
         "score": int(r.get("ghost_score") or 0),
@@ -362,6 +378,27 @@ def build(rows):
         for g in grid_rows)
 
     today = date.today().isoformat()
+
+    # Ghost rate by experience level (Entry -> Mid -> Senior -> Executive).
+    lvl_stats = []
+    for lvl in SENIORITY_LEVELS:
+        sub = [r for r in rows if (r.get("seniority") or "mid") == lvl]
+        g = sum(1 for r in sub if int(r.get("ghost_score") or 0) >= 50)
+        lvl_stats.append({
+            "label": seniority_label(lvl),
+            "total": len(sub), "ghosts": g,
+            "rate": (100.0 * g / len(sub)) if sub else 0.0,
+        })
+    max_rate = max((s["rate"] for s in lvl_stats), default=0) or 1
+    lvl_rows = "\n".join(
+        f'<div class="lvl"><div class="lvl-name">{html.escape(s["label"])}</div>'
+        f'<div class="lvl-track"><div class="lvl-fill" style="width:'
+        f'{100.0 * s["rate"] / max_rate:.1f}%;background:{score_color(s["rate"])}">'
+        f"</div></div>"
+        f'<div class="lvl-num">{s["ghosts"]:,} of {s["total"]:,} &middot; '
+        f'{s["rate"]:.0f}% ghosts</div></div>'
+        for s in lvl_stats)
+
     kpis = [
         ("Postings tracked", f"{total:,}", TEAL),
         ("Suspected ghost jobs", f"{len(ghosts):,}", RUST),
@@ -437,6 +474,15 @@ def build(rows):
   .method td, .method th {{ padding:8px; }}
   .disclaimer {{ margin-top:12px; font-size:.82rem; color:var(--muted); font-style:italic; }}
   #companyChart {{ max-height:320px; }}
+  .lvl {{ display:grid; grid-template-columns:130px 1fr 170px; gap:10px;
+         align-items:center; margin:10px 0; font-size:.92rem; }}
+  .lvl-name {{ font-weight:700; color:var(--navy); }}
+  .lvl-track {{ background:#E6EBF0; border-radius:6px; height:12px; }}
+  .lvl-fill {{ height:12px; border-radius:6px; min-width:4px; }}
+  .lvl-num {{ text-align:right; color:var(--muted); font-variant-numeric:tabular-nums;
+             white-space:nowrap; }}
+  .controls select {{ padding:9px 12px; font-size:.95rem; border:1px solid #C9D4DD;
+      border-radius:8px; background:#fff; }}
   .cogrid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; }}
   .cocard {{ background:var(--bg); border-radius:8px; padding:12px 14px; }}
   .cocard a {{ color:var(--navy); font-weight:700; text-decoration:none; }}
@@ -482,6 +528,15 @@ def build(rows):
   </section>
 
   <section class="card">
+    <h2>Ghost rate by experience level</h2>
+    <p class="sub">Share of postings with a ghost score of 50+, per seniority band.
+    Entry-level postings are the least likely to be ghosts &mdash; internships are real hiring.</p>
+    <div class="lvls">
+      {lvl_rows}
+    </div>
+  </section>
+
+  <section class="card">
     <h2>Browse by company</h2>
     <p class="sub">Ghost-job stats for every company we track &mdash; most suspected ghosts first.</p>
     <div class="cogrid">
@@ -494,6 +549,13 @@ def build(rows):
     <p class="sub">Every posting showing ghost signals, ranked by ghost score. Click a column to sort.</p>
     <div class="controls">
       <input type="search" id="q" placeholder="Search title or company&hellip;" aria-label="Search">
+      <select id="level" aria-label="Filter by experience level">
+        <option value="">All levels</option>
+        <option>Entry-level</option>
+        <option>Mid-level</option>
+        <option>Senior</option>
+        <option>Executive</option>
+      </select>
       <span class="count" id="count"></span>
     </div>
     <div class="table-wrap">
@@ -501,6 +563,7 @@ def build(rows):
         <thead><tr>
           <th data-k="title">Job title</th>
           <th data-k="company">Company</th>
+          <th data-k="level">Level</th>
           <th data-k="location">Location</th>
           <th data-k="days" class="num">Days listed</th>
           <th data-k="reposts" class="num">Reposts</th>
@@ -563,13 +626,14 @@ function scoreColor(s) {{
   return "{TEAL}";
 }}
 
-var sortKey = "score", sortDir = -1, query = "";
+var sortKey = "score", sortDir = -1, query = "", levelFilter = "";
 var tbody = document.getElementById("rows");
 var countEl = document.getElementById("count");
 
 function filtered() {{
   var q = query.trim().toLowerCase();
   var rows = DATA.filter(function (r) {{
+    if (levelFilter && r.level !== levelFilter) return false;
     return !q || r.title.toLowerCase().indexOf(q) !== -1 ||
            r.company.toLowerCase().indexOf(q) !== -1;
   }});
@@ -589,6 +653,7 @@ function render() {{
     h += "<tr>" +
       "<td>" + esc(r.title) + "</td>" +
       "<td>" + esc(r.company) + "</td>" +
+      "<td>" + esc(r.level) + "</td>" +
       "<td>" + esc(r.location) + "</td>" +
       "<td class=\\"num\\">" + r.days.toLocaleString() + "</td>" +
       "<td class=\\"num\\">" + r.reposts + "</td>" +
@@ -617,13 +682,16 @@ for (var i = 0; i < ths.length; i++) {{
     th.addEventListener("click", function () {{
       var k = th.getAttribute("data-k");
       if (sortKey === k) sortDir = -sortDir;
-      else {{ sortKey = k; sortDir = (k === "title" || k === "company" || k === "location") ? 1 : -1; }}
+      else {{ sortKey = k; sortDir = (k === "title" || k === "company" || k === "location" || k === "level") ? 1 : -1; }}
       arrows(); render();
     }});
   }})(ths[i]);
 }}
 document.getElementById("q").addEventListener("input", function (e) {{
   query = e.target.value; render();
+}});
+document.getElementById("level").addEventListener("change", function (e) {{
+  levelFilter = e.target.value; render();
 }});
 arrows(); render();
 
